@@ -1,7 +1,7 @@
 # SWEProject
 Group 40
 Front-End Engineers: Sarah Perez and Alexa Melnychuk
-Back-End Engineers: Sophie Ruetschi
+Back-End Engineers: Sophie Ruetschi and Brooke Nelson
 
 
 Project Name: Habbit Rabbit
