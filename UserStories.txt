@@ -1,1 +1,12 @@
-This is where we'll put the user stories.
+Sarah's User stories:
+
+User Story #1: Busy College Students
+As a busy college student, I want a tool that combines all of my favorite 
+productivity applications all in one so that I can save time jumping around to 
+different productivity tools.
+
+User Story #2: Hard time scheduling events with friends
+As a social being, I thrive when spending time with those who are closest to me. Unfortunately,
+I find that it is hard to schedule events where all of my friends would be able to attend. I wish there
+were a tool that could find enpty space in my friend group's schedules so that we can find time 
+to spend together. 
