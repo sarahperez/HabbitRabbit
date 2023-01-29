@@ -16,3 +16,6 @@ I am a busy person who would like to be able to schedule a hangout time with fri
 
 Sophie's User Stories:
 As a user, I want to be able to login to my account and access my home page.
+
+Brooke's user Stories:
+As a college student, I wish I had a website to keep track of all the tasks I need to complete while keeping them organized, so that I have everything in one place.
