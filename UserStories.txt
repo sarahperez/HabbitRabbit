@@ -1,3 +1,1 @@
 This is where we'll put the user stories.
-
-I am a busy person who would like to be able to schedule a hangout time with friends without much hassle.
