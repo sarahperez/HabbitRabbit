@@ -10,3 +10,6 @@ As a social being, I thrive when spending time with those who are closest to me.
 I find that it is hard to schedule events where all of my friends would be able to attend. I wish there
 were a tool that could find enpty space in my friend group's schedules so that we can find time 
 to spend together. 
+
+Alexa's User Stories
+I am a busy person who would like to be able to schedule a hangout time with friends without much hassle.
