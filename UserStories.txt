@@ -1,2 +1,2 @@
-This is where we'll put the user stories.
+Sophie's User Stories:
 As a user, I want to be able to login to my account and access my home page.
