@@ -1,1 +1,2 @@
-This is where we'll put the user stories.
+Brooke's user Stories:
+As a college student, I wish I had a website to keep track of all the tasks I need to complete while keeping them organized, so that I have everything in one place.
