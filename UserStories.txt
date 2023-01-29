@@ -13,3 +13,6 @@ to spend together.
 
 Alexa's User Stories
 I am a busy person who would like to be able to schedule a hangout time with friends without much hassle.
+
+Sophie's User Stories:
+As a user, I want to be able to login to my account and access my home page.
