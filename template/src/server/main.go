@@ -44,6 +44,8 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 		fmt.Print(err)
 	}
 
+	//this sets the header
+	//"Content-Type" makes it so the server can inform the client that JSON data is being sent
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jsonBytes)
 	return
