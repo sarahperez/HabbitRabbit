@@ -12,10 +12,15 @@ import (
 )
 
 func main() {
+
+	//test print to see if main is running
 	fmt.Println("starting server on ", os.Getenv("PORT"))
 
+	//"A router receives and sends data on computer networks" - https://www.cisco.com/c/en/us/solutions/small-business/resource-center/networking/what-is-a-router.html
+	//initalize a router
 	r := mux.NewRouter()
 
+	//if the URL path matches "/hello-world" call the helloworld function
 	r.HandleFunc("/hello-world", helloWorld)
 
 	// Solves Cross Origin Access Issue
