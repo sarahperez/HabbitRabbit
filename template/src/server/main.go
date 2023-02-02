@@ -37,21 +37,26 @@ func main() {
 	log.Fatal(srv.ListenAndServe())
 }
 
+// specifies that the HTTP response writer will be the sink for JSON data
+// sink meaning what the JSOn data is converted to?
 func helloWorld(w http.ResponseWriter, r *http.Request) {
+	//parsing data into a struct so the compiler can have a spot in memory for everything
 	var data = struct {
 		Title string `json:"title"`
 	}{
 		Title: "Golang + Angular Starter Kit",
 	}
-
+	//StructToJson converts data, which is complex to JSON
 	jsonBytes, err := utils.StructToJson(data)
+	//if something was converted, print it out
 	if err != nil {
 		fmt.Print(err)
 	}
 
-	//this sets the header
+	//this sets the header, clients will be aware to accept json
 	//"Content-Type" makes it so the server can inform the client that JSON data is being sent
 	w.Header().Set("Content-Type", "application/json")
+	//I believe this function places JSON data onto the server
 	w.Write(jsonBytes)
 	return
 }
