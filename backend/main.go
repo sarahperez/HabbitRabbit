@@ -4,7 +4,11 @@
 // https://pkg.go.dev/net/http#ServeMux
 
 // !!!!!!!!!!!!!!!!run go get github.com/rs/cors in terminal before running code!!!!!!!!!!!!!!!!
-//ctrl + c to terminate the server after using command go run .
+// ctrl + c to terminate the server after using command go run .
+
+//after starting the server, open a new terminal and run this command:
+// curl.exe -v -X GET http://localhost:3000/try-test
+//testing a request
 
 package main
 
@@ -20,7 +24,7 @@ import (
 // the main function start the server
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/get-page-data", example)
+	mux.HandleFunc("/try-test", example)
 
 	//set port (backend)
 	const port = 3000
