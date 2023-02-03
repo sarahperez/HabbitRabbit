@@ -7,7 +7,10 @@
 // ctrl + c to terminate the server after using command go run .
 
 //after starting the server, open a new terminal and run this command:
-// curl.exe -v -X GET http://localhost:3000/try-test
+// curl.exe -v -X GET http://localhost:3000/home-page
+// curl.exe -v -X POST http://localhost:3000/home-page
+// curl.exe -v -X PUSH http://localhost:3000/home-page
+// curl.exe -v -X DELETE http://localhost:3000/home-page
 //testing a request
 
 package main
@@ -23,8 +26,13 @@ import (
 
 // the main function start the server
 func main() {
+
+	//initalizing an HTTP request multiplexer- this can check to see if any of the incoming url match
+	//those we load it with and then run the appropriate functions
 	mux := http.NewServeMux()
-	mux.HandleFunc("/try-test", example)
+	//here, we are telling the mux that if it gets passed the "/home-page" URL, to go to the goHome function
+	mux.HandleFunc("/home-page", goHome)
+	mux.HandleFunc("/calendar", displayCalendar)
 
 	//set port (backend)
 	const port = 3000
@@ -52,16 +60,66 @@ func main() {
 
 // handler function for requests to http://server:port/get-page-data
 // more info on request types https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
-func example(w http.ResponseWriter, r *http.Request) {
+func goHome(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("getPageData: %s", r.URL.Path)
 
 	switch r.Method {
 	//if the request is a GET
 	case http.MethodGet:
-		//tell in json format
+		//tell the client that we are sending a json (Header in pr)
 		w.Header().Set("Content-Type", "application/json")
 		//need to pass infromation in as a string of bytes
-		w.Write([]byte("{\"title\":\"Test Sucessful\"}"))
+		w.Write([]byte("Welcome to the home page, get request recieved"))
+
+	case http.MethodPost:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the home page, post request recieved"))
+
+	case http.MethodPut:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the home page, put request recieved"))
+
+	case http.MethodDelete:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the home page, delete reuqest recieved"))
+	}
+}
+
+func displayCalendar(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("getPageData: %s", r.URL.Path)
+
+	switch r.Method {
+	//if the request is a GET
+	case http.MethodGet:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the calendar page, get request recieved"))
+
+	case http.MethodPost:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the calendar page, post request recieved"))
+
+	case http.MethodPut:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the calendar page, put request recieved"))
+
+	case http.MethodDelete:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the calendar page, delete reuqest recieved"))
 	}
 }
