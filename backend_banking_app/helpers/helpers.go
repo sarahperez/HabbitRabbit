@@ -6,12 +6,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// checks to see if there is an error, if there is,send a panic
 func HandleErr(err error) {
 	if err != nil {
 		panic(err.Error())
 	}
 }
 
+// imroves password security and makes it almost impossible to decrypt
 func HashAndSalt(pass []byte) string {
 	hashed, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
 	HandleErr(err)

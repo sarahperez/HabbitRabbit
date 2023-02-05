@@ -10,19 +10,24 @@ import (
 )
 
 func Login(username string, pass string) map[string]interface{} {
+	//creates database connection
 	db := helpers.ConnectDB()
 	user := &interfaces.User{}
+	//checks to see if the username exists in the database
 	if db.Where("username = ?", username).First(&user).RecordNotFound() {
 		return map[string]interface{}{"message": "User not found"}
 	}
 
 	//verify password
+	//password verification
 	passErr := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pass))
+	//checks if the password is not mismatched
 	if passErr == bcrypt.ErrMismatchedHashAndPassword && passErr != nil {
 		return map[string]interface{}{"message": "Wrong password"}
 	}
-
+	//bank account for user
 	accounts := []interfaces.ResponseAccount{}
+	//assign data from the database
 	db.Table("account").Select("id, name, balance").Where("user_id = ?", user.ID).Scan(&accounts)
 
 	//Setup response
