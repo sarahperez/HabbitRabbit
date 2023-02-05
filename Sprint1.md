@@ -1,5 +1,5 @@
+User stories
 Sarah's User stories:
-
 User Story #1: Busy College Students
 As a busy college student, I want a tool that combines all of my favorite 
 productivity applications all in one so that I can save time jumping around to 
@@ -18,4 +18,14 @@ Sophie's User Stories:
 As a user, I want to be able to login to my account and access my home page.
 
 Brooke's user Stories:
-As a college student, I wish I had a website to keep track of all the tasks I need to complete while keeping them organized, so that I have everything in one place.
+As a college student, I wish I had a website to keep track of all the tasks I need to complete while keeping them organized, 
+so that I have everything in one place.
+
+
+What issues your team planned to address: 
+Front-end Team:
+Back-end Team:
+Which ones were successfully completed
+
+Which ones didn't and why?
+
