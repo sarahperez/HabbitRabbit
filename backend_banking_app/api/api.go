@@ -13,7 +13,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type Longin struct {
+type Login struct {
 	Username string
 	Password string
 }
@@ -22,7 +22,7 @@ type ErrResponse struct {
 	Message string
 }
 
-func login(w http.ResponseWriter, r http.Request) {
+func login(w http.ResponseWriter, r *http.Request) {
 	//read body
 	body, err := ioutil.ReadAll(r.Body)
 	helpers.HandleErr(err)
