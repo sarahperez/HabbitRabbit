@@ -13,7 +13,7 @@
 // curl.exe -v -X POST http://localhost:3000/calendar
 
 //curl.exe -X POST http://localhost:3000/home-page -H 'Content-Type: application/json' -d '{"TestStr":"can you read me?"}'
-//curl -X POST localhost:8080 -d \ '{"activity": {"description": "christmas eve bike class", "time":"2021-12-09T16:34:04Z"}}' {"id":1}
+//curl.exe -X POST http://localhost:3000/home-page -H 'Content-Type: application/json' -d '{"name" :"sophie"}'
 
 //testing a request
 
@@ -63,8 +63,12 @@ func main() {
 	log.Fatal(err)
 }
 
-type test struct {
-	TestStr string `json:"TestStr"`
+// type test struct {
+// 	TestStr string `json:"TestStr"`
+// }
+
+type Person struct {
+	Name string `json:"name"`
 }
 
 // handler function for requests to http://server:port/get-page-data
@@ -98,18 +102,21 @@ func goHome(w http.ResponseWriter, request *http.Request) {
 		// 	return
 		// }
 
-		var req test
-		err := json.NewDecoder(request.Body).Decode(&req)
+		var p Person
+
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(request.Body).Decode(&p)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		log.Println("decoded string: %s", req.TestStr)
+		log.Println("decoded string: %s", p.Name)
 		//tell the client that we are sending a json (Header in pr)
 		w.Header().Set("Content-Type", "application/json")
 		//need to pass infromation in as a string of bytes
-		w.Write([]byte(req.TestStr))
+		w.Write([]byte(p.Name))
 	}
 }
 
