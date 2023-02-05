@@ -8,13 +8,17 @@ import (
 func createAccounts() {
 	db := helpers.ConnectDB()
 
+	//data, will be changed in the future
 	users := &[2]interfaces.User{
 		{Username: "Martin", Email: "martin@martin.com"},
 		{Username: "Michael", Email: "michael@martin.com"},
 	}
 
+	//iterates through dataset
 	for i := 0; i < len(users); i++ {
+		//passes password for specific user
 		generatedPassword := helpers.HashAndSalt([]byte(users[i].Username))
+		//data strcuture for the user
 		user := &interfaces.User{Username: users[i].Username, Email: users[i].Email, Password: generatedPassword}
 		db.Create(&user)
 
