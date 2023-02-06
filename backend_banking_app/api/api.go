@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -24,7 +24,8 @@ type ErrResponse struct {
 
 func login(w http.ResponseWriter, r *http.Request) {
 	//read body
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
+	//verify that everything is working correctly
 	helpers.HandleErr(err)
 
 	//handle login
@@ -45,7 +46,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func StartApi() {
+	//creates router
 	router := mux.NewRouter()
+	//http listener and 8888 port
 	router.HandleFunc("/login", login).Methods("POST")
 	fmt.Println("App is working on port :8888")
 	log.Fatal(http.ListenAndServe(":8888", router))

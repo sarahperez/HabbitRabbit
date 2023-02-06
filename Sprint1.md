@@ -18,14 +18,23 @@ Sophie's User Stories:
 As a user, I want to be able to login to my account and access my home page.
 
 Brooke's user Stories:
-As a college student, I wish I had a website to keep track of all the tasks I need to complete while keeping them organized, 
-so that I have everything in one place.
+User Story #1: As a college student, I wish I had a website to keep track of all the tasks I need to complete
+while keeping them organized, so that I have everything in one place.
+
+ User Story #2: As someone with a Type A personality, I like to have all my tasks laid out for the day, and the 
+ satisfactions of checking off an item on my to do list helps me feel accomplished throughout my day.
 
 
 What issues your team planned to address: 
 Front-end Team:
-Back-end Team:
+Back-end Team: Our team planned to download all the necessary packages and imports to get the front end and back end working together.
+We also planned on getting a login and sign up system working, and utilize curl to send signals and notify the user when data is being sent.
+
 Which ones were successfully completed
+Front-end Team:
+Back-end Team:
 
 Which ones didn't and why?
+Front-end Team:
+Back-end Team:
 
