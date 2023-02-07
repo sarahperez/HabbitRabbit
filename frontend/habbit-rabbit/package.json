@@ -20,6 +20,12 @@
     "@angular/platform-browser": "^15.1.0",
     "@angular/platform-browser-dynamic": "^15.1.0",
     "@angular/router": "^15.1.0",
+    "@fullcalendar/angular": "^6.1.3",
+    "@fullcalendar/core": "^6.1.3",
+    "@fullcalendar/daygrid": "^6.1.3",
+    "calendar": "^0.1.1",
+    "full": "^1.0.1",
+    "fullcalendar": "^6.1.3",
     "rxjs": "~7.8.0",
     "zone.js": "~0.12.0"
   },
