@@ -71,8 +71,6 @@ type userinfo struct {
 // this function will be called with the following URL: http://localhost:3000/home-page
 func goHome(w http.ResponseWriter, request *http.Request) {
 
-	log.Println("getPageData:", request.URL.Path)
-
 	switch request.Method {
 	//if the request is a GET
 	case http.MethodGet:
@@ -108,8 +106,6 @@ func goHome(w http.ResponseWriter, request *http.Request) {
 
 // this function will get called by the following URL: http://localhost:3000/calendar
 func displayCalendar(w http.ResponseWriter, request *http.Request) {
-
-	log.Println("getPageData: %s", request.URL.Path)
 
 	switch request.Method {
 	//if the request is a GET
