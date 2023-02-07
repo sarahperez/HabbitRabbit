@@ -1,9 +1,93 @@
-.sideNav {
-    position: absolute;
+.side-nav {
+    background: #9483d6;
+    position: fixed;
+    transition: all .5s ease;
+    z-index: 1;
     top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #96d9ab;
-    
+    height: 100vh;
+    width: 9rem;
+    box-shadow: 0.063rem 0 1.25rem 0 #707070;
+
+    .logo-container{
+      display: flex;
+      align-items: center;
+      padding: 0.938rem 0.938rem 0 0.938rem;
+      width: 100%;
+
+      .logo{
+        background: #fff;
+        text-align: center;
+        width: 3rem;
+        min-width: 3rem;
+        border-radius: 0.313rem;
+        padding: 0.313rem;
+        font-size: 24px;
+        font-weight: 900;
+        cursor: pointer;
+        border: none;
+      }
+
+      .logo-text{
+        margin-left: 1.5rem;
+        font-size: 24px;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .btn-close{
+        margin-left: auto;
+        cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: transparent;
+        border: none;
+
+        .fa-times{
+          color: #fff;
+          font-size: 24px;
+        }
+      }
+    }
+}
+
+.side-nav-collapsed{
+  width: 16.5625rem;
+}
+
+.side-nav-nav{
+  list-style: none;
+  padding: 0.938rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100%-3.65rem);
+  cursor: pointer;
+
+  .side-nav-nav-item{
+    width: 100%;
+    margin-bottom: 0.625rem;
+
+    .side-nav-nav-link{
+      display: flex;
+      align-items: center;
+      height: 3rem;
+      color: #f3f3f3;
+      text-decoration: none;
+      transition: color .3s ease;
+
+      .side-nav-link-icon{
+        fonr-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+
+      .side-nav-link-text{
+        margin-left: 1.5rem;
+      }
+    }
   }
+}
