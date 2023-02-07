@@ -1,0 +1,26 @@
+.container {
+    margin: 48px 35%;
+    font-family: "Arial", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+   
+  .navbar {
+    background-color: darkslategray;
+    padding: 30px 50px;
+    display: flex;
+    align-items: center;
+    font-family: sans-serif;
+  }
+   
+  .link:first-of-type {
+    margin-right: 32px;
+  }
+   
+  .link {
+    color: white;
+    text-decoration: none;
+    font-size: 14pt;
+    font-weight: bold;
+  }
