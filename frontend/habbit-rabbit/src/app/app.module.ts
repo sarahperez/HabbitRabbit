@@ -9,23 +9,23 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { SideNavComponent } from './side-nav/side-nav/side-nav.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { HomeComponent } from './home/home.component';
+import { BodyComponent } from './body/body.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SideNavComponent,
     CalendarComponent,
-    HomeComponent
+    HomeComponent,
+    BodyComponent
   ],
   exports: [
-    MatSidenavModule
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatSlideToggleModule,
-    MatSidenavModule
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

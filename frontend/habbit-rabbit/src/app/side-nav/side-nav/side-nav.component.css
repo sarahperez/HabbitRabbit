@@ -7,48 +7,48 @@
     height: 100vh;
     width: 9rem;
     box-shadow: 0.063rem 0 1.25rem 0 #707070;
+}
 
-    .logo-container{
-      display: flex;
-      align-items: center;
-      padding: 0.938rem 0.938rem 0 0.938rem;
-      width: 100%;
+.logo-container {
+  display: flex;
+  align-items: center;
+  padding: 0.938rem 0.938rem 0 0.938rem;
+  width: 100%;
+}
 
-      .logo{
-        background: #fff;
-        text-align: center;
-        width: 3rem;
-        min-width: 3rem;
-        border-radius: 0.313rem;
-        padding: 0.313rem;
-        font-size: 24px;
-        font-weight: 900;
-        cursor: pointer;
-        border: none;
-      }
+.logo {
+  background: #fff;
+  text-align: center;
+  width: 3rem;
+  min-width: 3rem;
+  border-radius: 0.313rem;
+  padding: 0.313rem;
+  font-size: 24px;
+  font-weight: 900;
+  cursor: pointer;
+  border: none;
+}
 
-      .logo-text{
-        margin-left: 1.5rem;
-        font-size: 24px;
-        font-weight: 700;
-        color: #fff;
-      }
+.logo-text{
+  margin-left: 1.5rem;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000000;
+}
 
-      .btn-close{
-        margin-left: auto;
-        cursor: pointer;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        background-color: transparent;
-        border: none;
+.btn-close{
+  margin-left: auto;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+}
 
-        .fa-times{
-          color: #fff;
-          font-size: 24px;
-        }
-      }
-    }
+.fa-times{
+  color: #fff;
+  font-size: 24px;
 }
 
 .side-nav-collapsed{
