@@ -32,9 +32,9 @@ We also planned on getting a login and sign up system working, and utilize curl 
 
 Which ones were successfully completed
 Front-end Team:
-Back-end Team:
+Back-end Team: After Following a tutorial, we were able to get a banking app set up, which involves a login, along with account information that can be stored in the database. This banking app also has the ability to create an account, along with password security implementations.
 
 Which ones didn't and why?
 Front-end Team:
-Back-end Team:
+Back-end Team: Although none of the aspects of our Sprint 1 are not working, we were not able to accomplish as much in this sprint as we had planned due to setup issues and conceptual misunderstandings. Our original goal was to have a login and signup menu working. Although we have been able to accomplish a large portion of that goal, we did not have the time to connect the two components of the backend sprint, which would have completed this goal. This is because we struggled to set up the boilerplate, and were focused on conceptually understanding Golang and Github before going into this project blindly. I can confidently say that we have a greater understanding of Go language, and see this as significant progress that isnt necessarily demonstrated by our project as of right now.
 
