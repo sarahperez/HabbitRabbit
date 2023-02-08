@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { BodyComponent } from "./body/body.component";
 import { CalendarComponent } from './calendar/calendar.component';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
+import { RouterOutlet } from '@angular/router';
 
 
 @NgModule({
