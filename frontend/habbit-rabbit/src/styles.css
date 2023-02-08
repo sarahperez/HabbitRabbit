@@ -1,53 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 /* Application-wide Styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 * {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #BBDBD1;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: rgb(224, 255, 237);
+}
 
-body {
-    margin: 0;
-    padding: 0;
-  }
+body { 
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+}
 
-h1 {
-    color: #7E78D2;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 250%;
-  }
-  h2, h3 {
-    color: #444;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: lighter;
-  }
-  body {
-    margin: 2em;
-  }
-  body, input[type="text"], button {
-    color: #333;
-    font-family: Cambria, Georgia, serif;
-  }
-  button {
-    background-color: #eee;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: black;
-    font-size: 1.2rem;
-    padding: 1rem;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-  }
-  button:hover {
-    background-color: black;
-    color: white;
-  }
-  button:disabled {
-    background-color: #eee;
-    color: #aaa;
-    cursor: auto;
-  }
-  
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

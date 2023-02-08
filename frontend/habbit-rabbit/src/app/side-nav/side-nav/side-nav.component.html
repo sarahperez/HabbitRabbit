@@ -1,5 +1,17 @@
-<p>side-nav works!</p>
-<mat-sidenav-container class="sideNav">
-    <mat-sidenav mode="side" opened>Habbit Habbit</mat-sidenav>
-    <mat-sidenav-content>Main content</mat-sidenav-content>
-  </mat-sidenav-container>
+<div class="side-nav" [ngClass]="collapsed ? 'side-nav-collapsed': ''">
+  <div class="logo-container">
+    <button class="logo">HR</button>
+    <div class="logo-text" *ngIf="collapsed">Habbit Rabbit</div>
+    <button class="btn-close" *ngIf="collapsed">
+      <i class="fal fa-times close-icon"></i>
+    </button>
+  </div>
+  <ul class="side-nav-nav">
+    <li class="side-nav-item" *ngFor="let data of navData">
+        <a class="side-nav-nav-link" [routerLink]="[data.routeLink]">
+          <i class="side-nav-link-icon" [class]="data.icon"></i>
+          <span class="side-nav-link-text" *ngIf="collapsed">{{data.label}}</span>
+        </a>
+    </li>
+  </ul>
+</div> 

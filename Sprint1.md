@@ -1,3 +1,5 @@
+//All references and links to sources used are commented within the files they are relevant to
+
 User stories
 Sarah's User stories:
 User Story #1: Busy College Students
@@ -39,5 +41,8 @@ As for the backend implementation we are creating for our app, we were able to s
 
 Which ones didn't and why?
 Front-end Team:
-Back-end Team: Although none of the aspects of our Sprint 1 are not working, we were not able to accomplish as much in this sprint as we had planned due to setup issues and conceptual misunderstandings. Our original goal was to have a login and signup menu working. Although we have been able to accomplish a large portion of that goal, we did not have the time to connect the two components of the backend sprint, which would have completed this goal. This is because we struggled to set up follwing the boilerplate example, and were focused on conceptually understanding Golang and Github before going into this project blindly. I can confidently say that we have a greater understanding of Go language, and see this as significant progress that isnt necessarily demonstrated by our project as of right now. We also spent a fair amount of time getting comfortable with json files and the general understanding of how a server works and what http requests are.
+Back-end Team: One aspect of this sprint that is currently not working is the connection to the API Network. This task was something that we could not test until we got other aspects of the sprint working, and therefore we had little time to test this and troubleshoot. We plan on this being one of the first goals of sprint two, and we think if we had more time, we wouldve been able to get this working. 
+
+
+ Although most of our Sprint 1 is currently working, we were not able to accomplish as much in this sprint as we had planned due to setup issues and conceptual misunderstandings. Our original goal was to have a login and signup menu working. Although we have been able to accomplish a large portion of that goal, we did not have the time to connect the two components of the backend sprint, which would have completed this goal. This is because we struggled to set up follwing the boilerplate example, and were focused on conceptually understanding Golang and Github before going into this project blindly. I can confidently say that we have a greater understanding of Go language, and see this as significant progress that isnt necessarily demonstrated by our project as of right now. We also spent a fair amount of time getting comfortable with json files and the general understanding of how a server works and what http requests are.
 
