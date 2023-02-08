@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./full-calendar.component.css']
 })
 export class FullCalendarComponent {
-  
-  
+
 }

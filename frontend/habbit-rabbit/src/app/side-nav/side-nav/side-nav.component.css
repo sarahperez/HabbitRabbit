@@ -1,11 +1,11 @@
 .side-nav {
-    background: #9483d6;
-    position: fixed;
+    background: #b9b8ff;
     transition: all .5s ease;
+    position: fixed;
     z-index: 1;
     top: 0;
+    width: 5rem;
     height: 100vh;
-    width: 9rem;
     box-shadow: 0.063rem 0 1.25rem 0 #707070;
 }
 
@@ -17,8 +17,7 @@
 }
 
 .logo {
-  background: #fff;
-  text-align: center;
+  background: #ffffff;
   width: 3rem;
   min-width: 3rem;
   border-radius: 0.313rem;
@@ -47,12 +46,12 @@
 }
 
 .fa-times{
-  color: #fff;
+  color: #000000;
   font-size: 24px;
 }
 
 .side-nav-collapsed{
-  width: 16.5625rem;
+  width: 18.5625rem;
 }
 
 .side-nav-nav{
@@ -61,33 +60,51 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: calc(100%-3.65rem);
+  align-items: left;
+  height: calc(100% - 3.65rem);
   cursor: pointer;
-
-  .side-nav-nav-item{
-    width: 100%;
-    margin-bottom: 0.625rem;
-
-    .side-nav-nav-link{
-      display: flex;
-      align-items: center;
-      height: 3rem;
-      color: #f3f3f3;
-      text-decoration: none;
-      transition: color .3s ease;
-
-      .side-nav-link-icon{
-        fonr-size: 22px;
-        width: 2rem;
-        min-width: 2rem;
-        margin: 0 0.5rem;
-        text-align: center;
-      }
-
-      .side-nav-link-text{
-        margin-left: 1.5rem;
-      }
-    }
-  }
 }
+
+.side-nav-nav-item{
+  width: 100%;
+  margin-bottom: 0.625rem;
+}
+
+.side-nav-nav-link{
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  color: #000000;
+  text-decoration: none;
+  border-radius: 0.625rem;
+  transition: all .2s ease;
+}
+
+.side-nav-link-icon{
+  font-size: 22px;
+  width: 2rem;
+  min-width: 2rem;
+  margin: 0 0.5rem;
+  text-align: center;
+}
+
+.side-nav-link-text{
+  margin-left: 1.5rem;
+}
+
+.side-nav-nav-link:hover{
+  background-color: #fff;
+  color: #000;
+}
+
+.active{
+  background-color: #fff;
+}
+
+.side-nav-link-icon, .side-nav-link-text{
+  color:#000;
+}
+
+
+
+
