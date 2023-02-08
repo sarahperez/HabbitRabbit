@@ -11,6 +11,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { HomeComponent } from './home/home.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
+import { RouterOutlet } from '@angular/router';
 
 
 @NgModule({
