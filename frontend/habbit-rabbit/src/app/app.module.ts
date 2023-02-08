@@ -10,6 +10,7 @@ import { SideNavComponent } from './side-nav/side-nav/side-nav.component';
 import { HomeComponent } from './home/home.component';
 import { BodyComponent } from "./body/body.component";
 import { CalendarComponent } from './calendar/calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
 import { RouterOutlet } from '@angular/router';
 
@@ -21,10 +22,11 @@ import { RouterOutlet } from '@angular/router';
         SideNavComponent,
         HomeComponent,
         CalendarComponent,
-        FullCalendarComponent,
+        FullCalendarComponent
     ],
     exports: [
-        MatSidenavModule
+        MatSidenavModule,
+        FullCalendarModule
     ],
     providers: [],
     bootstrap: [AppComponent],
@@ -33,7 +35,8 @@ import { RouterOutlet } from '@angular/router';
         AppRoutingModule,
         BrowserAnimationsModule,
         MatSlideToggleModule,
-        MatSidenavModule
+        MatSidenavModule,
+        FullCalendarModule
     ]
 })
 export class AppModule { }
