@@ -28,6 +28,7 @@ import (
 	"github.com/rs/cors"
 )
 
+// Main+functions were modified from: https://medium.com/@anshap1719/getting-started-with-angular-and-go-setting-up-a-boilerplate-project-8c273b81aa6
 // the main function start the server
 func main() {
 
