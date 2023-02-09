@@ -70,6 +70,7 @@ type userinfo struct {
 }
 
 // this function will be called with the following URL: http://localhost:3000/home-page
+// example code from https://golang.ch/which-golang-router-to-use-for-what-cases/ used as a reference
 func goHome(w http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
@@ -106,6 +107,7 @@ func goHome(w http.ResponseWriter, request *http.Request) {
 }
 
 // this function will get called by the following URL: http://localhost:3000/calendar
+// example code from https://golang.ch/which-golang-router-to-use-for-what-cases/ used as a reference
 func displayCalendar(w http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
