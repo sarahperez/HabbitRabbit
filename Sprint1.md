@@ -29,7 +29,9 @@ while keeping them organized, so that I have everything in one place.
 
 ________________________________________________________________________________________________________________________________________
 What issues your team planned to address: 
+
 Front-end Team: Our team planned to establish a general look for our application. We also wanted to learn about routing and implement it by creating a sidebar. Our last goal was to import a calendar base component that we will build on in later sprints.
+
 Back-end Team: Our team planned to download all the necessary packages and imports to get the front end and back end working together.
 We also planned on getting a login and sign up system working, and utilize curl to send signals and notify the user when data is being sent.
 
