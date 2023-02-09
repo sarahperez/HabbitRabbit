@@ -1,13 +1,5 @@
-
-<div class="container">
-    <router-outlet></router-outlet>
-</div>
-<div class="navbar">
-  <nav>
-    <ul>
-      <li><a class="link" href="/home">Home</a></li>
-      <li><a class="link" href="/calendar">Calendar</a></li>
-    </ul>
-  </nav>
-</div>
-<app-side-nav></app-side-nav>
+<app-side-nav (onToggleSideNav)="onToggleSideNav($event)"></app-side-nav>
+<app-body>
+  [collapsed]="isSideNavCollapsed"
+  [screenWidth]="screenWidth"
+</app-body>
