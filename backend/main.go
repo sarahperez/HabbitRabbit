@@ -33,6 +33,9 @@ import (
 // the main function start the server
 func main() {
 
+	//put angular address here
+	//host := ""
+
 	//initalizing an HTTP request multiplexer- this can check to see if any of the incoming url match
 	//those we load it with and then run the appropriate functions
 	mux := mux.NewRouter()
@@ -63,6 +66,8 @@ func main() {
 	//start the web server
 	//listen for requests sent to the server
 	err := http.ListenAndServe(server+":"+strconv.Itoa(port), handler)
+
+	//err := http.ListenAndServe(host, handler)
 	//if something does not work, (exit status 1) ie. if someone tries to use the same port
 	log.Fatal(err)
 }
