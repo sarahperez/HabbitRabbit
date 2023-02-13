@@ -25,6 +25,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 
@@ -32,12 +33,18 @@ import (
 // the main function start the server
 func main() {
 
+	//put angular address here
+	//host := ""
+
 	//initalizing an HTTP request multiplexer- this can check to see if any of the incoming url match
 	//those we load it with and then run the appropriate functions
-	mux := http.NewServeMux()
+	mux := mux.NewRouter()
 	//here, we are telling the mux that if it gets passed the "/home-page" URL, to go to the goHome function
 	mux.HandleFunc("/home-page", goHome)
 	mux.HandleFunc("/calendar", displayCalendar)
+
+	//trying to add in a handler for all cases where URL does NOT match one of the above linked to the mux
+	mux.PathPrefix("/").Handler()
 
 	//set port (backend)
 	const port = 3000
@@ -59,6 +66,8 @@ func main() {
 	//start the web server
 	//listen for requests sent to the server
 	err := http.ListenAndServe(server+":"+strconv.Itoa(port), handler)
+
+	//err := http.ListenAndServe(host, handler)
 	//if something does not work, (exit status 1) ie. if someone tries to use the same port
 	log.Fatal(err)
 }
@@ -125,4 +134,8 @@ func displayCalendar(w http.ResponseWriter, request *http.Request) {
 		//need to pass infromation in as a string of bytes
 		w.Write([]byte("Welcome to the calendar page, post request recieved"))
 	}
+}
+
+func defaultFunc() {
+
 }
