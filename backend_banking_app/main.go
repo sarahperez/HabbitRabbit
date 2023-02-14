@@ -5,9 +5,14 @@ package main
 
 import (
 	"example.com/backend_banking_app/api"
+	"example.com/backend_banking_app/database"
 )
 
 func main() {
-	//migrations.Migrate()
+	// Do migration
+	// migrations.MigrateTransactions()
+
+	// Init database
+	database.InitDatabase()
 	api.StartApi()
 }
