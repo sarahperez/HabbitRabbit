@@ -16,3 +16,6 @@ func main() {
 	database.InitDatabase()
 	api.StartApi()
 }
+func testingPractice() string {
+	return "testing is working"
+}
