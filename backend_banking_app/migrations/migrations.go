@@ -8,7 +8,7 @@ import (
 )
 
 // Refactor createAccounts to use database package
-//parts of this arent valuable, but for the most part it is
+// parts of this arent valuable, but for the most part it is
 func createAccounts() {
 	users := &[2]interfaces.User{
 		{Username: "Martin", Email: "martin@martin.com"},
@@ -33,7 +33,8 @@ func Migrate() {
 	Transactions := &interfaces.Transaction{}
 	//
 	database.DB.AutoMigrate(&User, &Account, &Transactions)
-	
+
 	createAccounts()
 }
+
 // Delete Migrate transactions
