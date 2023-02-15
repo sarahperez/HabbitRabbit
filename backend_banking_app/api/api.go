@@ -8,7 +8,10 @@ import (
 	"net/http"
 
 	"example.com/backend_banking_app/helpers"
-	"example.com/backend_banking_app/vulnerableDB"
+	"example.com/backend_banking_app/transactions"
+	"example.com/backend_banking_app/useraccounts"
+	"example.com/backend_banking_app/users"
+
 	"github.com/gorilla/mux"
 )
 
@@ -17,36 +20,109 @@ type Login struct {
 	Password string
 }
 
-type Response struct {
-	Data []vulnerableDB.User
+type Register struct {
+	Username string
+	Email    string
+	Password string
+}
+// this strcut is unneccesary for project
+type TransactionBody struct {
+	UserId uint
+	From   uint
+	To     uint
+	Amount int
 }
 
-type ErrResponse struct {
-	Message string
-}
-
-func login(w http.ResponseWriter, r *http.Request) {
+// Create readBody function
+func readBody(r *http.Request) []byte {
 	body, err := ioutil.ReadAll(r.Body)
 	helpers.HandleErr(err)
 
-	var formattedBody Login
-	err = json.Unmarshal(body, &formattedBody)
-	helpers.HandleErr(err)
-	login := vulnerableDB.VulnerableLogin(formattedBody.Username, formattedBody.Password)
+	return body
+}
 
-	if len(login) > 0 {
-		resp := Response{Data: login}
+// Refactor apiResponse
+func apiResponse(call map[string]interface{}, w http.ResponseWriter) {
+	if call["message"] == "all is fine" {
+		resp := call
 		json.NewEncoder(w).Encode(resp)
+		// Handle error in else
 	} else {
-		resp := ErrResponse{Message: "Wrong username or password"}
+		resp := call
 		json.NewEncoder(w).Encode(resp)
 	}
 }
 
+func login(w http.ResponseWriter, r *http.Request) {
+	// Refactor login to use readBody
+	body := readBody(r)
+
+	var formattedBody Login
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
+
+	login := users.Login(formattedBody.Username, formattedBody.Password)
+	// Refactor login to use apiResponse function
+	apiResponse(login, w)
+}
+
+func register(w http.ResponseWriter, r *http.Request) {
+	body := readBody(r)
+
+	var formattedBody Register
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
+
+	register := users.Register(formattedBody.Username, formattedBody.Email, formattedBody.Password)
+	// Refactor register to use apiResponse function
+	apiResponse(register, w)
+}
+
+func getUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userId := vars["id"]
+	auth := r.Header.Get("Authorization")
+
+	user := users.GetUser(userId, auth)
+	apiResponse(user, w)
+}
+
+//handles the userID and the authorization
+func getMyTransactions(w http.ResponseWriter, r *http.Request) {
+	//this part seems relevant
+	vars := mux.Vars(r)
+	userId := vars["userID"]
+	auth := r.Header.Get("Authorization")
+	//this doesnt because we wont have transactions to authenticate in our project
+	transactions := transactions.GetMyTransactions(userId, auth)
+	apiResponse(transactions, w)
+}
+//
+
+// Create function transaction in api
+func transaction(w http.ResponseWriter, r *http.Request) {
+	body := readBody(r)
+	auth := r.Header.Get("Authorization")
+	var formattedBody TransactionBody
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
+
+	transaction := useraccounts.Transaction(formattedBody.UserId, formattedBody.From, formattedBody.To, formattedBody.Amount, auth)
+	apiResponse(transaction, w)
+}
+
+//handle the API endpoint in the routing
 func StartApi() {
 	router := mux.NewRouter()
+	// Add panic handler middleware
+	router.Use(helpers.PanicHandler)
 	router.HandleFunc("/login", login).Methods("POST")
+	router.HandleFunc("/register", register).Methods("POST")
+	//the following will be deleted
+	router.HandleFunc("/transaction", transaction).Methods("POST")
+	router.HandleFunc("/transactions/{userID}", getMyTransactions).Methods("GET")
+	//
+	router.HandleFunc("/user/{id}", getUser).Methods("GET")
 	fmt.Println("App is working on port :8888")
 	log.Fatal(http.ListenAndServe(":8888", router))
-
 }
