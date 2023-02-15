@@ -21,3 +21,31 @@ describe('SideNavComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+describe('SideNavComp', () => {
+  it('#clicked() should toggle #isOpen', () => {
+    const comp = new SideNavComponent();
+    expect(comp.isOpen)
+      .withContext('closed at first')
+      .toBe(false);
+    comp.clicked();
+    expect(comp.isOpen)
+      .withContext('open after click')
+      .toBe(true);
+    comp.clicked();
+    expect(comp.isOpen)
+      .withContext('closed after second click')
+      .toBe(false);
+  });
+
+  it('#clicked() should set #message to "is open"', () => {
+    const comp = new SideNavComponent();
+    expect(comp.message)
+      .withContext('closed at first')
+      .toMatch(/is closed/i);
+    comp.clicked();
+    expect(comp.message)
+      .withContext('open after clicked')
+      .toMatch(/is open/i);
+  });
+});

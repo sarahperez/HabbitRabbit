@@ -1,39 +1,39 @@
 package migrations
 
 import (
+	"example.com/backend_banking_app/database"
 	"example.com/backend_banking_app/helpers"
 	"example.com/backend_banking_app/interfaces"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
+// Refactor createAccounts to use database package
+//parts of this arent valuable, but for the most part it is
 func createAccounts() {
-	db := helpers.ConnectDB()
-
-	//data, will be changed in the future
 	users := &[2]interfaces.User{
 		{Username: "Martin", Email: "martin@martin.com"},
-		{Username: "Michael", Email: "michael@martin.com"},
+		{Username: "Michael", Email: "michael@michael.com"},
 	}
-
-	//iterates through dataset
 	for i := 0; i < len(users); i++ {
-		//passes password for specific user
+		// Correct one way
 		generatedPassword := helpers.HashAndSalt([]byte(users[i].Username))
-		//data strcuture for the user
 		user := &interfaces.User{Username: users[i].Username, Email: users[i].Email, Password: generatedPassword}
-		db.Create(&user)
+		database.DB.Create(&user)
 
-		account := &interfaces.Account{Type: "Daily Account", Name: string(users[i].Username + "'s" + " account"), Balance: uint(10000 + int(i+1)), UserID: user.ID}
-		db.Create(&account)
+		account := &interfaces.Account{Type: "Daily Account", Name: string(users[i].Username + "'s" + " account"), Balance: uint(10000 * int(i+1)), UserID: user.ID}
+		database.DB.Create(&account)
 	}
-	defer db.Closed()
 }
 
+// Refactor Migrate
 func Migrate() {
 	User := &interfaces.User{}
-	Account := &interfaces.User{}
-	db := helpers.ConnectDB()
-	db.AutoMigrate(&User{}, &Account{})
-	defer db.Closed()
-
+	Account := &interfaces.Account{}
+	//this can be deleted
+	Transactions := &interfaces.Transaction{}
+	//
+	database.DB.AutoMigrate(&User, &Account, &Transactions)
+	
 	createAccounts()
 }
+// Delete Migrate transactions
