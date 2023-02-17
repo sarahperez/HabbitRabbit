@@ -19,6 +19,10 @@ export class SideNavComponent implements OnInit{
   screenWidth= 0;
   navData = navbarData;
 
+  isOpen = false;
+  clicked() { this.isOpen = !this.isOpen; }
+  get message() { return `The sidebar is ${this.isOpen ? 'Open' : 'Closed'}`; }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any){
     this.screenWidth = window.innerWidth;

@@ -1,0 +1,34 @@
+<div class="login-container">
+    <div class="misc-container">
+      <form class="container-bg">
+        <img class="logo" src="../../assets/rabbit.png" />
+        <div class="username-container">
+          <label class="username-field" for="username">
+            Username
+          </label>
+          <input class="username-input" id="username" type="text" placeholder="Username" (keyup)="onKey($event, 'username')">
+          <p *ngIf="!isUsernameValid" class="username-instructions">Your username can consist of letters and numbers only!</p>
+        </div>
+        <div class="password-container">
+          <label class="password-field" for="password">
+            Password
+          </label>
+          <input class="password-input" id="password" type="password" placeholder="******************" (keyup)="onKey($event, 'password')" required minlength="6">
+        </div>
+        <div class="sign-in-container">
+          <button class="sign-in-button" type="button" (click)="onSubmit()">
+            Sign In
+          </button>
+        </div>
+      </form>
+      <p class="credits">
+        &copy;2020 FinanceApp. All rights reserved.
+      </p>
+    </div>
+    <div *ngIf="error" class="notification">
+      <div class="error-message-container" role="alert">
+        <span class="error-message">ERROR</span>
+        <span class="error-message-text">{{error}}</span>
+      </div>
+    </div>
+  </div>

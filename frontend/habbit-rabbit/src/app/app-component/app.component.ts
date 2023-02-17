@@ -12,7 +12,7 @@ interface SideNavToggle{
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Habbit Rabbit';
+  title = 'habbit-rabbit';
   isSideNavCollapsed = false;
   screenWidth=0;
   onToggleSideNav(data: SideNavToggle): void{
