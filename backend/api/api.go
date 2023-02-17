@@ -1,9 +1,12 @@
 package api
+
 // code from https://github.com/Duomly/go-bank-backend
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"main/helpers"
@@ -50,7 +53,7 @@ func apiResponse(call map[string]interface{}, w http.ResponseWriter) {
 	}
 }
 
-func login(w http.ResponseWriter, r *http.Request) {
+func LoginFunc(w http.ResponseWriter, r *http.Request) {
 	// Refactor login to use readBody
 	body := readBody(r)
 
@@ -63,7 +66,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	apiResponse(login, w)
 }
 
-func register(w http.ResponseWriter, r *http.Request) {
+func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 	body := readBody(r)
 
 	var formattedBody Register
@@ -75,11 +78,23 @@ func register(w http.ResponseWriter, r *http.Request) {
 	apiResponse(register, w)
 }
 
-func getUser(w http.ResponseWriter, r *http.Request) {
+func GetUserFunc(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	userId := vars["id"]
 	auth := r.Header.Get("Authorization")
 
 	user := users.GetUser(userId, auth)
 	apiResponse(user, w)
+}
+
+func StartApi() {
+	router := mux.NewRouter()
+	// Add panic handler middleware
+	router.Use(helpers.PanicHandler)
+	router.HandleFunc("/login", LoginFunc).Methods("POST")
+	router.HandleFunc("/register", RegisterFunc).Methods("POST")
+	//
+	router.HandleFunc("/user/{id}", GetUserFunc).Methods("GET")
+	fmt.Println("App is working on port :8888")
+	log.Fatal(http.ListenAndServe(":8888", router))
 }
