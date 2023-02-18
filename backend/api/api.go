@@ -98,3 +98,7 @@ func StartApi() {
 	fmt.Println("App is working on port :8888")
 	log.Fatal(http.ListenAndServe(":8888", router))
 }
+
+func apiTest() string {
+	return "api test is working"
+}
