@@ -4,7 +4,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -87,14 +86,72 @@ func GetUserFunc(w http.ResponseWriter, r *http.Request) {
 	apiResponse(user, w)
 }
 
-func StartApi() {
-	router := mux.NewRouter()
-	// Add panic handler middleware
-	router.Use(helpers.PanicHandler)
-	router.HandleFunc("/login", LoginFunc).Methods("POST")
-	router.HandleFunc("/register", RegisterFunc).Methods("POST")
-	//
-	router.HandleFunc("/user/{id}", GetUserFunc).Methods("GET")
-	fmt.Println("App is working on port :8888")
-	log.Fatal(http.ListenAndServe(":8888", router))
+//--------------------------------------------our added functions----------------------------------------------------------
+
+// practice struct to catch user data
+type userinfo struct {
+	Username string `json:"Username"`
+	Password string `json:"Password"`
+}
+
+// this function will be called with the following URL: http://localhost:3000/home-page
+// example code from https://golang.ch/which-golang-router-to-use-for-what-cases/ used as a reference
+func GoHome(w http.ResponseWriter, request *http.Request) {
+
+	switch request.Method {
+	//if the request is a GET
+	case http.MethodGet:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the home page, get request recieved"))
+
+	case http.MethodPost:
+		//if the request is a POST (incoming data)
+
+		//reference for decoding (structure taken from example)- https://www.alexedwards.net/blog/how-to-properly-parse-a-json-request-body
+		//set up a struct object to decode the json file into
+		var info userinfo
+		//decode the json file
+		error := json.NewDecoder(request.Body).Decode(&info)
+		if error != nil {
+			//if statement to deal with decoder errors
+			log.Println("decoding unsucessful", error)
+			http.Error(w, error.Error(), http.StatusBadRequest)
+			return
+		}
+
+		//print the decoded info
+		log.Println("decoded string:", info)
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//pass infromation back
+		w.Write([]byte(info.Username))
+		w.Write([]byte(info.Password))
+	}
+}
+
+// this function will get called by the following URL: http://localhost:3000/calendar
+// example code from https://golang.ch/which-golang-router-to-use-for-what-cases/ used as a reference
+func DisplayCalendar(w http.ResponseWriter, request *http.Request) {
+
+	switch request.Method {
+	//if the request is a GET
+	case http.MethodGet:
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the calendar page, get request recieved"))
+
+	case http.MethodPost:
+		//if the request is a POST (incoming data)
+		//tell the client that we are sending a json (Header in pr)
+		w.Header().Set("Content-Type", "application/json")
+		//need to pass infromation in as a string of bytes
+		w.Write([]byte("Welcome to the calendar page, post request recieved"))
+	}
+}
+
+func defaultFunc() {
+
 }
