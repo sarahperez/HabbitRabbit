@@ -124,3 +124,6 @@ func GetUser(id string, jwt string) map[string]interface{} {
 		return map[string]interface{}{"message": "Not valid token"}
 	}
 }
+func userTest() string {
+	return "user test is working"
+}

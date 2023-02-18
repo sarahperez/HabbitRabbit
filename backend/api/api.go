@@ -155,3 +155,7 @@ func DisplayCalendar(w http.ResponseWriter, request *http.Request) {
 func defaultFunc() {
 
 }
+
+func apiTest() string {
+	return "api test is working"
+}

@@ -32,3 +32,7 @@ func getAccount(id uint) *interfaces.Account {
 	}
 	return account
 }
+
+func userAccountsTest() string {
+	return "userAccounts test is working"
+}
