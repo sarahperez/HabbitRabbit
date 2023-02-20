@@ -1,7 +1,7 @@
 package api
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -9,13 +9,13 @@ import (
 )
 
 // https://golang.cafe/blog/golang-httptest-example.html
-func TestUpperCaseHandler(t *testing.T) {
+func TestGoHome(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/home-page", nil)
 	w := httptest.NewRecorder()
 	GoHome(w, req)
 	res := w.Result()
 	defer res.Body.Close()
-	data, err := ioutil.ReadAll(res.Body)
+	data, err := io.ReadAll(res.Body)
 	if err != nil {
 		t.Errorf("expected error to be nil got %v", err)
 	}
