@@ -14,6 +14,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	_ "github.com/lib/pq"
+	"github.com/usvc/go-password"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -50,6 +51,24 @@ func Validation(values []interfaces.Validation) bool {
 			if len(values[i].Value) < 5 {
 				return false
 			}
+
+			//------------------------------------------our added password requirements-------------------------------------
+			//https://github.com/usvc/go-password#usage
+			customPolicy := password.Policy{
+				MaximumLength:         32,
+				MinimumLength:         12,
+				MinimumLowercaseCount: 1,
+				MinimumUppercaseCount: 1,
+				MinimumNumericCount:   1,
+				MinimumSpecialCount:   1,
+				CustomSpecial:         []byte("`!@"),
+			}
+
+			if err := password.Validate(values[i].Value, customPolicy); err != nil {
+				log.Print("password is invalid")
+				return false
+			}
+			//--------------------------------------------------------------------------------------------------------------
 		}
 	}
 	return true

@@ -31,8 +31,6 @@ import (
 	//packages added from tutorial
 
 	"main/api"
-	"main/database"
-	"main/migrations"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -41,10 +39,8 @@ import (
 // Main+functions were modified from: https://medium.com/@anshap1719/getting-started-with-angular-and-go-setting-up-a-boilerplate-project-8c273b81aa6
 // the main function start the server
 func main() {
-	log.Printf("before db")
-	database.InitDatabase()
-	migrations.Migrate()
-	log.Printf("after db")
+	// database.InitDatabase()
+	// migrations.Migrate()
 
 	//put angular address here
 	//host := ""
