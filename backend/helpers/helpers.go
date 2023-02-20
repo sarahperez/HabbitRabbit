@@ -1,6 +1,7 @@
 package helpers
 
 // code from https://github.com/Duomly/go-bank-backend
+//
 
 import (
 	"encoding/json"
