@@ -4,7 +4,7 @@ package api
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -34,7 +34,7 @@ type TransactionBody struct {
 
 // Create readBody function
 func readBody(r *http.Request) []byte {
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	helpers.HandleErr(err)
 
 	return body
@@ -47,6 +47,7 @@ func apiResponse(call map[string]interface{}, w http.ResponseWriter) {
 		json.NewEncoder(w).Encode(resp)
 		// Handle error in else
 	} else {
+		//not sure why if and else as the same, look into this
 		resp := call
 		json.NewEncoder(w).Encode(resp)
 	}
