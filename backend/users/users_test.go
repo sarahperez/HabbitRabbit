@@ -8,8 +8,17 @@ import (
 	"testing"
 )
 
-func TestPrepareToken(t *testing.T)    {}
+// TestPrepareToken hasnt been started
+func TestPrepareToken(t *testing.T) {}
+
+// TestPrepareResponse hasnt been started
 func TestPrepareResponse(t *testing.T) {}
-func TestLogin(t *testing.T)           {}
-func TestRegister(t *testing.T)        {}
-func TestGetUser(t *testing.T)         {}
+
+// TestLogin hasnt been started
+func TestLogin(t *testing.T) {}
+
+// TestRegister hasnt been started
+func TestRegister(t *testing.T) {}
+
+// TestGetUser hasnt been started
+func TestGetUser(t *testing.T) {}

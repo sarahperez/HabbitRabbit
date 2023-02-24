@@ -8,8 +8,17 @@ import (
 	"testing"
 )
 
-func TestHandleErrTest(t *testing.T)   {}
+// TestHandleErrTest hasnt been started
+func TestHandleErrTest(t *testing.T) {}
+
+// TestHashAndSaltTest hasnt been started
 func TestHashAndSaltTest(t *testing.T) {}
-func TestValidation(t *testing.T)      {}
-func TestPanicHandler(t *testing.T)    {}
-func TestValidateToken(t *testing.T)   {}
+
+// TestValidation hasnt been started
+func TestValidation(t *testing.T) {}
+
+// TestPanicHandler hasnt been started
+func TestPanicHandler(t *testing.T) {}
+
+// TestValidateToken hasnt been started
+func TestValidateToken(t *testing.T) {}

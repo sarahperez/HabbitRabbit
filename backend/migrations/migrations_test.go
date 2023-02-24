@@ -4,5 +4,8 @@ import (
 	"testing"
 )
 
+// TestCreateAccounts hasnt been started
 func TestCreateAccounts(t *testing.T) {}
-func TestMigrate(t *testing.T)        {}
+
+// TestMigrate hasnt been started
+func TestMigrate(t *testing.T) {}
