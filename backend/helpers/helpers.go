@@ -105,7 +105,3 @@ func ValidateToken(id string, jwtToken string) bool {
 		return false
 	}
 }
-
-func helpersTest() string {
-	return "helpers test is working"
-}
