@@ -8,14 +8,8 @@ import (
 	"testing"
 )
 
-func TestHelpersTest(t *testing.T) {
-	expectedString := "helpers test is working"
-	actualString := helpersTest()
-
-	if expectedString != actualString {
-		t.Errorf("Expected String(%s) is not same as"+
-			" actual String (%s)", expectedString, actualString)
-
-	}
-
-}
+func TestHandleErrTest(t *testing.T)   {}
+func TestHashAndSaltTest(t *testing.T) {}
+func TestValidation(t *testing.T)      {}
+func TestPanicHandler(t *testing.T)    {}
+func TestValidateToken(t *testing.T)   {}

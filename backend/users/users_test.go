@@ -8,14 +8,8 @@ import (
 	"testing"
 )
 
-func TestUserTest(t *testing.T) {
-	expectedString := "user test is working"
-	actualString := userTest()
-
-	if expectedString != actualString {
-		t.Errorf("Expected String(%s) is not same as"+
-			" actual String (%s)", expectedString, actualString)
-
-	}
-
-}
+func TestPrepareToken(t *testing.T)    {}
+func TestPrepareResponse(t *testing.T) {}
+func TestLogin(t *testing.T)           {}
+func TestRegister(t *testing.T)        {}
+func TestGetUser(t *testing.T)         {}

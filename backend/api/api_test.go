@@ -17,6 +17,27 @@ import (
 )
 
 // https://golang.cafe/blog/golang-httptest-example.html
+func TestreadBody(t *testing.T)    {}
+func TestapiResponse(t *testing.T) {}
+func TestLoginFunc(t *testing.T) {
+	// 	user := interfaces.User{
+	// 		Username: "testUser",
+	// 		Password: "testPass",
+	// 	}
+
+	// 	writer := makeRequest("POST", "/auth/login", user, false)
+
+	// 	assert.Equal(t, http.StatusOK, writer.Code)
+
+	// 	var response map[string]string
+	// 	json.Unmarshal(writer.Body.Bytes(), &response)
+	// 	_, exists := response["jwt"]
+
+	// 	assert.Equal(t, true, exists)
+
+}
+func TestRegisterFunc(t *testing.T) {}
+func TestGetUserFunc(t *testing.T)  {}
 func TestGoHome(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/home-page", nil)
 	w := httptest.NewRecorder()
@@ -46,21 +67,3 @@ func TestDisplayCalender(t *testing.T) {
 		t.Errorf("expected: Welcome to the calender page, get request recieved. Got: %v", string(data))
 	}
 }
-
-// func TestLoginFunc(t *testing.T) {
-// 	user := interfaces.User{
-// 		Username: "testUser",
-// 		Password: "testPass",
-// 	}
-
-// 	writer := makeRequest("POST", "/auth/login", user, false)
-
-// 	assert.Equal(t, http.StatusOK, writer.Code)
-
-// 	var response map[string]string
-// 	json.Unmarshal(writer.Body.Bytes(), &response)
-// 	_, exists := response["jwt"]
-
-// 	assert.Equal(t, true, exists)
-
-// }
