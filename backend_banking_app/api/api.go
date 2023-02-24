@@ -2,14 +2,10 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"example.com/backend_banking_app/helpers"
-	"example.com/backend_banking_app/transactions"
-	"example.com/backend_banking_app/useraccounts"
 	"example.com/backend_banking_app/users"
 
 	"github.com/gorilla/mux"
@@ -24,13 +20,6 @@ type Register struct {
 	Username string
 	Email    string
 	Password string
-}
-// this strcut is unneccesary for project
-type TransactionBody struct {
-	UserId uint
-	From   uint
-	To     uint
-	Amount int
 }
 
 // Create readBody function
@@ -61,9 +50,13 @@ func login(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal(body, &formattedBody)
 	helpers.HandleErr(err)
 
-	login := users.Login(formattedBody.Username, formattedBody.Password)
+	//login := users.Login(formattedBody.Username, formattedBody.Password)
 	// Refactor login to use apiResponse function
-	apiResponse(login, w)
+	//apiResponse(login, w)
+	w.Header().Set("Content-Type", "application/json")
+	//pass infromation back
+	w.Write([]byte(formattedBody.Username))
+	w.Write([]byte(formattedBody.Password))
 }
 
 func register(w http.ResponseWriter, r *http.Request) {
@@ -85,44 +78,4 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 	user := users.GetUser(userId, auth)
 	apiResponse(user, w)
-}
-
-//handles the userID and the authorization
-func getMyTransactions(w http.ResponseWriter, r *http.Request) {
-	//this part seems relevant
-	vars := mux.Vars(r)
-	userId := vars["userID"]
-	auth := r.Header.Get("Authorization")
-	//this doesnt because we wont have transactions to authenticate in our project
-	transactions := transactions.GetMyTransactions(userId, auth)
-	apiResponse(transactions, w)
-}
-//
-
-// Create function transaction in api
-func transaction(w http.ResponseWriter, r *http.Request) {
-	body := readBody(r)
-	auth := r.Header.Get("Authorization")
-	var formattedBody TransactionBody
-	err := json.Unmarshal(body, &formattedBody)
-	helpers.HandleErr(err)
-
-	transaction := useraccounts.Transaction(formattedBody.UserId, formattedBody.From, formattedBody.To, formattedBody.Amount, auth)
-	apiResponse(transaction, w)
-}
-
-//handle the API endpoint in the routing
-func StartApi() {
-	router := mux.NewRouter()
-	// Add panic handler middleware
-	router.Use(helpers.PanicHandler)
-	router.HandleFunc("/login", login).Methods("POST")
-	router.HandleFunc("/register", register).Methods("POST")
-	//the following will be deleted
-	router.HandleFunc("/transaction", transaction).Methods("POST")
-	router.HandleFunc("/transactions/{userID}", getMyTransactions).Methods("GET")
-	//
-	router.HandleFunc("/user/{id}", getUser).Methods("GET")
-	fmt.Println("App is working on port :8888")
-	log.Fatal(http.ListenAndServe(":8888", router))
 }

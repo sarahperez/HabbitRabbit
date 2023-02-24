@@ -33,12 +33,7 @@ func createAccounts() {
 func Migrate() {
 	User := &interfaces.User{}
 	Account := &interfaces.Account{}
-	//this can be deleted
-	Transactions := &interfaces.Transaction{}
-	//
-	database.DB.AutoMigrate(&User, &Account, &Transactions)
+	database.DB.AutoMigrate(&User, &Account)
 
 	createAccounts()
 }
-
-// Delete Migrate transactions

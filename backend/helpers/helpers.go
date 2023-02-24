@@ -1,6 +1,7 @@
 package helpers
 
 // code from https://github.com/Duomly/go-bank-backend
+//
 
 import (
 	"encoding/json"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	_ "github.com/lib/pq"
+	"github.com/usvc/go-password"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -31,7 +33,7 @@ func HashAndSalt(pass []byte) string {
 }
 
 // Create validation
-func Validation(values []interfaces.Validation) bool {
+func Validation(values []interfaces.Validation) int {
 	//checks to make sure username and id are valid
 	username := regexp.MustCompile(`^([A-Za-z0-9]{5,})+$`)
 	email := regexp.MustCompile(`^[A-Za-z0-9]+[@]+[A-Za-z0-9]+[.]+[A-Za-z]+$`)
@@ -40,19 +42,37 @@ func Validation(values []interfaces.Validation) bool {
 		switch values[i].Valid {
 		case "username":
 			if !username.MatchString(values[i].Value) {
-				return false
+				return 1
 			}
 		case "email":
 			if !email.MatchString(values[i].Value) {
-				return false
+				return 2
 			}
 		case "password":
 			if len(values[i].Value) < 5 {
-				return false
+				return 3
 			}
+
+			//------------------------------------------our added password requirements-------------------------------------
+			//https://github.com/usvc/go-password#usage
+			customPolicy := password.Policy{
+				MaximumLength:         32,
+				MinimumLength:         12,
+				MinimumLowercaseCount: 1,
+				MinimumUppercaseCount: 1,
+				MinimumNumericCount:   1,
+				MinimumSpecialCount:   1,
+				CustomSpecial:         []byte("`!@"),
+			}
+
+			if err := password.Validate(values[i].Value, customPolicy); err != nil {
+				log.Print("password is invalid")
+				return 3
+			}
+			//--------------------------------------------------------------------------------------------------------------
 		}
 	}
-	return true
+	return 0
 }
 
 // Create panic handler
@@ -84,4 +104,8 @@ func ValidateToken(id string, jwtToken string) bool {
 	} else {
 		return false
 	}
+}
+
+func helpersTest() string {
+	return "helpers test is working"
 }

@@ -53,7 +53,7 @@ func Login(username string, pass string) map[string]interface{} {
 			{Value: username, Valid: "username"},
 			{Value: pass, Valid: "password"},
 		})
-	if valid {
+	if valid == 0 {
 		user := &interfaces.User{}
 		if err := database.DB.Where("username = ? ", username).First(&user).Error; err != nil {
 			return map[string]interface{}{"message": "User not found"}
@@ -86,7 +86,7 @@ func Register(username string, email string, pass string) map[string]interface{}
 			{Value: pass, Valid: "password"},
 		})
 
-	if valid {
+	if valid == 0 {
 		generatedPassword := helpers.HashAndSalt([]byte(pass))
 		user := &interfaces.User{Username: username, Email: email, Password: generatedPassword}
 		database.DB.Create(&user)
@@ -100,10 +100,13 @@ func Register(username string, email string, pass string) map[string]interface{}
 		var response = prepareResponse(user, accounts, true)
 
 		return response
+	} else if valid == 1 {
+		return map[string]interface{}{"message": "invalid username"}
+	} else if valid == 2 {
+		return map[string]interface{}{"message": "invalid email"}
 	} else {
-		return map[string]interface{}{"message": "not valid values"}
+		return map[string]interface{}{"message": "invalid password"}
 	}
-
 }
 
 // Refactor GetUser function to use database package
@@ -123,4 +126,7 @@ func GetUser(id string, jwt string) map[string]interface{} {
 	} else {
 		return map[string]interface{}{"message": "Not valid token"}
 	}
+}
+func userTest() string {
+	return "user test is working"
 }
