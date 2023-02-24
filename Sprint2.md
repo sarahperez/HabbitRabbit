@@ -9,8 +9,16 @@ Sarah: Worked on creating component unit tests using Angular Testing. I believe 
 
 **List unit tests and Cypress tests for frontend**
 #Cypress Tests
+First simple Cypress test: Clicks calendar button on side nav and checks if the user is redirected to the calendar page.
 
 #Unit Tests
+Sidenav: Toggles sidenav button to check if the first click opens the sidenav bar and the second click closes the sidenav bar.
+Full-Calendar Component: 
+    Weekend Toggler: Checks if the weekend toggle shows weekends when button is selected and removed weekends when the button isnot selected.
+    Clicking creates new event
+    Clicking event deletes event
+Login?? May not get to this
+    Check if we can input text into text input
 
 **List unit tests for backend**
 
