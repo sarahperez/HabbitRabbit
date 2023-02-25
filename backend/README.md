@@ -4,5 +4,6 @@ Our app implements a SQLite database. Before running the server, make sure to do
 
 Make sure that you add the SQLite download to your Path environment vairiable.
 
-**Other resources we referenced:
+**Other resources we referenced:**
+
 https://medium.com/@anshap1719/getting-started-with-angular-and-go-setting-up-a-boilerplate-project-8c273b81aa6
