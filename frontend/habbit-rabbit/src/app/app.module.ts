@@ -32,7 +32,8 @@ import { LoginComponent } from './login/login.component';
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        FullCalendarModule
+        FullCalendarModule,
+        HttpClientModule
     ]
 })
 export class AppModule { }

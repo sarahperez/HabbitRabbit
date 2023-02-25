@@ -13,7 +13,7 @@ import (
 
 // Refactor createAccounts to use database package
 // parts of this arent valuable, but for the most part it is
-func createAccounts() {
+func CreateAccounts() {
 	users := &[2]interfaces.User{
 		{Username: "Martin", Email: "martin@martin.com"},
 		{Username: "Michael", Email: "michael@michael.com"},

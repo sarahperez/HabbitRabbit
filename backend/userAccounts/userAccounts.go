@@ -9,7 +9,7 @@ import (
 )
 
 // Refactor function updateAccount to use database package
-func updateAccount(id uint, amount int) interfaces.ResponseAccount {
+func UpdateAccount(id uint, amount int) interfaces.ResponseAccount {
 	account := interfaces.Account{}
 	responseAcc := interfaces.ResponseAccount{}
 
@@ -31,8 +31,4 @@ func getAccount(id uint) *interfaces.Account {
 		return nil
 	}
 	return account
-}
-
-func userAccountsTest() string {
-	return "userAccounts test is working"
 }
