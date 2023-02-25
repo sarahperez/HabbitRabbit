@@ -9,7 +9,6 @@
 //after starting the server, open a new terminal and run these comands to test get http requests:
 // curl.exe -v -X GET http://localhost:3000/home-page
 // curl.exe -v -X GET http://localhost:3000/calendar
-//curl.exe -v -X POST https://localhost:8888/login -H 'Content-Type: application/json' -d "@userInfo.json"
 
 //run these commands to test post http requests:
 //curl.exe -v -X POST http://localhost:3000/home-page -H 'Content-Type: application/json' -d "@userInfo.json"
