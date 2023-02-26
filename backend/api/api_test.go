@@ -17,6 +17,37 @@ import (
 )
 
 // https://golang.cafe/blog/golang-httptest-example.html
+
+// TestReadBody hasnt been started
+func TestReadBody(t *testing.T) {}
+
+// TestApiResponse hasnt been started
+func TestApiResponse(t *testing.T) {}
+
+// TestLoginFunc does not run
+func TestLoginFunc(t *testing.T) {
+	user := interfaces.User{
+		Username: "testUser",
+		Password: "testPass",
+	}
+
+	writer := makeRequest("POST", "/auth/login", user, false)
+
+	assert.Equal(t, http.StatusOK, writer.Code)
+
+	var response map[string]string
+	json.Unmarshal(writer.Body.Bytes(), &response)
+	_, exists := response["jwt"]
+	assert.Equal(t, true, exists)
+}
+
+// TestRegisterFunc hasnt been started
+func TestRegisterFunc(t *testing.T) {}
+
+// TestGetUserFunc hasnt been started
+func TestGetUserFunc(t *testing.T) {}
+
+// TestGoHome runs and passes
 func TestGoHome(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/home-page", nil)
 	w := httptest.NewRecorder()
@@ -32,6 +63,7 @@ func TestGoHome(t *testing.T) {
 	}
 }
 
+// TestDisplayCalender runs and passes
 func TestDisplayCalender(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/calender-page", nil)
 	w := httptest.NewRecorder()
@@ -46,21 +78,3 @@ func TestDisplayCalender(t *testing.T) {
 		t.Errorf("expected: Welcome to the calender page, get request recieved. Got: %v", string(data))
 	}
 }
-
-// func TestLoginFunc(t *testing.T) {
-// 	user := interfaces.User{
-// 		Username: "testUser",
-// 		Password: "testPass",
-// 	}
-
-// 	writer := makeRequest("POST", "/auth/login", user, false)
-
-// 	assert.Equal(t, http.StatusOK, writer.Code)
-
-// 	var response map[string]string
-// 	json.Unmarshal(writer.Body.Bytes(), &response)
-// 	_, exists := response["jwt"]
-
-// 	assert.Equal(t, true, exists)
-
-// }
