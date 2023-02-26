@@ -18,5 +18,7 @@ var DB *gorm.DB
 func InitDatabase() {
 	database, err := gorm.Open(sqlite.Open("backend.db"), &gorm.Config{})
 	helpers.HandleErr(err)
+	database.DB().SetMaxIdleConns(20)
+	database.DB().SetMaxOpenConns(200)
 	DB = database
 }

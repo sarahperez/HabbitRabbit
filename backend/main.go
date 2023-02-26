@@ -50,14 +50,14 @@ func main() {
 	mux := mux.NewRouter()
 	mux.HandleFunc("/home-page", api.GoHome)
 	mux.HandleFunc("/calendar", api.DisplayCalendar)
-	mux.HandleFunc("/login", api.LoginFunc).Methods("POST")
+	mux.HandleFunc("/login/", api.LoginFunc).Methods("POST")
 	mux.HandleFunc("/register", api.RegisterFunc).Methods("POST")
 
 	//trying to add in a handler for all cases where URL does NOT match one of the above linked to the mux
 	//mux.PathPrefix("/").Handler()
 
 	//set port (backend)
-	const port = 3000
+	const port = 8888
 	//server will run on local host (your pc address)
 	const server = "localhost"
 
