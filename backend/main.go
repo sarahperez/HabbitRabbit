@@ -18,6 +18,7 @@
 //curl.exe -v -X POST http://localhost:3000/register -H 'Content-Type: application/json' -d "@userInfo.json"
 
 // ctrl + c to terminate the server after using command go run .
+//more comments
 
 package main
 
