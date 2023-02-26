@@ -54,7 +54,9 @@ func apiResponse(call map[string]interface{}, w http.ResponseWriter) {
 }
 
 func LoginFunc(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	// Refactor login to use readBody
+	log.Print("inside loginfunc")
 	body := readBody(r)
 
 	var formattedBody Login
@@ -151,6 +153,16 @@ func DisplayCalendar(w http.ResponseWriter, request *http.Request) {
 		//need to pass infromation in as a string of bytes
 		w.Write([]byte("Welcome to the calendar page, post request recieved"))
 	}
+}
+
+func Options(w http.ResponseWriter, request *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	log.Printf("inside options")
+	w.Header().Set("Content-Type", "application/text")
+	//need to pass infromation in as a string of bytes
+	w.Write([]byte("options recieved"))
+
 }
 
 func defaultFunc() {
