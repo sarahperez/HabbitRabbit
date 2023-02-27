@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { INITIAL_EVENTS } from '../calendar/event-utils';
 
 @Component({
   selector: 'app-full-calendar',
