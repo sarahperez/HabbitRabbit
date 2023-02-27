@@ -75,7 +75,7 @@ func main() {
 	//router.HandleFunc("/", api.Options).Methods("OPTIONS")
 
 	//set port (backend)
-	const port = 8888
+	const port = 3000
 	//server will run on local host (your pc address)
 	const server = "localhost"
 
