@@ -39,7 +39,7 @@ This function still needs to be implemented with our front end. As a preliminary
 
 **Testing**
 
-We have multiple testing files throughout the back end. Most of these are unit tests can can be run by opening a terminal, navigating into the desired folder (for example: HabbitRabbit\backend\users) and then run the following command: ```go test```
+We have multiple testing files throughout the back end. Most of these are unit tests can can be run by opening a terminal, navigating into the desired folder (for example: HabbitRabbit\backend\users) and then run the following command: ```go test -v```
 
 
 **Other resources we referenced:**
