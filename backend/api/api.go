@@ -25,13 +25,6 @@ type Register struct {
 	Password string
 }
 
-type TransactionBody struct {
-	UserId uint
-	From   uint
-	To     uint
-	Amount int
-}
-
 // Create readBody function
 func readBody(r *http.Request) []byte {
 	body, err := io.ReadAll(r.Body)
@@ -53,19 +46,32 @@ func apiResponse(call map[string]interface{}, w http.ResponseWriter) {
 	}
 }
 
-func LoginFunc(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	// Refactor login to use readBody
-	log.Print("inside loginfunc")
-	body := readBody(r)
+func LoginFunc(w http.ResponseWriter, request *http.Request) {
+	//
+	switch request.Method {
+	case http.MethodOptions:
+		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
+		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
+		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
+		return
+	case http.MethodPost:
+		//once the Preflight request is handled, then we can handle the post request that follows normally
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		log.Print("inside loginfunc")
 
-	var formattedBody Login
-	err := json.Unmarshal(body, &formattedBody)
-	helpers.HandleErr(err)
+		// Refactor login to use readBody
+		body := readBody(request)
+		var formattedBody Login
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
 
-	login := users.Login(formattedBody.Username, formattedBody.Password)
-	// Refactor login to use apiResponse function
-	apiResponse(login, w)
+		login := users.Login(formattedBody.Username, formattedBody.Password)
+		// Refactor login to use apiResponse function
+		apiResponse(login, w)
+	}
 }
 
 func RegisterFunc(w http.ResponseWriter, r *http.Request) {
@@ -153,16 +159,6 @@ func DisplayCalendar(w http.ResponseWriter, request *http.Request) {
 		//need to pass infromation in as a string of bytes
 		w.Write([]byte("Welcome to the calendar page, post request recieved"))
 	}
-}
-
-func Options(w http.ResponseWriter, request *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "*")
-	log.Printf("inside options")
-	w.Header().Set("Content-Type", "application/text")
-	//need to pass infromation in as a string of bytes
-	w.Write([]byte("options recieved"))
-
 }
 
 func defaultFunc() {
