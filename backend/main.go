@@ -31,6 +31,7 @@ import (
 	//packages added from tutorial
 
 	"main/api"
+	"main/database"
 
 	"github.com/gorilla/mux"
 )
@@ -58,6 +59,9 @@ func loggingMiddleware(next http.Handler) http.Handler {
 // Main+functions were modified from: https://medium.com/@anshap1719/getting-started-with-angular-and-go-setting-up-a-boilerplate-project-8c273b81aa6
 // the main function start the server
 func main() {
+
+	database.InitDatabase()
+
 	//initalizing an HTTP request multiplexer- this can check to see if any of the incoming url match
 	//those we load it with and then run the appropriate functions
 	router := mux.NewRouter()

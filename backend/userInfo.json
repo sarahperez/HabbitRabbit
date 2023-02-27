@@ -1,5 +1,5 @@
 {
     "username": "shouldPass",
-	"email": "pass@gmail.com",
+    "email": "shouldbeValid@gmail.com",
 	"password": "validPassword345!"
 }
