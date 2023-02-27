@@ -25,6 +25,7 @@ func HandleErr(err error) {
 	}
 }
 
+// function to hash passwords for security
 func HashAndSalt(pass []byte) string {
 	hashed, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
 	HandleErr(err)
@@ -77,9 +78,9 @@ func EmailValidation(email string) bool {
 	customPolicy := password.Policy{
 		MaximumLength:         32,
 		MinimumLength:         6,
-		MinimumLowercaseCount: 1,
-		MinimumUppercaseCount: 1,
-		MinimumNumericCount:   1,
+		MinimumLowercaseCount: 0,
+		MinimumUppercaseCount: 0,
+		MinimumNumericCount:   0,
 		MinimumSpecialCount:   1,
 		CustomSpecial:         []byte(".@"),
 	}
@@ -106,6 +107,7 @@ func PanicHandler(next http.Handler) http.Handler {
 	})
 }
 
+// token validation function
 func ValidateToken(id string, jwtToken string) bool {
 	cleanJWT := strings.Replace(jwtToken, "Bearer ", "", -1)
 	tokenData := jwt.MapClaims{}
