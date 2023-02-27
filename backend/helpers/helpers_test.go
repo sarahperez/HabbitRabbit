@@ -29,7 +29,7 @@ func TestPasswordValidation(t *testing.T) {
 	if PasswordValidation("B@d1") == true {
 		t.Errorf("password validation isnt working, short password returned true")
 	}
-	if PasswordValidation("Testingre@1lyreallyreallylongusername") == true {
+	if PasswordValidation("Testingre@1lyreallyreallylongpassword") == true {
 		t.Errorf("password validation isnt working, long password returned true")
 	}
 	if PasswordValidation("n0upperc@se") == true {
@@ -48,7 +48,24 @@ func TestPasswordValidation(t *testing.T) {
 }
 
 // TestEmailValidation is working
-func TestEmailValidation(t *testing.T) {}
+func TestEmailValidation(t *testing.T) {
+	if EmailValidation("B.@d1") == true {
+		t.Errorf("email validation isnt working, short email returned true")
+	}
+	if PasswordValidation("Testingre@.1lyreallyreallylongemail") == true {
+		t.Errorf("email validation isnt working, long email returned true")
+	}
+	if PasswordValidation("noatorperiodsymbolcom") == true {
+		t.Errorf("email validation isnt working, email with no @ and . returned true")
+	}
+	if PasswordValidation("@noperiodsymbolcom") == true {
+		t.Errorf("email validation isnt working, email with no . returned true")
+	}
+	if PasswordValidation("noatsymbol.com") == true {
+		t.Errorf("email validation isnt working, email with no @ returned true")
+	}
+
+}
 
 // TestPanicHandler hasnt been started
 func TestPanicHandler(t *testing.T) {}
