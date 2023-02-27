@@ -1,7 +1,6 @@
 package helpers
 
 // code from https://github.com/Duomly/go-bank-backend
-//
 
 import (
 	"encoding/json"
@@ -15,7 +14,9 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	_ "github.com/lib/pq"
-	"github.com/usvc/go-password"
+
+	"main/password"
+
 	"golang.org/x/crypto/bcrypt"
 )
 

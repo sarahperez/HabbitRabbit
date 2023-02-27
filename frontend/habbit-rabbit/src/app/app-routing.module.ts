@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
-    { path: 'login', component: LoginComponent },
+    { path: 'login', component: LoginComponent},
     { path: 'home', component: HomeComponent, canActivate: [AuthGuardGuard] },
     { path: 'calendar', component: CalendarComponent }
   ];

@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class LoginService {
-  ulr: any = 'http://localhost:4200/login';
+  url: any = 'http://localhost:3000/login';
   errorSubject: any = new BehaviorSubject<any>(null);
   errorMessage: any = this.errorSubject.asObservable();
 
@@ -23,9 +23,10 @@ export class LoginService {
   ) { }
 
   login(Username: string, Password: string): any {
-    this.http.post(this.ulr, { Username, Password }, httpOptions).toPromise().then((res: any) => {
-      if (res && res.jwt) {
-        sessionStorage.setItem('jwt', res.jwt);
+    this.http.post(this.url, { "username": Username, "password": Password }).toPromise().then((res: any) => {
+      //if (res && res.jwt)
+      if (res) {
+        //sessionStorage.setItem('jwt', res.jwt);
         this.errorSubject.next(null);
         this.router.navigateByUrl('home');
       } else if (res.Message) {
