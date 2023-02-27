@@ -38,20 +38,21 @@ func Validation(values []interfaces.Validation) int {
 	//checks to make sure username and id are valid
 	username := regexp.MustCompile(`^([A-Za-z0-9]{5,})+$`)
 	email := regexp.MustCompile(`^[A-Za-z0-9]+[@]+[A-Za-z0-9]+[.]+[A-Za-z]+$`)
+	var ret = 0
 
 	for i := 0; i < len(values); i++ {
 		switch values[i].Valid {
 		case "username":
 			if !username.MatchString(values[i].Value) {
-				return 1
+				ret = 1
 			}
 		case "email":
 			if !email.MatchString(values[i].Value) {
-				return 2
+				ret = ret + 3
 			}
 		case "password":
 			if len(values[i].Value) < 5 {
-				return 3
+				return ret + 5
 			}
 
 			//------------------------------------------our added password requirements-------------------------------------
@@ -68,12 +69,68 @@ func Validation(values []interfaces.Validation) int {
 
 			if err := password.Validate(values[i].Value, customPolicy); err != nil {
 				log.Print("password is invalid")
-				return 3
+				return ret + 5
 			}
 			//--------------------------------------------------------------------------------------------------------------
 		}
 	}
 	return 0
+}
+
+// Create validation
+func UsernameValidation(username string) bool {
+
+	//https://github.com/usvc/go-password#usage
+	customPolicy := password.Policy{
+		MaximumLength:         32,
+		MinimumLength:         6,
+		MinimumLowercaseCount: 0,
+		MinimumUppercaseCount: 0,
+		MinimumNumericCount:   0,
+		MinimumSpecialCount:   0,
+		CustomSpecial:         []byte("~`!@#$%^&*()_-=+[{]}\\|;:'\"<>./?"),
+	}
+
+	if err := password.Validate(username, customPolicy); err != nil {
+		return false
+	}
+	return true
+}
+
+func PasswordValidation(pass string) bool {
+	//https://github.com/usvc/go-password#usage
+	customPolicy := password.Policy{
+		MaximumLength:         32,
+		MinimumLength:         6,
+		MinimumLowercaseCount: 1,
+		MinimumUppercaseCount: 1,
+		MinimumNumericCount:   1,
+		MinimumSpecialCount:   1,
+		CustomSpecial:         []byte("~`!@#$%^&*()_-=+[{]}\\|;:'\"<>./?"),
+	}
+
+	if err := password.Validate(pass, customPolicy); err != nil {
+		return false
+	}
+	return true
+}
+
+func EmailValidation(email string) bool {
+	//https://github.com/usvc/go-password#usage
+	customPolicy := password.Policy{
+		MaximumLength:         32,
+		MinimumLength:         6,
+		MinimumLowercaseCount: 1,
+		MinimumUppercaseCount: 1,
+		MinimumNumericCount:   1,
+		MinimumSpecialCount:   1,
+		CustomSpecial:         []byte(".@"),
+	}
+
+	if err := password.Validate(email, customPolicy); err != nil {
+		return false
+	}
+	return true
 }
 
 // Create panic handler
