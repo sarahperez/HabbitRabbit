@@ -25,6 +25,7 @@ func HandleErr(err error) {
 	}
 }
 
+// function to hash passwords for security
 func HashAndSalt(pass []byte) string {
 	hashed, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
 	HandleErr(err)
