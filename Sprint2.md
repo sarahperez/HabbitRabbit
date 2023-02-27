@@ -1,6 +1,6 @@
 # **Work You've Completed in Sprint 2**
 
-**Front-end Team:**
+**Frontend Team:**
 
 2/13/2023
 Sarah: I worked on setting up Cypress. Downloaded Cypress to the correct directory and created our first simple test. The test checks that the calendar page opens and has a certain URL. Next I will work on component testing using Cypress.
