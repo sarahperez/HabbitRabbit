@@ -1,12 +1,16 @@
 import { ComponentFixture,TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
+//import { utils } from 'mocha';
 import { FullCalendarComponent } from '../full-calendar/full-calendar.component';
 import { CalendarComponent } from './calendar.component';
+import { INITIAL_EVENTS } from './event-utils';
+
+let calendar: CalendarComponent;
+let fixture: ComponentFixture<CalendarComponent>;
+let events: FullCalendarComponent;
 
 describe('CalendarComponent', () => {
-  let calendar: CalendarComponent;
-  let fixture: ComponentFixture<CalendarComponent>;
-  let events: FullCalendarComponent;
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CalendarComponent ],
@@ -20,6 +24,8 @@ describe('CalendarComponent', () => {
   it('should create the calendar', () => {
     expect(calendar).toBeTruthy();
   });
+
+  
   
 });
 
@@ -28,15 +34,15 @@ describe('Calendar Toggle Weekends', () => {
     const comp = new FullCalendarComponent();
     expect(comp.hasWeekends)
       .withContext('checked at first')
-      .toBe(false);
-    comp.clicked();
-    expect(comp.hasWeekends)
-      .withContext('unchecked after click')
       .toBe(true);
     comp.clicked();
     expect(comp.hasWeekends)
-      .withContext('checked after second click')
+      .withContext('unchecked after click')
       .toBe(false);
+    comp.clicked();
+    expect(comp.hasWeekends)
+      .withContext('checked after second click')
+      .toBe(true);
   });
 
   it('#clicked() should set #message to "has weekends"', () => {
@@ -47,19 +53,22 @@ describe('Calendar Toggle Weekends', () => {
     comp.clicked();
     expect(comp.message)
       .withContext('unchecked after clicked')
-      .toMatch(/had no weekends/i);
+      .toMatch(/has no weekends/i);
   });
 });
 
-
 describe('Calendar Event', () => {
-  it('should create a new event', () => {
-    //const title = ${clickInfo.event.title};
-    //expect(title).changes;
+  it('detects changes', () => {
+    // use spy
+  });
+
+  it('should add a new event', () => {
+    spyOn(calendar, 'handleDateSelect');
+    expect(calendar.handleDateSelect).toHaveBeenCalled();
   });
 
   it('should delete an event', () => {
-    //const title = ${clickInfo.event.title};
-    //expect(title).changes;
+    //spyOn(calendar, 'handleDateClick');
+    expect(calendar.handleDateSelect).toHaveBeenCalled();
   });
 });

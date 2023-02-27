@@ -35,5 +35,5 @@ func Migrate() {
 	Account := &interfaces.Account{}
 	database.DB.AutoMigrate(&User, &Account)
 
-	createAccounts()
+	CreateAccounts()
 }
