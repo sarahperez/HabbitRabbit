@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"regexp"
 	"strconv"
 	"strings"
 
@@ -33,51 +32,7 @@ func HashAndSalt(pass []byte) string {
 	return string(hashed)
 }
 
-// Create validation
-func Validation(values []interfaces.Validation) int {
-	//checks to make sure username and id are valid
-	username := regexp.MustCompile(`^([A-Za-z0-9]{5,})+$`)
-	email := regexp.MustCompile(`^[A-Za-z0-9]+[@]+[A-Za-z0-9]+[.]+[A-Za-z]+$`)
-	var ret = 0
-
-	for i := 0; i < len(values); i++ {
-		switch values[i].Valid {
-		case "username":
-			if !username.MatchString(values[i].Value) {
-				ret = 1
-			}
-		case "email":
-			if !email.MatchString(values[i].Value) {
-				ret = ret + 3
-			}
-		case "password":
-			if len(values[i].Value) < 5 {
-				return ret + 5
-			}
-
-			//------------------------------------------our added password requirements-------------------------------------
-			//https://github.com/usvc/go-password#usage
-			customPolicy := password.Policy{
-				MaximumLength:         32,
-				MinimumLength:         12,
-				MinimumLowercaseCount: 1,
-				MinimumUppercaseCount: 1,
-				MinimumNumericCount:   1,
-				MinimumSpecialCount:   1,
-				CustomSpecial:         []byte("`!@"),
-			}
-
-			if err := password.Validate(values[i].Value, customPolicy); err != nil {
-				log.Print("password is invalid")
-				return ret + 5
-			}
-			//--------------------------------------------------------------------------------------------------------------
-		}
-	}
-	return 0
-}
-
-// Create validation
+// function to check if username is valid
 func UsernameValidation(username string) bool {
 
 	//https://github.com/usvc/go-password#usage
@@ -97,6 +52,7 @@ func UsernameValidation(username string) bool {
 	return true
 }
 
+// function to check if password is valid
 func PasswordValidation(pass string) bool {
 	//https://github.com/usvc/go-password#usage
 	customPolicy := password.Policy{
@@ -115,14 +71,15 @@ func PasswordValidation(pass string) bool {
 	return true
 }
 
+// check to see if email is valid
 func EmailValidation(email string) bool {
 	//https://github.com/usvc/go-password#usage
 	customPolicy := password.Policy{
 		MaximumLength:         32,
 		MinimumLength:         6,
-		MinimumLowercaseCount: 1,
-		MinimumUppercaseCount: 1,
-		MinimumNumericCount:   1,
+		MinimumLowercaseCount: 0,
+		MinimumUppercaseCount: 0,
+		MinimumNumericCount:   0,
 		MinimumSpecialCount:   1,
 		CustomSpecial:         []byte(".@"),
 	}
