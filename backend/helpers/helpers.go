@@ -81,7 +81,7 @@ func EmailValidation(email string) bool {
 		MinimumLowercaseCount: 0,
 		MinimumUppercaseCount: 0,
 		MinimumNumericCount:   0,
-		MinimumSpecialCount:   1,
+		MinimumSpecialCount:   2,
 		CustomSpecial:         []byte(".@"),
 	}
 
