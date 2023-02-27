@@ -58,10 +58,6 @@ describe('Calendar Toggle Weekends', () => {
 });
 
 describe('Calendar Event', () => {
-  it('detects changes', () => {
-    // use spy
-  });
-
   it('should add a new event', () => {
     spyOn(calendar, 'handleDateSelect');
     expect(calendar.handleDateSelect).toHaveBeenCalled();

@@ -6,6 +6,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
 
+interface SideNavToggle{
+  screenWidth: number;
+  collapsed: boolean;
+}
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -13,6 +18,14 @@ import { INITIAL_EVENTS, createEventId } from './event-utils';
 })
 
 export class CalendarComponent {
+  //Sidenav stuff
+  isSideNavCollapsed = false;
+  screenWidth=0;
+  onToggleSideNav(data: SideNavToggle): void{
+    this.screenWidth = data.screenWidth;
+    this.isSideNavCollapsed = data.collapsed;
+  }
+
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
     plugins: [
