@@ -77,9 +77,9 @@ func EmailValidation(email string) bool {
 	customPolicy := password.Policy{
 		MaximumLength:         32,
 		MinimumLength:         6,
-		MinimumLowercaseCount: 1,
-		MinimumUppercaseCount: 1,
-		MinimumNumericCount:   1,
+		MinimumLowercaseCount: 0,
+		MinimumUppercaseCount: 0,
+		MinimumNumericCount:   0,
 		MinimumSpecialCount:   1,
 		CustomSpecial:         []byte(".@"),
 	}
