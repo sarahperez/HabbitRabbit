@@ -18,8 +18,12 @@ import (
 
 // https://golang.cafe/blog/golang-httptest-example.html
 
-// TestReadBody hasnt been started
-func TestReadBody(t *testing.T) {}
+// TestReadBody has been started
+func TestReadBody(t *testing.T) {
+	//req := httptest.NewRequest(http.MethodGet, nil)
+	//actualBody := readBody(req)
+
+}
 
 // TestApiResponse hasnt been started
 func TestApiResponse(t *testing.T) {}
