@@ -5,32 +5,20 @@
 package userAccounts
 
 import (
-	"main/interfaces"
 	"testing"
 )
 
 // TestUpdateAccount isnt running
-//func TestUpdateAccount(t *testing.T) {
-//expectedAccount := interfaces.Account{}
-//expectedRespAcc := interfaces.ResponseAccount{}
+func TestUpdateAccount(t *testing.T) {
+	if UpdateAccount(2, 500).Balance != 500 && UpdateAccount(2, 500).ID != 1 && UpdateAccount(2, 500).Name != "Michael" {
+		t.Errorf("update account isnt working")
+	}
 
-//database.DB.Where("id = ? ", 1000).First(&expectedAccount)
-//expectedAccount.Balance = uint(56)
-//database.DB.Save(&expectedAccount)
+}
 
-//expectedRespAcc.ID = expectedAccount.ID
-//expectedRespAcc.Name = expectedAccount.Name
-//expectedRespAcc.Balance = int(expectedAccount.Balance)
-
-//actualRespAcc := UpdateAccount(1000, 56)
-
-//if expectedRespAcc != actualRespAcc {
-//	t.Errorf("expected error to be nil got %v", actualRespAcc)
-//}
-
-//}
-
-// TestGetAccount hasnt been started
+// TestGetAccount isnt running
 func TestGetAccount(t *testing.T) {
-
+	if getAccount(1).Name != "Martin" {
+		t.Errorf("Get account isnt working correctly")
+	}
 }
