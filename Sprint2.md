@@ -4,7 +4,7 @@
 
 Sarah: Worked on setting up Cypress. Downloaded Cypress to the correct directory and created our first simple test. The test checks that the calendar page opens and has a certain URL. Will next work on component testing using Cypress. Worked on creating component unit tests using Angular Testing. I believe that I will be unit testing with Angular Testing then E2E testing using Cypress. Today I created a unit test to test the functionality of our sideNav toggling. Created more unit tests for the full calendar component.
 
-Alexa: Created login page that user is imediately directed to upon serving project. If user begins typing an invalid username (numbers and letters only) a message warning them will pop up. When the submit button is clicked, the user and password information is sent to the backend to check if the user is registered and if they are and the password is correct, the login function will execute which will direct the user to their homepage. Currently trying to figure out component organization for the side nav so it is constantly visibly as of the app component but is hidden when on login page.
+Alexa: Created login page that user is immediately directed to upon serving project. If user begins typing an invalid username (numbers and letters only) a message warning them will pop up. When the submit button is clicked, the user and password information is sent to the backend to check if the user is registered and if they are and the password is correct, the login function will execute which will direct the user to their homepage. Currently trying to figure out component organization for the side nav so it is constantly visible as of the app component but is hidden when on login page.
 
 **Backend Team:**
 
