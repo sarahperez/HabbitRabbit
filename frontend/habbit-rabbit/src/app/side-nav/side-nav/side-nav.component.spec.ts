@@ -22,6 +22,7 @@ describe('SideNavComponent', () => {
   });
 });
 
+//Reference for this test: https://angular.io/guide/testing-components-basics
 describe('SideNavComp', () => {
   it('#clicked() should toggle #isOpen', () => {
     const comp = new SideNavComponent();
