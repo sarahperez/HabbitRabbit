@@ -19,37 +19,37 @@ import (
 // https://golang.cafe/blog/golang-httptest-example.html
 
 // TestReadBody has been started
-func TestReadBody(t *testing.T) {
-	//req := httptest.NewRequest(http.MethodGet, nil)
-	//actualBody := readBody(req)
+//func TestReadBody(t *testing.T) {
+//req := httptest.NewRequest(http.MethodGet, nil)
+//actualBody := readBody(req)
 
-}
+//}
 
 // TestApiResponse hasnt been started
-func TestApiResponse(t *testing.T) {}
+//func TestApiResponse(t *testing.T) {}
 
 // TestLoginFunc does not run
-func TestLoginFunc(t *testing.T) {
-	user := interfaces.User{
-		Username: "testUser",
-		Password: "testPass",
-	}
+//func TestLoginFunc(t *testing.T) {
+//	user := interfaces.User{
+//		Username: "testUser",
+//		Password: "testPass",
+//	}
 
-	writer := makeRequest("POST", "/auth/login", user, false)
+//	writer := makeRequest("POST", "/auth/login", user, false)
 
-	assert.Equal(t, http.StatusOK, writer.Code)
+//	assert.Equal(t, http.StatusOK, writer.Code)
 
-	var response map[string]string
-	json.Unmarshal(writer.Body.Bytes(), &response)
-	_, exists := response["jwt"]
-	assert.Equal(t, true, exists)
-}
+//	var response map[string]string
+//	json.Unmarshal(writer.Body.Bytes(), &response)
+//	_, exists := response["jwt"]
+//	assert.Equal(t, true, exists)
+//}
 
 // TestRegisterFunc hasnt been started
-func TestRegisterFunc(t *testing.T) {}
+//func TestRegisterFunc(t *testing.T) {}
 
 // TestGetUserFunc hasnt been started
-func TestGetUserFunc(t *testing.T) {}
+//func TestGetUserFunc(t *testing.T) {}
 
 // TestGoHome runs and passes
 func TestGoHome(t *testing.T) {

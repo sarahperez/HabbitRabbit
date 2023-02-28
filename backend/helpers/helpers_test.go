@@ -9,7 +9,7 @@ import (
 )
 
 // TestHandleErrTest hasnt been started
-func TestHandleErrTest(t *testing.T) {}
+//func TestHandleErrTest(t *testing.T) {}
 
 // TestHashAndSaltTest is working
 func TestHashAndSaltTest(t *testing.T) {
@@ -74,7 +74,7 @@ func TestEmailValidation(t *testing.T) {
 }
 
 // TestPanicHandler hasnt been started
-func TestPanicHandler(t *testing.T) {}
+//func TestPanicHandler(t *testing.T) {}
 
 // TestValidateToken hasnt been started
-func TestValidateToken(t *testing.T) {}
+//func TestValidateToken(t *testing.T) {}
