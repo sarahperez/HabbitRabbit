@@ -11,8 +11,14 @@ import (
 // TestHandleErrTest hasnt been started
 func TestHandleErrTest(t *testing.T) {}
 
-// TestHashAndSaltTest hasnt been started
-func TestHashAndSaltTest(t *testing.T) {}
+// TestHashAndSaltTest is working
+func TestHashAndSaltTest(t *testing.T) {
+	testPword := []byte("testing")
+	hashed := HashAndSalt(testPword)
+	if "testing" == hashed {
+		t.Errorf("hash and salt did not work, returned the same string")
+	}
+}
 
 // TestUsernameValidation is working
 func TestUsernameValidation(t *testing.T) {
