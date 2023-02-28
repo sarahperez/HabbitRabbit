@@ -43,6 +43,7 @@ Summary:
         -TestUsernameValidation
         -TestPasswordValidation
         -TestEmailValidation
+        -TestHashAndSalt
 
     Unit tests that are in the process of being implemented:
      -TestLoginFunc
