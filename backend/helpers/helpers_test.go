@@ -5,6 +5,7 @@
 package helpers
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -15,6 +16,7 @@ import (
 func TestHashAndSaltTest(t *testing.T) {
 	testPword := []byte("testing")
 	hashed := HashAndSalt(testPword)
+	fmt.Println("Salted Hash: ", hashed)
 	if "testing" == hashed {
 		t.Errorf("hash and salt did not work, returned the same string")
 	}
