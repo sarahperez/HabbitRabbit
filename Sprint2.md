@@ -28,6 +28,26 @@ Login?? May not get to this
     We did not get to this because we implemented our login was he most recently implemented
 
 # **Unit tests for Backend:**
+For unit testing in the backend, we decided to use the testing package that Golang already offers. 
+
+Although many tests have been written, we found it important to have functions for testing GoHome and DisplayCalendar for this Sprint since we were integrating the frontend and the backend. These unit testing functions allowed us to test the handler response by making sure the response recorder returned the response that was expected. Both these functions are implemented and are passing. 
+
+Some other important unit testing functions that were implemented were the validation functions for the email, username, and password. These functions checked to make sure invalid passwords, usernames, and emails were caught, and to make sure every requirement for these were met. All of these functions are implemented and are passing. We are continuing to work on implementing more testing functions and getting them to run, however we found it more important to focus on those most relevant to this sprint, as we wanted to highlight those.
+
+Summary:
+    Unit Tests that are implemented, running, and passing:
+        -TestGoHome
+        -TestDisplayCalender
+        -TestUsernameValidation
+        -TestPasswordValidation
+        -TestEmailValidation
+
+    Unit tests that are in the process of being implemented:
+     -TestLoginFunc
+     -TestGetAccount 
+     -TestUpdateAccount
+     -TestPrepareToken
+
 
 # **Documentation For Your Backend API- (The following summary can also be found in the readme.md file inside the backend folder)**
 
