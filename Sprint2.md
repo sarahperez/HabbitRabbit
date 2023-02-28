@@ -16,9 +16,9 @@ Sidenav: Toggles sidenav button to check if the first click opens the sidenav ba
 Full-Calendar Component: 
     Weekend Toggler: Checks if the weekend toggle shows weekends when button is selected and removed weekends when the button is not selected.
 
-----------------------------------------------Following Tests are not currently passing------------------------------------------------------------
+--------------------------------------------------Following Tests are not currently passing------------------------------------------------------------
 
-    Clicking creates new event: Checks to see if date selects function is called. This function adds a new event. 
+    Clicking creates new event: Checks to see if date selects function is called. This function adds a new event.
     Clicking event deletes event Checks to see if date click function is called. This function deleted the event thats clicked.
 Login Component: Since the login page and related functionality was being worked on up until very recently, tests for this function were not made however, this is our first priority for frontend testing in our next sprint.
 
