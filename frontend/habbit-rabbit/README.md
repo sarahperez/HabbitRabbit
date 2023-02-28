@@ -1,6 +1,6 @@
 # HabbitRabbit
 
-Navigation tutorial followed: https://www.youtube.com/watch?v=rAWlJMe_7rg
+Navigation tutorial followed: https://www.youtube.com/watch?v=rAWlJMe_7rg  
 Log in form and connection to backend adapted from https://github.com/Duomly/angular9-tailwind-bank-frontend/tree/Angular9-TailwindCSS-Course-Lesson3
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.3.
