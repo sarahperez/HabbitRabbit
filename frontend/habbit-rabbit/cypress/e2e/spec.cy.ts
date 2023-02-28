@@ -5,7 +5,7 @@ describe('Calendar Page Test', () => {
     cy.get('.username-input').type('sarahperez14');
     cy.get('.password-input').type('C0tt0nc4ndy!');
 
-    cy.contains('Sign').click();
+    cy.get('.sign-in-button').click();
     cy.location('pathname').should('match', /\/home$/);
     //cy.contains('full-calendar').should('be.visible');
   })
