@@ -9,23 +9,25 @@ Alexa: Worked on creating login component to link front and back ends
 2/15/2023
 Sarah: Worked on creating component unit tests using Angular Testing. I believe that I will be unit testing with Angular Testing then E2E testing using Cypress. Today I created a unit test to test the functionality of our sideNav toggling.
 
+Created more unit tests for the full calendar component.
+
 **Backend Team:**
 
 Combined our server with helpful packages and functions from the Backend Banking App tutorial we followed, allowing us to edit and utilize their implementation with our backend functionality. We set up a SQLite database to store the necessary data for our program and famalizarized ourselves with sqlit3 commands to follow our program's interaction with the database. We edited the validation functions from the banking app tutorial to be more streamlined by breaking a singular validation function into three separate functions to handle usernames, passwords, and email addresses separately. We edited the requirements set for valid usernames, passwords, and email addresses. We integrated a Go password package we found online to make these edits. Further, we edited the login and registration functions so that when an invalid parameter is passed in, it is specified in the output what parameter is invalid. We also added a feature to the registration function that checks the passes in username and email to make sure that they are not already associated with a user in our database (this will prevent multiple registered users with the same username or password). We began to incorperate router functions to handle the "OPTIONS" method preflight requests and overall better familarized ourselves with the HTTP request protocol. We resolved issues with our CORS handler (through further reading the Gorilla Mux doccumentation). We also implemented unit testing on most of the functions in our program.
 
 # **Unit Tests and Cypress Tests for Frontend**
 #Cypress Tests
-First simple Cypress test: Clicks calendar button on side nav and checks if the user is redirected to the calendar page. 
+First simple Cypress test: Clicks calendar button on side nav and checks if the user is redirected to the calendar page. This unit test was passing then we implemented the login page. Since the test does not account for the login page, this test is not surrently passing.
 
 #Unit Tests
 Sidenav: Toggles sidenav button to check if the first click opens the sidenav bar and the second click closes the sidenav bar.
 Full-Calendar Component: 
     Weekend Toggler: Checks if the weekend toggle shows weekends when button is selected and removed weekends when the button is not selected.
-    Clicking creates new event
-    Clicking event deletes event
+    Clicking creates new event: Checks to see if date selects function is called. This function adds a new event. 
+    Clicking event deletes event; Checks to see if date click function is called. This function deleted the event thats clicked.
 Login?? May not get to this
     Check if we can input text into text input
-    We did not get to this because we implemented our login was he most recently implemented
+    We did not get to this because our login was the most recently implemented. This will be tested in a later sprint.
 
 # **Unit tests for Backend:**
 For unit testing in the backend, we decided to use the testing package that Golang already offers. 
