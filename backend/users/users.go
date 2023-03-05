@@ -15,12 +15,17 @@ import (
 )
 
 // Refactor prepareToken
+// part of login function
+// if the current time is after the time its est to expire at, the token has expired
 func prepareToken(user *interfaces.User) string {
+	//creates token using the user id and the current time as the duration
 	tokenContent := jwt.MapClaims{
 		"user_id": user.ID,
 		"expiry":  time.Now().Add(time.Minute * 60).Unix(),
 	}
+	//creates a new jwt token using the signing method HS256 and the claims
 	jwtToken := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tokenContent)
+	//generates the token string
 	token, err := jwtToken.SignedString([]byte("TokenPassword"))
 	helpers.HandleErr(err)
 
