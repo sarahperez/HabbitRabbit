@@ -17,7 +17,7 @@ We also downloaded the precompiled binary for our system from the SQLite website
 | Table in the database       | Information Stored                                                                                              |
 | -------------               |:-------------:                                                                                                  |
 | users                       | ID (primary key  - will serve as userID accross other tables), username, name, email, hashed password           |
-| todo                        | ID (generated automaticly- counts rows, not important in porgram), user ID, task description, completion status |
+| todo_items                  | ID (generated automaticly- counts rows, not important in porgram), user ID, task description, completion status |
 
 # After Downloading + Installing Go and SQLite
 
