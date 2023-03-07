@@ -29,12 +29,14 @@ import (
 	//packages added from tutorial
 	"main/api"
 	"main/database"
+	"main/scheduler"
 
 	//this may change, I believe they just want us to reference main/customevents in our
 	//own files, however im gonna leave it like this until im sure
 	//"github.com/dipeshdulal/event-scheduling/customevents"
 
 	//packeges from online
+	//"github.com/dipeshdulal/event-scheduling/customevents"
 	"github.com/gorilla/mux"
 )
 
@@ -98,9 +100,7 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	db := initDBConnection()
-
-	scheduler := NewScheduler(db, eventListeners)
+	scheduler := NewScheduler(database, eventListeners)
 	scheduler.CheckEventsInInterval(ctx, time.Minute)
 
 	scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
