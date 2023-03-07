@@ -21,6 +21,7 @@ type Login struct {
 
 type Register struct {
 	Username string
+	Name     string
 	Email    string
 	Password string
 }
@@ -81,7 +82,9 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal(body, &formattedBody)
 	helpers.HandleErr(err)
 
-	register := users.Register(formattedBody.Username, formattedBody.Email, formattedBody.Password)
+	log.Print("inside register func")
+	log.Print(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
+	register := users.Register(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
 	// Refactor register to use apiResponse function
 	apiResponse(register, w)
 }

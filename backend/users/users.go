@@ -28,12 +28,12 @@ func prepareToken(user *interfaces.User) string {
 }
 
 // Refactor prepareResponse
-func prepareResponse(user *interfaces.User, accounts []interfaces.ResponseAccount, withToken bool) map[string]interface{} {
+func prepareResponse(user *interfaces.User, withToken bool) map[string]interface{} {
 	responseUser := &interfaces.ResponseUser{
 		ID:       user.ID,
+		Name:     user.Name,
 		Username: user.Username,
 		Email:    user.Email,
-		Accounts: accounts,
 	}
 	var response = map[string]interface{}{"message": "all is fine"}
 	// Add withToken feature to prepare response
@@ -62,11 +62,8 @@ func Login(username string, pass string) map[string]interface{} {
 		if passErr == bcrypt.ErrMismatchedHashAndPassword && passErr != nil {
 			return map[string]interface{}{"message": "Wrong password"}
 		}
-		// Find accounts for the user, parts of this code wont be necessary
-		accounts := []interfaces.ResponseAccount{}
-		database.DB.Table("accounts").Select("id, name, balance").Where("user_id = ? ", user.ID).Scan(&accounts)
 
-		var response = prepareResponse(user, accounts, true)
+		var response = prepareResponse(user, true)
 
 		return response
 	} else if !validUser && validPass {
@@ -79,17 +76,18 @@ func Login(username string, pass string) map[string]interface{} {
 }
 
 // Refactor Register function to use database package
-func Register(username string, email string, pass string) map[string]interface{} {
+func Register(username string, name string, email string, pass string) map[string]interface{} {
 	validUser := helpers.UsernameValidation(username)
+	validName := helpers.NameValidation(name)
 	validPass := helpers.PasswordValidation(pass)
 	validEmail := helpers.EmailValidation(email)
 
-	if validUser && validPass && validEmail {
+	if validUser && validName && validPass && validEmail {
 		generatedPassword := helpers.HashAndSalt([]byte(pass))
-		user := &interfaces.User{Username: username, Email: email, Password: generatedPassword}
+		user := &interfaces.User{Username: username, Name: name, Email: email, Password: generatedPassword}
 
 		existingUsername := database.DB.Where("username = ? ", username).First(&user).RowsAffected
-		existingEmail := database.DB.Where("username = ? ", username).First(&user).RowsAffected
+		existingEmail := database.DB.Where("email = ? ", email).First(&user).RowsAffected
 
 		if existingUsername > 0 && existingEmail == 0 {
 			return map[string]interface{}{"message": "entered username is already taken"}
@@ -100,30 +98,40 @@ func Register(username string, email string, pass string) map[string]interface{}
 		}
 
 		database.DB.Create(&user)
-		//parts of this code wont be necessary, but for the most part its relevant
-		account := &interfaces.Account{Type: "Daily Account", Name: string(username + "'s" + " account"), Balance: 0, UserID: user.ID}
-		database.DB.Create(&account)
 
-		accounts := []interfaces.ResponseAccount{}
-		respAccount := interfaces.ResponseAccount{ID: account.ID, Name: account.Name, Balance: int(account.Balance)}
-		accounts = append(accounts, respAccount)
-		var response = prepareResponse(user, accounts, true)
+		var response = prepareResponse(user, true)
 
 		return response
-	} else if !validUser && validPass && validEmail {
+	} else if !validUser && validPass && validEmail && validName {
 		return map[string]interface{}{"message": "entered username does not meet our requirements"}
-	} else if validUser && !validPass && validEmail {
+	} else if validUser && !validPass && validEmail && validName {
 		return map[string]interface{}{"message": "entered password does not meet our requirements"}
-	} else if validUser && validPass && !validEmail {
+	} else if validUser && validPass && !validEmail && validName {
 		return map[string]interface{}{"message": "entered email does not meet our requirements"}
-	} else if !validUser && validPass && !validEmail {
+	} else if validUser && validPass && validEmail && !validName {
+		return map[string]interface{}{"message": "entered name does not meet our requirements"}
+	} else if !validUser && validPass && !validEmail && validName {
 		return map[string]interface{}{"message": "entered username and email do not meet our  requirements"}
-	} else if !validUser && !validPass && validEmail {
+	} else if !validUser && !validPass && validEmail && validName {
 		return map[string]interface{}{"message": "entered username and password do not meet our  requirements"}
-	} else if validUser && !validPass && !validEmail {
+	} else if validUser && !validPass && !validEmail && validName {
 		return map[string]interface{}{"message": "entered email and password do not meet our requirements"}
-	} else {
+	} else if !validUser && validPass && validEmail && !validName {
+		return map[string]interface{}{"message": "entered username and name do not meet our  requirements"}
+	} else if validUser && !validPass && validEmail && !validName {
+		return map[string]interface{}{"message": "entered name and password do not meet our  requirements"}
+	} else if validUser && validPass && !validEmail && !validName {
+		return map[string]interface{}{"message": "entered email and name do not meet our requirements"}
+	} else if !validUser && validPass && !validEmail && !validName {
+		return map[string]interface{}{"message": "entered username, name and email do not meet our  requirements"}
+	} else if !validUser && !validPass && validEmail && !validName {
+		return map[string]interface{}{"message": "entered username, name and password do not meet our  requirements"}
+	} else if validUser && !validPass && !validEmail && !validName {
+		return map[string]interface{}{"message": "entered email, name and password do not meet our requirements"}
+	} else if validUser && !validPass && !validEmail && validName {
 		return map[string]interface{}{"message": "entered username, email and password do not meet our requirements"}
+	} else {
+		return map[string]interface{}{"message": "entered fields do not meet our requirements"}
 	}
 }
 
@@ -136,10 +144,8 @@ func GetUser(id string, jwt string) map[string]interface{} {
 		if err := database.DB.Where("id = ? ", id).First(&user).Error; err != nil {
 			return map[string]interface{}{"message": "User not found"}
 		}
-		accounts := []interfaces.ResponseAccount{}
-		database.DB.Table("accounts").Select("id, name, balance").Where("user_id = ? ", user.ID).Scan(&accounts)
 
-		var response = prepareResponse(user, accounts, false)
+		var response = prepareResponse(user, false)
 		return response
 	} else {
 		return map[string]interface{}{"message": "Not valid token"}

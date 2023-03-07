@@ -53,6 +53,25 @@ func UsernameValidation(username string) bool {
 	return true
 }
 
+func NameValidation(username string) bool {
+
+	//https://github.com/usvc/go-password#usage
+	customPolicy := password.Policy{
+		MaximumLength:         32,
+		MinimumLength:         2,
+		MinimumLowercaseCount: 0,
+		MinimumUppercaseCount: 0,
+		MinimumNumericCount:   0,
+		MinimumSpecialCount:   0,
+		CustomSpecial:         []byte("~`!@#$%^&*()_-=+[{]}\\|;:'\"<>./?"),
+	}
+
+	if err := password.Validate(username, customPolicy); err != nil {
+		return false
+	}
+	return true
+}
+
 // function to check if password is valid
 func PasswordValidation(pass string) bool {
 	//https://github.com/usvc/go-password#usage
