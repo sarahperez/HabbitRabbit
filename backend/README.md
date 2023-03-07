@@ -48,6 +48,14 @@ This function will be called when the user tries to create an account. When the 
 {"data":{"ID":2,"Username":"UserAlexa","Name":"Alexa","Email":"useralexa@habbitrabbit.com"},"jwt":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcnkiOjE2NzgxNjE3MDgsInVzZXJfaWQiOjJ9.HB8gITSa94poZyVktZFXUkJbIQBTyD69ENdS__Xipkk","message":"all is fine"}
 
 ---
+```func UpdateToDo(w http.ResponseWriter, request *http.Request) ```
+This function controls the to-do list of the program, the request method determines what action will be taken. The request should send in a user ID and a task description.
+
+If the HTTP request is a POST: The passed in task will be added to the To-Do list with a completion status of false (incomplete).
+
+If the HTTP request is a DELETE: The passed in task for the coresponding user will be marked as completed.
+
+---
 
 ```GoHome(w http.ResponseWriter, request *http.Request)```
 This function still needs to be implemented with our front end. As a preliminary, we have this function set up to receive a request and return that the request was received.
