@@ -18,13 +18,21 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"strconv"
+	"time"
 
 	//packages added from tutorial
 	"main/api"
 	"main/database"
+
+	//this may change, I believe they just want us to reference main/customevents in our
+	//own files, however im gonna leave it like this until im sure
+	//"github.com/dipeshdulal/event-scheduling/customevents"
 
 	//packeges from online
 	"github.com/gorilla/mux"
@@ -41,6 +49,11 @@ func loggingMiddleware(next http.Handler) http.Handler {
 		// Call the next handler, which can be another middleware in the chain, or the final handler.
 		next.ServeHTTP(w, r)
 	})
+}
+
+var eventListeners = Listeners{
+	"SendEmail": customevents.SendEmail,
+	"PayBills":  customevents.PayBills,
 }
 
 // Main+functions were modified from: https://medium.com/@anshap1719/getting-started-with-angular-and-go-setting-up-a-boilerplate-project-8c273b81aa6
@@ -78,4 +91,27 @@ func main() {
 	err := http.ListenAndServe(server+":"+strconv.Itoa(port), router)
 	//if something does not work, (exit status 1) ie. if someone tries to use the same port
 	log.Fatal(err)
+
+	//added with scheduler
+	ctx, cancel := context.WithCancel(context.Background())
+
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt)
+
+	db := initDBConnection()
+
+	scheduler := NewScheduler(db, eventListeners)
+	scheduler.CheckEventsInInterval(ctx, time.Minute)
+
+	scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
+	scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
+
+	go func() {
+		for range interrupt {
+			log.Println("\n❌ Interrupt received closing...")
+			cancel()
+		}
+	}()
+
+	<-ctx.Done()
 }
