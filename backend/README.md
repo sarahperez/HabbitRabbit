@@ -4,12 +4,20 @@ Start by installing Go: https://go.dev
 Since we are running our code in Visual Studio Code, we also installed this extension: https://code.visualstudio.com/docs/languages/go#:~:text=Go%20in%20Visual%20Studio%20Code%20Using%20the%20Go,the%20Go%20extension%20from%20the%20VS%20Code%20Marketplace.
 
 
+# The Database
 
-# Preparing to Access the Database
+### Preparing to Access the Database
 
 Our app implements a SQLite database. Before running the server, download and install the https://jmeubank.github.io/tdm-gcc/download/ GCC compiler. We opted for the "Minimal online installer." 
 
 We also downloaded the precompiled binary for our system from the SQLite website: https://www.sqlite.org/download.html (we downloaded the bundle option to check updates to the database using sqlite3 https://www.sqlite.org/cli.html). Make sure to unzip that download into a folder and add the path to the folder to the Path environment variables on your system. Close VS code and re-open it if you had the app running during the installation.
+
+### Our Database Organization
+
+| Table in the database       | Information Stored                     |
+| -------------               |:-------------:                         |
+| users                       | username, name, email, hashed password |
+| todo                        | user ID, 20 tasks (max) per user       |
 
 # After Downloading + Installing Go and SQLite
 
