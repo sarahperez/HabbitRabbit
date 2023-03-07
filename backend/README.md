@@ -13,11 +13,11 @@ Our app implements a SQLite database. Before running the server, download and in
 We also downloaded the precompiled binary for our system from the SQLite website: https://www.sqlite.org/download.html (we downloaded the bundle option to check updates to the database using sqlite3 https://www.sqlite.org/cli.html). Make sure to unzip that download into a folder and add the path to the folder to the Path environment variables on your system. Close VS code and re-open it if you had the app running during the installation.
 
 ### Our Database Organization
-
-| Table in the database       | Information Stored                     |
-| -------------               |:-------------:                         |
-| users                       | username, name, email, hashed password |
-| todo                        | user ID, 20 tasks (max) per user       |
+ 
+| Table in the database       | Information Stored                                                                                              |
+| -------------               |:-------------:                                                                                                  |
+| users                       | ID (primary key  - will serve as userID accross other tables), username, name, email, hashed password           |
+| todo                        | ID (generated automaticly- counts rows, not important in porgram), user ID, task description, completion status |
 
 # After Downloading + Installing Go and SQLite
 
