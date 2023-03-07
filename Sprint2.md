@@ -23,7 +23,7 @@ Full-Calendar Component:
 Login Component: Since the login page and related functionality was being worked on up until very recently, tests for this function were not made however, this is our first priority for frontend testing in our next sprint.
 
 #Cypress Tests
-First simple Cypress test: Clicks calendar button on side nav and checks if the user is redirected to the calendar page. This unit test was passing then we implemented the login page. Since the test does not account for the login page, this test is not currently passing.
+First simple Cypress test: Inputs login credentials then presses sign in button. The test checks that the user is then brought to the home page.
 
 # **Unit tests for Backend:**
 For unit testing in the backend, we decided to use the testing package that Golang already offers. 

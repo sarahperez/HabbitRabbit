@@ -130,10 +130,13 @@ func PanicHandler(next http.Handler) http.Handler {
 func ValidateToken(id string, jwtToken string) bool {
 	cleanJWT := strings.Replace(jwtToken, "Bearer ", "", -1)
 	tokenData := jwt.MapClaims{}
+	//parses the token with the token string, token object and key function
+	//key function receives parsed but unverified token
 	token, err := jwt.ParseWithClaims(cleanJWT, tokenData, func(token *jwt.Token) (interface{}, error) {
 		return []byte("TokenPassword"), nil
 	})
 	HandleErr(err)
+	//makes sure all parts of the token converted correctly
 	var userId, _ = strconv.ParseFloat(id, 8)
 	if token.Valid && tokenData["user_id"] == userId {
 		return true
