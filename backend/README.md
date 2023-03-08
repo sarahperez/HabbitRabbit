@@ -51,9 +51,11 @@ This function will be called when the user tries to create an account. When the 
 ```func UpdateToDo(w http.ResponseWriter, request *http.Request) ```
 This function controls the to-do list of the program, the request method determines what action will be taken. The request should send in a user ID and a task description.
 
-If the HTTP request is a POST: The passed in task will be added to the To-Do list with a completion status of false (incomplete).
-
-If the HTTP request is a DELETE: The passed in task for the coresponding user will be marked as completed.
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | The passed in task will be added to the To-Do list with a completion status of false (incomplete).  |
+| DELETE            | The passed in task for the coresponding user will be marked as completed.                           |
 
 ---
 
