@@ -20,6 +20,7 @@ require (
 )
 
 require (
+	github.com/dipeshdulal/event-scheduling v0.0.0-20210123134726-aeb2274d6bcb
 	github.com/gorilla/mux v1.8.0
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/stretchr/testify v1.8.1

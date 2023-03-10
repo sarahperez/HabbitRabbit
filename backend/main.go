@@ -21,9 +21,13 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"strconv"
+	"time"
 
 	//packages added from tutorial
 	"main/api"
@@ -36,6 +40,7 @@ import (
 	//"github.com/dipeshdulal/event-scheduling/customevents"
 
 	//packeges from online
+	//"github.com/dipeshdulal/event-scheduling/customevents"
 	"github.com/gorilla/mux"
 )
 
@@ -96,25 +101,23 @@ func main() {
 	log.Fatal(err)
 
 	//added with scheduler
-	// ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(context.Background())
 
-	// interrupt := make(chan os.Signal, 1)
-	// signal.Notify(interrupt, os.Interrupt)
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt)
 
-	// db := initDBConnection()
+	scheduler := NewScheduler(database, eventListeners)
+	scheduler.CheckEventsInInterval(ctx, time.Minute)
 
-	// scheduler := NewScheduler(db, eventListeners)
-	// scheduler.CheckEventsInInterval(ctx, time.Minute)
+	scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
+	scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
 
-	// scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
-	// scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
+	go func() {
+		for range interrupt {
+			log.Println("\n❌ Interrupt received closing...")
+			cancel()
+		}
+	}()
 
-	// go func() {
-	// 	for range interrupt {
-	// 		log.Println("\n❌ Interrupt received closing...")
-	// 		cancel()
-	// 	}
-	// }()
-
-	// <-ctx.Done()
+	<-ctx.Done()
 }

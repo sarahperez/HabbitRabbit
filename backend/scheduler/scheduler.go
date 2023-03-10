@@ -97,7 +97,8 @@ func (s Scheduler) callListeners(event Event) {
 
 		//before changes: _, err := s.db.Exec(`DELETE FROM "public"."jobs" WHERE "id" = $1`, event.ID)
 		//could not find adequate changes to this, need to look into more
-		_, err := s.db.Exec(`DELETE FROM "public"."jobs" WHERE "id" = $1`, event.ID)
+		//_, err := s.db.Exec(`DELETE FROM "public"."jobs" WHERE "id" = $1`, event.ID)
+		err := s.db.Exec(`DELETE FROM "public"."jobs" WHERE "id" = $1`, event.ID)
 		if err != nil {
 			log.Print("💀 error: ", err)
 		}
@@ -105,27 +106,4 @@ func (s Scheduler) callListeners(event Event) {
 		log.Print("💀 error: couldn't find event listeners attached to ", event.Name)
 	}
 
-}
-
-// CheckEventsInInterval checks the event in given interval
-// Before changes: func (s Scheduler) CheckEventsInInterval(ctx context.Context, duration time.Duration) {
-// could not find adequate changes to this, need to look into more
-func (s Scheduler) CheckEventsInInterval(ctx context.Context, duration time.Duration) {
-	ticker := time.NewTicker(duration)
-	go func() {
-		for {
-			select {
-			case <-ctx.Done():
-				ticker.Stop()
-				return
-			case <-ticker.C:
-				log.Println("⏰ Ticks Received...")
-				events := s.checkDueEvents()
-				for _, e := range events {
-					s.callListeners(e)
-				}
-			}
-
-		}
-	}()
 }
