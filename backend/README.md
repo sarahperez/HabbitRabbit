@@ -66,6 +66,15 @@ Expected json information in request body:
 | POST              | The passed in task will be added to the To-Do list with a completion status of false (incomplete).  |
 | DELETE            | The passed in task for the coresponding user will be marked as completed.                           |
 
+Examples of return messages:
+```
+"task completion status now updated to completed"
+```
+or
+```
+"item added"
+```
+
 ---
 ```ToDoStatus(w http.ResponseWriter, request *http.Request) ```
 This function returns the to do list of the associated user. This could be used when the user first opens their to do list, and can be used to get the updated to do list associated with a user after the add or complete a task. A request to this function should send the appropriate user ID.
