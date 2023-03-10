@@ -68,9 +68,9 @@ Expected json information in request body:
 
 ---
 ```ToDoStatus(w http.ResponseWriter, request *http.Request) ```
-This function controls the to-do list of the program, the request method determines what action will be taken. The request should send in a user ID and a task description.
+This function returns the to do list of the associated user. This could be used when the user first opens their to do list, and can be used to get the updated to do list associated with a user after the add or complete a task. A request to this function should send the appropriate user ID.
 
-Expected json information in request body:
+Expected JSON information in request body:
 
 ```javascript
 { 
@@ -81,7 +81,15 @@ Expected json information in request body:
 | HTTP request type | Backend functionality                                                                               |
 | -------------     |:-------------:                                                                                      |
 | OPTIONS           | Handle the pre-flight request.                                                                      |
-| GET               |  |
+| GET               | Send the client a JSON file with the completed and incomplete items on the to do list of the user.  |
+
+Example of return JSON:
+```
+{
+ "complete": ["finished task"],
+ "incomplete": ["not finished task","not started task"]
+}
+```
 
 ---
 
