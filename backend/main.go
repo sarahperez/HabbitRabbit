@@ -12,8 +12,8 @@
 //curl commands to test login and register
 //curl.exe -v -X POST http://localhost:3000/login -H 'Content-Type: application/json' -d "@userInfo.json"
 //curl.exe -v -X POST http://localhost:3000/register -H 'Content-Type: application/json' -d "@userInfo.json"
-//curl.exe -v -X POST http://localhost:3000/ToDo -H 'Content-Type: application/json' -d "@userInfo.json"
-//curl.exe -v -X DELETE http://localhost:3000/ToDo -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/EditToDo -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X DELETE http://localhost:3000/EditToDo -H 'Content-Type: application/json' -d "@userInfo.json"
 //curl.exe -v -X GET http://localhost:3000/ToDoStatus -H 'Content-Type: application/json' -d "@userInfo.json"
 
 // ctrl + c to terminate the server after using command go run .
@@ -21,19 +21,13 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
-	"os"
-	"os/signal"
 	"strconv"
-	"time"
 
 	//packages added from tutorial
 	"main/api"
 	"main/database"
-
-	//"main/todo"
 
 	//this may change, I believe they just want us to reference main/customevents in our
 	//own files, however im gonna leave it like this until im sure
@@ -82,9 +76,7 @@ func main() {
 	router.HandleFunc("/EditToDo", api.EditToDo)
 	router.HandleFunc("/ToDoStatus", api.ToDoStatus)
 
-	//trying to add in a handler for all cases where URL does NOT match one of the above linked to the mux
-	// defaultRouter := router.PathPrefix("").Subrouter()
-	//router.HandleFunc("/", api.Options).Methods("OPTIONS")
+	//add default handler
 
 	//set port (backend), server will run on local host (your pc address)
 	const port = 3000
@@ -101,23 +93,23 @@ func main() {
 	log.Fatal(err)
 
 	//added with scheduler
-	ctx, cancel := context.WithCancel(context.Background())
+	// ctx, cancel := context.WithCancel(context.Background())
 
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt)
+	// interrupt := make(chan os.Signal, 1)
+	// signal.Notify(interrupt, os.Interrupt)
 
-	scheduler := NewScheduler(database, eventListeners)
-	scheduler.CheckEventsInInterval(ctx, time.Minute)
+	// scheduler := NewScheduler(database, eventListeners)
+	// scheduler.CheckEventsInInterval(ctx, time.Minute)
 
-	scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
-	scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
+	// scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
+	// scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
 
-	go func() {
-		for range interrupt {
-			log.Println("\n❌ Interrupt received closing...")
-			cancel()
-		}
-	}()
+	// go func() {
+	// 	for range interrupt {
+	// 		log.Println("\n❌ Interrupt received closing...")
+	// 		cancel()
+	// 	}
+	// }()
 
-	<-ctx.Done()
+	// <-ctx.Done()
 }

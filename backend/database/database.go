@@ -21,6 +21,7 @@ func InitDatabase() {
 	DB = database
 }
 
+// -----------------------------Functions that work in the database - TO DO ------------------------------
 func GetCompletedItems(user uint) []string {
 	completedTodoItems := GetTodoItems(true, user)
 	return completedTodoItems
