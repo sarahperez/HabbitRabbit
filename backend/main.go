@@ -12,23 +12,24 @@
 //curl commands to test login and register
 //curl.exe -v -X POST http://localhost:3000/login -H 'Content-Type: application/json' -d "@userInfo.json"
 //curl.exe -v -X POST http://localhost:3000/register -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/ToDo -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X DELETE http://localhost:3000/ToDo -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X GET http://localhost:3000/ToDoStatus -H 'Content-Type: application/json' -d "@userInfo.json"
 
 // ctrl + c to terminate the server after using command go run .
 
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
-	"os"
-	"os/signal"
 	"strconv"
-	"time"
 
 	//packages added from tutorial
 	"main/api"
 	"main/database"
+
+	//"main/todo"
 
 	//this may change, I believe they just want us to reference main/customevents in our
 	//own files, however im gonna leave it like this until im sure
@@ -51,10 +52,10 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-var eventListeners = Listeners{
-	"SendEmail": customevents.SendEmail,
-	"PayBills":  customevents.PayBills,
-}
+// var eventListeners = Listeners{
+// 	"SendEmail": customevents.SendEmail,
+// 	"PayBills":  customevents.PayBills,
+// }
 
 // Main+functions were modified from: https://medium.com/@anshap1719/getting-started-with-angular-and-go-setting-up-a-boilerplate-project-8c273b81aa6
 // the main function start the server
@@ -73,6 +74,8 @@ func main() {
 	router.HandleFunc("/calendar", api.DisplayCalendar)
 	router.HandleFunc("/login", api.LoginFunc).Methods("POST", "OPTIONS")
 	router.HandleFunc("/register", api.RegisterFunc).Methods("POST")
+	router.HandleFunc("/EditToDo", api.EditToDo)
+	router.HandleFunc("/ToDoStatus", api.ToDoStatus)
 
 	//trying to add in a handler for all cases where URL does NOT match one of the above linked to the mux
 	// defaultRouter := router.PathPrefix("").Subrouter()
@@ -93,25 +96,25 @@ func main() {
 	log.Fatal(err)
 
 	//added with scheduler
-	ctx, cancel := context.WithCancel(context.Background())
+	// ctx, cancel := context.WithCancel(context.Background())
 
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt)
+	// interrupt := make(chan os.Signal, 1)
+	// signal.Notify(interrupt, os.Interrupt)
 
-	db := initDBConnection()
+	// db := initDBConnection()
 
-	scheduler := NewScheduler(db, eventListeners)
-	scheduler.CheckEventsInInterval(ctx, time.Minute)
+	// scheduler := NewScheduler(db, eventListeners)
+	// scheduler.CheckEventsInInterval(ctx, time.Minute)
 
-	scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
-	scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
+	// scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
+	// scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
 
-	go func() {
-		for range interrupt {
-			log.Println("\n❌ Interrupt received closing...")
-			cancel()
-		}
-	}()
+	// go func() {
+	// 	for range interrupt {
+	// 		log.Println("\n❌ Interrupt received closing...")
+	// 		cancel()
+	// 	}
+	// }()
 
-	<-ctx.Done()
+	// <-ctx.Done()
 }

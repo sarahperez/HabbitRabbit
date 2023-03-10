@@ -12,6 +12,7 @@ import (
 
 // Refactor Migrate
 func Migrate() {
-	User := &interfaces.User{}
-	database.DB.AutoMigrate(&User)
+	//User := &interfaces.User{}
+	Todo := &interfaces.TodoItem{}
+	database.DB.AutoMigrate(&Todo)
 }

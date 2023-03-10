@@ -4,8 +4,6 @@ package interfaces
 
 import "github.com/jinzhu/gorm"
 
-// most of the structs in here are necessary,
-//but some of the types are not
 type User struct {
 	gorm.Model
 	Username string
@@ -14,11 +12,27 @@ type User struct {
 	Password string
 }
 
+type UserID struct {
+	ID uint
+}
+
 type ResponseUser struct {
 	ID       uint
 	Username string
 	Name     string
 	Email    string
+}
+
+type TodoReq struct {
+	User        uint
+	Description string
+}
+
+type TodoItem struct {
+	gorm.Model
+	User        uint
+	Description string
+	Completed   bool
 }
 
 // Create Validation interface

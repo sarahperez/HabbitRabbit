@@ -20,3 +20,20 @@ func InitDatabase() {
 	helpers.HandleErr(err)
 	DB = database
 }
+
+func GetCompletedItems(user uint) []string {
+	completedTodoItems := GetTodoItems(true, user)
+	return completedTodoItems
+}
+
+func GetIncompleteItems(user uint) []string {
+	incompleteTodoItems := GetTodoItems(false, user)
+	return incompleteTodoItems
+}
+
+func GetTodoItems(completed bool, user uint) []string {
+	var ret []string
+	DB.Table("todo_items").Where("completed = ? AND user = ?", completed, user).Select("description").Find(&ret)
+
+	return ret
+}
