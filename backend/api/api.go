@@ -129,14 +129,15 @@ func EditToDo(w http.ResponseWriter, request *http.Request) {
 		entry.Completed = false
 		database.DB.Create(&entry)
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode("item added")
+		json.NewEncoder(w).Encode("Item added")
 		return
 	case http.MethodDelete:
-		//if the request is a delete- we need to update the completion status of the task
-		if err := database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).Update("Completed", true).Error; err != nil {
+		var task interfaces.TodoItem
+		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
+		if err := database.DB.Table("todo_items").Where("ID = ?", task.ID).Update("Completed", true).Error; err != nil {
 			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
 		} else {
-			json.NewEncoder(w).Encode("task completion status now updated to completed")
+			json.NewEncoder(w).Encode("Task completion status now updated to completed")
 		}
 		return
 	}
