@@ -92,7 +92,7 @@ Expected JSON information in request body:
 
 ```javascript
 { 
-   "ID": 1
+   "user": 1
 }
 ```
 
