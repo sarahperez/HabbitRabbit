@@ -1,10 +1,7 @@
-# Setting Up Go
+# Project Set Up: Go + SQLITE
 
 Start by installing Go: https://go.dev
 Since we are running our code in Visual Studio Code, we also installed this extension: https://code.visualstudio.com/docs/languages/go#:~:text=Go%20in%20Visual%20Studio%20Code%20Using%20the%20Go,the%20Go%20extension%20from%20the%20VS%20Code%20Marketplace.
-
-
-# The Database
 
 ### Preparing to Access the Database
 
@@ -12,26 +9,26 @@ Our app implements a SQLite database. Before running the server, download and in
 
 We also downloaded the precompiled binary for our system from the SQLite website: https://www.sqlite.org/download.html (we downloaded the bundle option to check updates to the database using sqlite3 https://www.sqlite.org/cli.html). Make sure to unzip that download into a folder and add the path to the folder to the Path environment variables on your system. Close VS code and re-open it if you had the app running during the installation.
 
-### Our Database Organization
+### After Downloading + Installing Go and SQLite
+
+Pull the repository and run the necessary "go get" commands to install the necessary go packages.
+
+### Starting the Server
+
+Open a terminal (in VS Code). Navigate into the backend folder. Then run: ```go run main.go```
+
+# Database Organization
  
 | Table in the database       | Information Stored                                                                                              |
 | -------------               |:-------------:                                                                                                  |
 | users                       | ID (primary key  - will serve as userID accross other tables), username, name, email, hashed password           |
 | todo_items                  | ID (generated automaticly- counts rows, not important in porgram), user ID, task description, completion status |
 
-# After Downloading + Installing Go and SQLite
-
-Pull the repository and run the necessary "go get" commands to install the necessary go packages.
-
-# Starting the Server
-
-Open a terminal (in VS Code). Navigate into the backend folder. Then run: ```go run main.go```
-
-# Basics of Our Server
+# API
 
 Our server relies on the github.com/gorilla/mux package, which helped us to create a router to handle HTTP requests.
 
-### Current Handling Functions in our API
+### Handling Functions
 
 ```LoginFunc(w http.ResponseWriter, request *http.Request)```
 This function is called when the user tries to sign in on the angular app. When the router routes to this function, the incoming HTTP request should contain a JSON file with a username and password. This function will call a helper function to validate the username and password from the JSON, check to see if the user exists in the database and return to the server the user account information and an okay message. If the username or password is invalid or the user was not found in the database, the server will respond with a string indicating these issues.
@@ -39,9 +36,9 @@ This function is called when the user tries to sign in on the angular app. When 
 This is an example of what would be returned to the client if the login was sucessful: 
 ```
 {
-"data":{"ID":2,"Username":"UserAlexa","Name":"Alexa","Email":"useralexa@habbitrabbit.com"},
-"jwt":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcnkiOjE2NzgxNjE3MDgsInVzZXJfaWQiOjJ9.HB8gITSa94poZyVktZFXUkJbIQBTyD69ENdS__Xipkk",
-"message":"all is fine"
+ "data":{"ID":2,"Username":"UserAlexa","Name":"Alexa","Email":"useralexa@habbitrabbit.com"},
+ "jwt":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcnkiOjE2NzgxNjE3MDgsInVzZXJfaWQiOjJ9.HB8gITSa94poZyVktZFXUkJbIQBTyD69ENdS__Xipkk",
+ "message":"all is fine"
 }
 ```
 ---
@@ -52,9 +49,9 @@ This function will be called when the user tries to create an account. When the 
 This is an example of what would be returned to the client if the regristration was sucessful: 
 ```
 {
-"data":{"ID":2,"Username":"UserAlexa","Name":"Alexa","Email":"useralexa@habbitrabbit.com"},
-"jwt":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcnkiOjE2NzgxNjE3MDgsInVzZXJfaWQiOjJ9.HB8gITSa94poZyVktZFXUkJbIQBTyD69ENdS__Xipkk",
-"message":"all is fine"
+ "data":{"ID":2,"Username":"UserAlexa","Name":"Alexa","Email":"useralexa@habbitrabbit.com"},
+ "jwt":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcnkiOjE2NzgxNjE3MDgsInVzZXJfaWQiOjJ9.HB8gITSa94poZyVktZFXUkJbIQBTyD69ENdS__Xipkk",
+ "message":"all is fine"
 }
 ```
 
@@ -75,7 +72,8 @@ Expected json information in request body:
 | -------------     |:-------------:                                                                                      |
 | OPTIONS           | Handle the pre-flight request.                                                                      |
 | POST              | The passed in task will be added to the To-Do list with a completion status of false (incomplete).  |
-| DELETE            | The passed in task for the coresponding user will be marked as completed.                           |
+| PUT               | The passed in task for the coresponding user will be marked as completed.                           |
+| DELETE            | The passed in task for the coresponding user will be deleted (used in cases where task is canceled).                |
 
 Examples of return messages:
 ```
@@ -94,14 +92,14 @@ Expected JSON information in request body:
 
 ```javascript
 { 
-   "user": 1
+   "ID": 1
 }
 ```
 
 | HTTP request type | Backend functionality                                                                               |
 | -------------     |:-------------:                                                                                      |
 | OPTIONS           | Handle the pre-flight request.                                                                      |
-| GET               | Send the client a JSON file with the completed and incomplete items on the to do list of the user.  |
+| POST               | Send the client a JSON file with the completed and incomplete items on the to do list of the user.  |
 
 Example of return JSON:
 ```
