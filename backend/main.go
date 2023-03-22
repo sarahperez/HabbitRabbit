@@ -16,7 +16,7 @@
 //curl commands to test adding to to do list, completeing on the to do list and getting the status
 //curl.exe -v -X POST http://localhost:3000/EditToDo -H 'Content-Type: application/json' -d "@userInfo.json"
 //curl.exe -v -X DELETE http://localhost:3000/EditToDo -H 'Content-Type: application/json' -d "@userInfo.json"
-//curl.exe -v -X GET http://localhost:3000/ToDoStatus -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/ToDoStatus -H 'Content-Type: application/json' -d "@userInfo.json"
 
 // ctrl + c to terminate the server after using command go run .
 

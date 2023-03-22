@@ -131,10 +131,20 @@ func EditToDo(w http.ResponseWriter, request *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode("Item added")
 		return
-	case http.MethodDelete:
+	case http.MethodPut:
 		var task interfaces.TodoItem
 		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
 		if err := database.DB.Table("todo_items").Where("ID = ?", task.ID).Update("Completed", true).Error; err != nil {
+			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+		} else {
+			json.NewEncoder(w).Encode("Task completion status now updated to completed")
+		}
+		return
+	case http.MethodDelete:
+		var task interfaces.TodoItem
+		var item interfaces.TodoItem
+		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
+		if err := database.DB.Delete(&item, task.ID).Error; err != nil {
 			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
 		} else {
 			json.NewEncoder(w).Encode("Task completion status now updated to completed")
@@ -145,12 +155,15 @@ func EditToDo(w http.ResponseWriter, request *http.Request) {
 
 func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 	switch request.Method {
-	case http.MethodGet:
+	case http.MethodPost:
 		//"unload" the input data from the request- should be a user ID
 		body := readBody(request)
+		log.Print(string(body))
 		var formattedBody interfaces.UserID
 		err := json.Unmarshal(body, &formattedBody)
+		//log.Print(string(formattedBody))
 		helpers.HandleErr(err)
+		//json.NewDecoder(request.Body).Decode(&formattedBody)
 
 		log.Print("curr ID ", formattedBody.ID)
 
