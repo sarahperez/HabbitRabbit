@@ -13,7 +13,7 @@ type User struct {
 }
 
 type UserID struct {
-	ID uint
+	User uint
 }
 
 type ResponseUser struct {

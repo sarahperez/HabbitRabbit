@@ -165,10 +165,10 @@ func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 		helpers.HandleErr(err)
 		//json.NewDecoder(request.Body).Decode(&formattedBody)
 
-		log.Print("curr ID ", formattedBody.ID)
+		log.Print("curr ID ", formattedBody.User)
 
-		completed := database.GetCompletedItems(formattedBody.ID)
-		incomplete := database.GetIncompleteItems(formattedBody.ID)
+		completed := database.GetCompletedItems(formattedBody.User)
+		incomplete := database.GetIncompleteItems(formattedBody.User)
 
 		var response = map[string]interface{}{"incomplete": incomplete, "complete": completed}
 
