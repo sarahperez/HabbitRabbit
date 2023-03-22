@@ -82,3 +82,33 @@ func TestDisplayCalender(t *testing.T) {
 		t.Errorf("expected: Welcome to the calender page, get request recieved. Got: %v", string(data))
 	}
 }
+
+func TestEditToDo(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/home-page", nil)
+	w := httptest.NewRecorder()
+	EditToDo(w, req)
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	if err != nil {
+		t.Errorf("expected error to be nil got %v", err)
+	}
+	if string(data) != "Welcome to the home page, get request recieved" {
+		t.Errorf("expected: Welcome to the home page, get request recieved. Got: %v", string(data))
+	}
+}
+
+func TestToDoStatus(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/home-page", nil)
+	w := httptest.NewRecorder()
+	ToDoStatus(w, req)
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	if err != nil {
+		t.Errorf("expected error to be nil got %v", err)
+	}
+	if string(data) != "Welcome to the home page, get request recieved" {
+		t.Errorf("expected: Welcome to the home page, get request recieved. Got: %v", string(data))
+	}
+}
