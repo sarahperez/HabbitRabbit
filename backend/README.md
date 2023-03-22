@@ -72,7 +72,8 @@ Expected json information in request body:
 | -------------     |:-------------:                                                                                      |
 | OPTIONS           | Handle the pre-flight request.                                                                      |
 | POST              | The passed in task will be added to the To-Do list with a completion status of false (incomplete).  |
-| DELETE            | The passed in task for the coresponding user will be marked as completed.                           |
+| PUT               | The passed in task for the coresponding user will be marked as completed.                           |
+| DELETE            | The passed in task for the coresponding user will be deleted (*note: not completed).                |
 
 Examples of return messages:
 ```
