@@ -92,14 +92,14 @@ Expected JSON information in request body:
 
 ```javascript
 { 
-   "user": 1
+   "ID": 1
 }
 ```
 
 | HTTP request type | Backend functionality                                                                               |
 | -------------     |:-------------:                                                                                      |
 | OPTIONS           | Handle the pre-flight request.                                                                      |
-| GET               | Send the client a JSON file with the completed and incomplete items on the to do list of the user.  |
+| POST               | Send the client a JSON file with the completed and incomplete items on the to do list of the user.  |
 
 Example of return JSON:
 ```
