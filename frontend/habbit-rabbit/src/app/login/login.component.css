@@ -100,13 +100,13 @@ padding-top: 0.5rem;
 padding-bottom: 0.5rem; 
 padding-left: 1rem;
 padding-right: 1rem; 
-background-color: #3B82F6; 
+background-color: #b9b8ff; 
 color: #ffffff; 
 font-weight: 700; 
 border-radius: 0.25rem; 
 }
 .sign-in-button:hover{
-  background-color: #1D4ED8; 
+  background-color: #9795ff; 
 }
 .credits{
 color: #000000; 
