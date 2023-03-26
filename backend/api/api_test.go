@@ -6,6 +6,7 @@ package api
 
 import (
 	"encoding/json"
+	"main/database"
 	"main/interfaces"
 
 	"bytes"
@@ -86,37 +87,40 @@ func TestDisplayCalender(t *testing.T) {
 
 func TestEditToDo(t *testing.T) {
 
-	// reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	database.InitDatabase()
 
-	// req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
-	// req.Header.Set("Content-type", "application/json")
-	// w := httptest.NewRecorder()
-	// EditToDo(w, req)
+	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 
-	reqBody, err := json.Marshal(interfaces.UserID{User: 1000})
-
-	req := httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
+	req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w := httptest.NewRecorder()
+	//EditToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
+
+	req = httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
 	ToDoStatus(w, req)
 
 	res := w.Result()
 	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
-	body, err := json.Marshal(&data)
-	bodyString := string(body)
+	//body, err := json.Marshal(&data)
+	bodyString := string(data)
 
 	type resp struct {
-		Incomplete []string
 		Complete   []string
+		Incomplete []string
 		Percentage float64
 	}
 
-	arg1 := []string{"buy apples"}
-	arg2 := []string{""}
+	arg1 := []string{"buy apples", "buy apples"}
+	arg2 := []string{}
 
-	expected, err := json.Marshal(resp{Incomplete: arg1, Complete: arg2, Percentage: 0})
+	expected, err := json.Marshal(resp{Complete: arg2, Incomplete: arg1, Percentage: 0})
 	expectedString := string(expected)
+	expectedString += "\n"
 
 	if err != nil {
 		t.Errorf("expected error to be nil got %v", err)
