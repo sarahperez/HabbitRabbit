@@ -6,6 +6,9 @@ package helpers
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
@@ -75,8 +78,20 @@ func TestEmailValidation(t *testing.T) {
 
 }
 
-// TestPanicHandler hasnt been started
-//func TestPanicHandler(t *testing.T) {}
+// TestPanicHandler has been started
+func TestPanicHandler(t *testing.T) {
+	homeHandler := func(http.ResponseWriter, *http.Request) { panic("some error") }
+	panicHandler := PanicHandler(http.HandlerFunc(homeHandler))
+
+	req := httptest.NewRequest("GET", "/", nil)
+	res := httptest.NewRecorder()
+
+	panicHandler.ServeHTTP(res, req)
+
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, `{"Message":"Internal server error"}
+`, res.Body.String())
+}
 
 // TestValidateToken hasnt been started
 //func TestValidateToken(t *testing.T) {}

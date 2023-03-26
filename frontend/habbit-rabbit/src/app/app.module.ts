@@ -12,7 +12,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { TodolistComponent } from './todolist/todolist.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { FormsModule } from '@angular/forms';
         CalendarComponent,
         FullCalendarComponent,
         LoginComponent,
-        RegisterComponent
+        TodolistComponent
     ],
     exports: [
         FullCalendarModule

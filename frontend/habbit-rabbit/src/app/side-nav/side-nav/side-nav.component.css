@@ -17,15 +17,15 @@
 }
 
 .logo {
-  background: #ffffff;
-  width: 3rem;
+  background: #e1fff0;
+  width: 3.1rem;
   min-width: 3rem;
   border-radius: 0.313rem;
   padding: 0.35rem;
   font-size: 24px;
   font-weight: 900;
   cursor: pointer;
-  border: 2px solid black;
+  border: 3px solid black;
 }
 
 .logo-text{
@@ -93,13 +93,14 @@
   margin-left: 1.5rem;
 }
 
-.side-nav-nav-link:hover{
-  background-color: #fff;
+.side-nav-nav-link:hover{ 
+  background-color: #e1fff0;
   color: #000;
 }
 
 .active{
-  background-color: #fff;
+  background-color: #e1fff0;
+  border: 2px solid black;
 }
 
 .side-nav-link-icon, .side-nav-link-text{

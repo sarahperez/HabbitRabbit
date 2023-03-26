@@ -1,6 +1,7 @@
 package helpers
 
 // code from https://github.com/Duomly/go-bank-backend
+//fixed merge branch?
 
 import (
 	"encoding/json"
@@ -40,6 +41,25 @@ func UsernameValidation(username string) bool {
 	customPolicy := password.Policy{
 		MaximumLength:         32,
 		MinimumLength:         6,
+		MinimumLowercaseCount: 0,
+		MinimumUppercaseCount: 0,
+		MinimumNumericCount:   0,
+		MinimumSpecialCount:   0,
+		CustomSpecial:         []byte("~`!@#$%^&*()_-=+[{]}\\|;:'\"<>./?"),
+	}
+
+	if err := password.Validate(username, customPolicy); err != nil {
+		return false
+	}
+	return true
+}
+
+func NameValidation(username string) bool {
+
+	//https://github.com/usvc/go-password#usage
+	customPolicy := password.Policy{
+		MaximumLength:         32,
+		MinimumLength:         2,
 		MinimumLowercaseCount: 0,
 		MinimumUppercaseCount: 0,
 		MinimumNumericCount:   0,
@@ -111,10 +131,13 @@ func PanicHandler(next http.Handler) http.Handler {
 func ValidateToken(id string, jwtToken string) bool {
 	cleanJWT := strings.Replace(jwtToken, "Bearer ", "", -1)
 	tokenData := jwt.MapClaims{}
+	//parses the token with the token string, token object and key function
+	//key function receives parsed but unverified token
 	token, err := jwt.ParseWithClaims(cleanJWT, tokenData, func(token *jwt.Token) (interface{}, error) {
 		return []byte("TokenPassword"), nil
 	})
 	HandleErr(err)
+	//makes sure all parts of the token converted correctly
 	var userId, _ = strconv.ParseFloat(id, 8)
 	if token.Valid && tokenData["user_id"] == userId {
 		return true

@@ -1,14 +1,17 @@
 package api
 
-// code from https://github.com/Duomly/go-bank-backend
+// code derived from https://github.com/Duomly/go-bank-backend
 
 import (
 	"encoding/json"
 	"io"
 	"log"
+	"math"
 	"net/http"
 
+	"main/database"
 	"main/helpers"
+	"main/interfaces"
 	"main/users"
 
 	"github.com/gorilla/mux"
@@ -21,6 +24,7 @@ type Login struct {
 
 type Register struct {
 	Username string
+	Name     string
 	Email    string
 	Password string
 }
@@ -81,7 +85,9 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal(body, &formattedBody)
 	helpers.HandleErr(err)
 
-	register := users.Register(formattedBody.Username, formattedBody.Email, formattedBody.Password)
+	log.Print("inside register func")
+	log.Print(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
+	register := users.Register(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
 	// Refactor register to use apiResponse function
 	apiResponse(register, w)
 }
@@ -102,6 +108,80 @@ type userinfo struct {
 	Username string `json:"Username"`
 	Password string `json:"Password"`
 }
+
+// Copyright (c) 2020 Mohamad Fadhil
+// code derived from https://github.com/sdil/learning/blob/master/go/todolist-mysql-go/todolist.go
+func EditToDo(w http.ResponseWriter, request *http.Request) {
+
+	//"unload" the input data from the request- should be a user ID and a task description
+	body := readBody(request)
+	var formattedBody interfaces.TodoReq
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
+
+	//start making an "entry" object that will be used to add/update an entry in the database
+	var entry interfaces.TodoItem
+	entry.User = formattedBody.User
+	entry.Description = formattedBody.Description
+
+	switch request.Method {
+	case http.MethodPost:
+		//if the request is a post- then it means an entry is being added
+		entry.Completed = false
+		database.DB.Create(&entry)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode("Item added")
+		return
+	case http.MethodPut:
+		var task interfaces.TodoItem
+		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
+		if err := database.DB.Table("todo_items").Where("ID = ?", task.ID).Update("Completed", true).Error; err != nil {
+			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+		} else {
+			json.NewEncoder(w).Encode("Task completion status now updated to completed")
+		}
+		return
+	case http.MethodDelete:
+		var task interfaces.TodoItem
+		var item interfaces.TodoItem
+		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
+		if err := database.DB.Delete(&item, task.ID).Error; err != nil {
+			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+		} else {
+			json.NewEncoder(w).Encode("Task completion status now updated to completed")
+		}
+		return
+	}
+}
+
+func ToDoStatus(w http.ResponseWriter, request *http.Request) {
+	switch request.Method {
+	case http.MethodPost:
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		log.Print(string(body))
+		var formattedBody interfaces.UserID
+		err := json.Unmarshal(body, &formattedBody)
+		//log.Print(string(formattedBody))
+		helpers.HandleErr(err)
+		//json.NewDecoder(request.Body).Decode(&formattedBody)
+
+		log.Print("curr ID ", formattedBody.User)
+
+		completed := database.GetCompletedItems(formattedBody.User)
+		incomplete := database.GetIncompleteItems(formattedBody.User)
+
+		perComplete := 100.0 * float64(len(completed)) / (float64(len(completed)) + float64(len(incomplete)))
+
+		var response = map[string]interface{}{"Incomplete": incomplete, "Complete": completed, "Percentage": math.Round(perComplete)}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+}
+
+//-----------------------------------these might get deleted? -----------------------------------
 
 // this function will be called with the following URL: http://localhost:3000/home-page
 // example code from https://golang.ch/which-golang-router-to-use-for-what-cases/ used as a reference

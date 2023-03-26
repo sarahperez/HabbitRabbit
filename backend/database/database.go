@@ -20,3 +20,27 @@ func InitDatabase() {
 	helpers.HandleErr(err)
 	DB = database
 }
+
+func InitTestDatabase() {
+	database, err := gorm.Open(sqlite.Open("forTestingPurposeOnly.db"), &gorm.Config{})
+	helpers.HandleErr(err)
+	DB = database
+}
+
+// -----------------------------Functions that work in the database - TO DO ------------------------------
+func GetCompletedItems(user uint) []string {
+	completedTodoItems := GetTodoItems(true, user)
+	return completedTodoItems
+}
+
+func GetIncompleteItems(user uint) []string {
+	incompleteTodoItems := GetTodoItems(false, user)
+	return incompleteTodoItems
+}
+
+func GetTodoItems(completed bool, user uint) []string {
+	var ret []string
+	DB.Table("todo_items").Where("completed = ? AND user = ?", completed, user).Select("description").Find(&ret)
+
+	return ret
+}
