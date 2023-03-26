@@ -16,8 +16,12 @@
           <input class="password-input" id="password" type="password" placeholder="******************" (keyup)="onKey($event, 'password')" required minlength="6">
         </div>
         <div class="sign-in-container">
-          <button class="sign-in-button" type="button" (click)="onSubmit()">
+          <button class="option-button" type="button" (click)="onSubmit()">
             Sign In
+          </button>
+          &nbsp;
+          <button class="option-button" type="button" (click)="onRegister()">
+            Register
           </button>
         </div>
       </form>
