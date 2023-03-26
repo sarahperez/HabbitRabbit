@@ -12,6 +12,8 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -21,7 +23,8 @@ import { LoginComponent } from './login/login.component';
         HomeComponent,
         CalendarComponent,
         FullCalendarComponent,
-        LoginComponent
+        LoginComponent,
+        RegisterComponent
     ],
     exports: [
         FullCalendarModule
@@ -33,7 +36,8 @@ import { LoginComponent } from './login/login.component';
         AppRoutingModule,
         BrowserAnimationsModule,
         FullCalendarModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ]
 })
 export class AppModule { }
