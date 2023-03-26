@@ -8,9 +8,11 @@ import (
 	"encoding/json"
 	"main/database"
 	"main/interfaces"
+	"main/migrations"
 
 	"bytes"
 	"io"
+	"log"
 	"net/http"
 	"testing"
 
@@ -85,18 +87,25 @@ func TestDisplayCalender(t *testing.T) {
 	}
 }
 
-func TestEditToDo(t *testing.T) {
+func TestAddingToList(t *testing.T) {
 
-	database.InitDatabase()
+	database.InitTestDatabase()
+	migrations.Migrate()
 
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
 	req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w := httptest.NewRecorder()
-	//EditToDo(w, req)
+	EditToDo(w, req)
 
 	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
 	req = httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
@@ -106,7 +115,6 @@ func TestEditToDo(t *testing.T) {
 	res := w.Result()
 	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
-	//body, err := json.Marshal(&data)
 	bodyString := string(data)
 
 	type resp struct {
@@ -115,94 +123,154 @@ func TestEditToDo(t *testing.T) {
 		Percentage float64
 	}
 
-	arg1 := []string{"buy apples", "buy apples"}
-	arg2 := []string{}
+	arg1 := []string{}
+	arg2 := []string{"buy apples"}
 
-	expected, err := json.Marshal(resp{Complete: arg2, Incomplete: arg1, Percentage: 0})
+	expected, err := json.Marshal(resp{Complete: arg1, Incomplete: arg2, Percentage: 0})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
 	expectedString := string(expected)
 	expectedString += "\n"
 
-	if err != nil {
-		t.Errorf("expected error to be nil got %v", err)
-	}
 	if bodyString != expectedString {
 		t.Errorf("error- failed response: %v", string(data))
 	}
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
 }
 
-// func TestEditToDo(t *testing.T) {
+func TestEditToDo(t *testing.T) {
+	database.InitTestDatabase()
+	migrations.Migrate()
 
-// 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-// 	req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
-// 	req.Header.Set("Contest-type", "application/json")
-// 	w := httptest.NewRecorder()
-// 	EditToDo(w, req)
+	req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w := httptest.NewRecorder()
+	EditToDo(w, req)
 
-// 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy oranges"})
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy oranges"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-// 	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
-// 	req.Header.Set("Contest-type", "application/json")
-// 	w = httptest.NewRecorder()
-// 	EditToDo(w, req)
+	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
 
-// 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy bananas"})
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy bananas"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-// 	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
-// 	req.Header.Set("Contest-type", "application/json")
-// 	w = httptest.NewRecorder()
-// 	EditToDo(w, req)
+	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
 
-// 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-// 	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
-// 	req.Header.Set("Contest-type", "application/json")
-// 	w = httptest.NewRecorder()
-// 	EditToDo(w, req)
+	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
 
-// 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-// 	req = httptest.NewRequest(http.MethodPut, "/EditToDo", bytes.NewBuffer(reqBody))
-// 	req.Header.Set("Contest-type", "application/json")
-// 	w = httptest.NewRecorder()
-// 	EditToDo(w, req)
+	req = httptest.NewRequest(http.MethodPut, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
 
-// 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-// 	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
-// 	req.Header.Set("Contest-type", "application/json")
-// 	w = httptest.NewRecorder()
-// 	EditToDo(w, req)
+	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
 
-// 	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
+	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-// 	req = httptest.NewRequest(http.MethodPut, "/ToDoStatus", bytes.NewBuffer(reqBody))
-// 	req.Header.Set("Contest-type", "application/json")
-// 	w = httptest.NewRecorder()
-// 	ToDoStatus(w, req)
+	req = httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	ToDoStatus(w, req)
 
-// 	res := w.Result()
-// 	defer res.Body.Close()
-// 	data, err := io.ReadAll(res.Body)
-// 	body, err := json.Marshal(&data)
-// 	bodyString := string(body)
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	bodyString := string(data)
 
-// 	type resp struct {
-// 		Incomplete []string
-// 		Complete   []string
-// 		Percentage float64
-// 	}
+	type resp struct {
+		Complete   []string
+		Incomplete []string
+		Percentage float64
+	}
 
-// 	arg1 := []string{"buy apples"}
-// 	arg2 := []string{"buy oranges", "buy bananas"}
+	arg1 := []string{"buy apples"}
+	arg2 := []string{"buy oranges", "buy bananas"}
 
-// 	expected, err := json.Marshal(resp{Incomplete: arg2, Complete: arg1, Percentage: 33.33})
-// 	expectedString := string(expected)
+	expected, err := json.Marshal(resp{Complete: arg1, Incomplete: arg2, Percentage: 33})
+	expectedString := string(expected) + "\n"
 
-// 	if err != nil {
-// 		t.Errorf("expected error to be nil got %v", err)
-// 	}
-// 	if bodyString != expectedString {
-// 		t.Errorf("error- failed response: %v", string(data))
-// 	}
-// }
+	if bodyString != expectedString {
+		t.Errorf("error- failed response: %v", string(data))
+	}
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy bananas"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy oranges"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+}
