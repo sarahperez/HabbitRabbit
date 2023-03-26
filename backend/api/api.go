@@ -172,7 +172,7 @@ func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 
 		perComplete := 100.0 * float64(len(completed)) / (float64(len(completed)) + float64(len(incomplete)))
 
-		var response = map[string]interface{}{"incomplete": incomplete, "complete": completed, "percentage of tasks completed": perComplete}
+		var response = map[string]interface{}{"Incomplete": incomplete, "Complete": completed, "Percentage": perComplete}
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)
