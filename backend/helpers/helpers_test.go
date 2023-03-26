@@ -79,7 +79,6 @@ func TestEmailValidation(t *testing.T) {
 }
 
 // TestPanicHandler has been started
-// slight error w expected vs actual, cannot figure how to get \n
 func TestPanicHandler(t *testing.T) {
 	homeHandler := func(http.ResponseWriter, *http.Request) { panic("some error") }
 	panicHandler := PanicHandler(http.HandlerFunc(homeHandler))
@@ -90,7 +89,8 @@ func TestPanicHandler(t *testing.T) {
 	panicHandler.ServeHTTP(res, req)
 
 	assert.Equal(t, 200, res.Code)
-	assert.Equal(t, `{"Message":"Internal server error"}`, res.Body.String())
+	assert.Equal(t, `{"Message":"Internal server error"}
+`, res.Body.String())
 }
 
 // TestValidateToken hasnt been started
