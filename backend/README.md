@@ -56,7 +56,7 @@ This is an example of what would be returned to the client if the regristration 
 ```
 
 ---
-```UpdateToDo(w http.ResponseWriter, request *http.Request) ```
+```EditToDo(w http.ResponseWriter, request *http.Request) ```
 This function controls the to-do list of the program, the request method determines what action will be taken. The request should send in a user ID and a task description.
 
 Expected json information in request body:
