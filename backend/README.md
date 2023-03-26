@@ -104,9 +104,9 @@ Expected JSON information in request body:
 Example of return JSON:
 ```
 {
- "complete": ["finished task"],
- "incomplete": ["not finished task","not started task"],
- "percentage of tasks completed": 33.33
+ "Complete": ["finished task"],
+ "Incomplete": ["not finished task","not started task"],
+ "Percentage of tasks completed": 33.33
 }
 ```
 
