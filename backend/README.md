@@ -86,7 +86,7 @@ or
 
 ---
 ```ToDoStatus(w http.ResponseWriter, request *http.Request) ```
-This function returns the to do list of the associated user. This could be used when the user first opens their to do list, and can be used to get the updated to do list associated with a user after the add or complete a task. A request to this function should send the appropriate user ID.
+This function returns the to do list of the associated user as well as the percentage of completed to incomplete tasks. This could be used when the user first opens their to do list, and can be used to get the updated to do list associated with a user after the add or complete a task. A request to this function should send the appropriate user ID.
 
 Expected JSON information in request body:
 
@@ -105,7 +105,8 @@ Example of return JSON:
 ```
 {
  "complete": ["finished task"],
- "incomplete": ["not finished task","not started task"]
+ "incomplete": ["not finished task","not started task"],
+ "percentage of tasks completed": 33.33
 }
 ```
 
