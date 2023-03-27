@@ -13,6 +13,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
 import { LoginComponent } from './login/login.component';
 import { TodolistComponent } from './todolist/todolist.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { TodolistComponent } from './todolist/todolist.component';
         AppRoutingModule,
         BrowserAnimationsModule,
         FullCalendarModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ]
 })
 export class AppModule { }

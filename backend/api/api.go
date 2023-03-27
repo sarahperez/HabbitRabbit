@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"log"
+	"math"
 	"net/http"
 
 	"main/database"
@@ -170,7 +171,9 @@ func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 		completed := database.GetCompletedItems(formattedBody.User)
 		incomplete := database.GetIncompleteItems(formattedBody.User)
 
-		var response = map[string]interface{}{"incomplete": incomplete, "complete": completed}
+		perComplete := 100.0 * float64(len(completed)) / (float64(len(completed)) + float64(len(incomplete)))
+
+		var response = map[string]interface{}{"Incomplete": incomplete, "Complete": completed, "Percentage": math.Round(perComplete)}
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)
