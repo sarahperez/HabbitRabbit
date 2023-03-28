@@ -106,7 +106,7 @@ Example of return JSON:
 {
  "Complete": ["finished task"],
  "Incomplete": ["not finished task","not started task"],
- "Percentage of tasks completed": 33.33
+ "Percentage of tasks completed": 33
 }
 ```
 

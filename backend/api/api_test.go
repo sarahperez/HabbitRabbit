@@ -87,36 +87,46 @@ func TestDisplayCalender(t *testing.T) {
 	}
 }
 
+// mini test- tests if the to-do item is sucessfully added and retrieved from the database
 func TestAddingToList(t *testing.T) {
 
+	//start the database used for testing
 	database.InitTestDatabase()
-	migrations.Migrate()
+	//migrations.Migrate()
 
+	//create a request body
+	//this method of marshaling is from https://golang.cafe/blog/golang-json-marshal-example.html
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w := httptest.NewRecorder()
 	EditToDo(w, req)
 
+	//create a request body
 	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req = httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
 	ToDoStatus(w, req)
 
+	//format the response body as a string
+	//converting response body to string method from https://www.educative.io/answers/how-to-read-the-response-body-in-golang
 	res := w.Result()
 	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
 	bodyString := string(data)
 
+	//set up the expected response
 	type resp struct {
 		Complete   []string
 		Incomplete []string
@@ -134,10 +144,12 @@ func TestAddingToList(t *testing.T) {
 	expectedString := string(expected)
 	expectedString += "\n"
 
+	//check to see if the expected matches what was returned from the tested functions
 	if bodyString != expectedString {
 		t.Errorf("error- failed response: %v", string(data))
 	}
 
+	//-----------------------the following is just clearing the database, deleting all added rows--------------------------
 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 	if err != nil {
 		log.Print("error encountered in marshal")
@@ -149,80 +161,96 @@ func TestAddingToList(t *testing.T) {
 	EditToDo(w, req)
 }
 
+// more extensive test of the to do list functionality- involving adding, editing, deleting and returning user status
 func TestEditToDo(t *testing.T) {
 	database.InitTestDatabase()
 	migrations.Migrate()
 
+	//create a request body
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w := httptest.NewRecorder()
 	EditToDo(w, req)
 
+	//create a request body
 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy oranges"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
 	EditToDo(w, req)
 
+	//create a request body
 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy bananas"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
 	EditToDo(w, req)
 
+	//create a request body
 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
 	EditToDo(w, req)
 
+	//create a request body
 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req = httptest.NewRequest(http.MethodPut, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
 	EditToDo(w, req)
 
+	//create a request body
 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
 	EditToDo(w, req)
 
+	//create a request body
 	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
+	//create a http request and send it to the function
 	req = httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
 	ToDoStatus(w, req)
 
+	//set up the expected response
 	res := w.Result()
 	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
@@ -240,10 +268,12 @@ func TestEditToDo(t *testing.T) {
 	expected, err := json.Marshal(resp{Complete: arg1, Incomplete: arg2, Percentage: 33})
 	expectedString := string(expected) + "\n"
 
+	//check to see if the expected matches what was returned from the tested functions
 	if bodyString != expectedString {
 		t.Errorf("error- failed response: %v", string(data))
 	}
 
+	//-----------------------the following is just clearing the database, deleting all added rows--------------------------
 	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 	if err != nil {
 		log.Print("error encountered in marshal")
