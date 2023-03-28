@@ -19,6 +19,7 @@ h2 {
   }
   
   .demo-app {
+    margin-left:100px;
     display: flex;
     min-height: 100%;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
