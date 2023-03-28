@@ -17,7 +17,7 @@
 }
 
 .logo {
-  background: #e1fff0;
+  background: rgb(209, 250, 255);
   width: 3.1rem;
   min-width: 3rem;
   border-radius: 0.313rem;
@@ -94,12 +94,12 @@
 }
 
 .side-nav-nav-link:hover{ 
-  background-color: #e1fff0;
+  background-color: rgb(209, 250, 255);
   color: #000;
 }
 
 .active{
-  background-color: #e1fff0;
+  background-color: rgb(209, 250, 255);
   border: 2px solid black;
 }
 

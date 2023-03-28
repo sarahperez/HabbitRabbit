@@ -8,10 +8,19 @@
     width: 400px;
     padding: 16px;
     margin: 24px 0px;
-    background-color: whitesmoke;
+    background-color: rgb(255, 255, 255);
     font-family: sans-serif;
 }
 
 .hellomessage {
     text-align: center;
+    background-color: white;
+    font-size: 30px;
+    animation: fadeIn 4s;
+    padding-top: 50px;
 }
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
