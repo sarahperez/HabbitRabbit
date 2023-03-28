@@ -1,7 +1,7 @@
 # Detail work you've completed in Sprint 3
 ## Frontend:
 
-Registration Page:
+Registration Page: Created new component for registration page. The registration page contains text input fields for the user to add their name, email, username, and password. Started working on adding the users information to the database. I was having trouble setting up the register service to call the register function that the backend team has made. Currently the registration page routes back to the login page. In practice the user will be able to register (their information will be added to the database), they would be directed back to the login page where they could then login. 
 
 Login Page: Look of login page was changed to be more cohesive with rest of app, button linking to registration page was added
 
