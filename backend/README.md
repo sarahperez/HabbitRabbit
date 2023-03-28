@@ -46,7 +46,7 @@ This is an example of what would be returned to the client if the login was suce
 ```RegisterFunc(w http.ResponseWriter, r *http.Request)```
 This function will be called when the user tries to create an account. When the router routes to this function, the incoming HTTP request should contain a JSON file with a username, email, and password. This function will call a helper function to validate the username, name, email and password from the JSON. The username and email will then be checked against the database to see if they are already associated with an account. If the paramaters pass these checks, the user is added to the database. If the username, email or password is invalid, or already associated with an account the server will send a response indicating these issues in a string.
 
-This is an example of what would be returned to the client if the regristration was sucessful: 
+This is an example of what would be returned to the client if the registration was sucessful: 
 ```
 {
  "data":{"ID":2,"Username":"UserAlexa","Name":"Alexa","Email":"useralexa@habbitrabbit.com"},
