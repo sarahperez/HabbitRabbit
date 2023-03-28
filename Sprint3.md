@@ -14,6 +14,26 @@ Additionaly, we have identified how we would like to store and keep track of use
 # List frontend unit tests
 
 # List backend unit tests
+   Unit Tests for Sprint3:
+      -TestPanicHandler: 
+         This test makes sure the panic handler  function works correctly, It does this by creating a http handler that is supposed to cause a panic, and compares the outcome to the actual reseult of the panic handler. If both functions return the same error message, that means the function is catching the panic, and is working correctly.
+      -TestRegisterFunc:
+         Using a database used strictly for testing, a fake user input is loaded into the database. the resulting database configuration is then compared to a hardcoded user struct, and if the two registration results produce the same string, then the test passed. After this is checked, the data is then deleted from the database to avoid issues with further testing. This function currently runs, but is not producing the expected output.
+      -TestLoginFunc:
+         This function works with the http handlers to make sure the right requests are made when a user logs in correctly. As of right now, this function is not implemented correctly and therefore doesnt run.
+      -TestAddingToList:
+         This function adds a to do list item to the todo list table within the testing database, and compares that to a hardcoded expected result to make sure the task was added correctly. if the two produce the same result, the test passes. The data is then deleted from the database to avoid issues with further testing. This function runs and passes
+      -TestEditToDo:
+         This test adds items to the two do list table like the previous test, however this function also tests changing the status of list items, as the user has the ability to complete and delete tasks. Throughout this test many changes and edits are made to the todolist, and those values are checked with the hardcoded values. The data is then deleted from the database to avoid issues with further testing. This function currently runs and passes.
+
+   Unit Tests Completed for Sprint2 (more details listed in Sprint2.md): 
+      -TestGoHome
+      -TestDisplayCalender
+      -TestUsernameValidation
+      -TestPasswordValidation
+      -TestEmailValidation
+      -TestHashAndSalt
+
 
 # Show updated documentation for your backend API 
 all of this infromation can also be found in our README.md in our backend folder
