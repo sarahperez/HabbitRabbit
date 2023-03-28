@@ -20,4 +20,9 @@ describe('TodolistComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should add a list item', () => {
+      fixture.detectChanges();
+      expect(component.allItems.length).toBe(1)
+  });
 });
