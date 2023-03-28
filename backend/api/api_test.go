@@ -9,6 +9,7 @@ import (
 	"main/database"
 	"main/interfaces"
 	"main/migrations"
+	//"main/users"
 
 	"bytes"
 	"io"
@@ -50,7 +51,50 @@ import (
 //}
 
 // TestRegisterFunc hasnt been started
-//func TestRegisterFunc(t *testing.T) {}
+func TestRegisterFunc(t *testing.T) {
+	database.InitTestDatabase()
+	migrations.Migrate()
+
+	reqBody, err := json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req := httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w := httptest.NewRecorder()
+	EditToDo(w, req)
+
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	bodyString := string(data)
+
+	type registration struct {
+		Username string
+		Name     string
+		Mail     string
+		Pass     string
+	}
+
+	expected, err := json.Marshal(registration{Username: "JohnMark123", Name: "johanthan", Mail: "johnsemail@email.com", Pass: "JohN$pw0rd!"})
+	expectedString := string(expected) + "\n"
+
+	if bodyString != expectedString {
+		t.Errorf("error- failed response: %v", string(data))
+	}
+
+	reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+
+}
 
 // TestGetUserFunc hasnt been started
 //func TestGetUserFunc(t *testing.T) {}

@@ -15,6 +15,7 @@ export interface SideNavToggle{
   templateUrl: './todolist.component.html',
   styleUrls: ['./todolist.component.css']
 })
+
 export class TodolistComponent {
   isSideNavCollapsed = false;
   screenWidth=0;
