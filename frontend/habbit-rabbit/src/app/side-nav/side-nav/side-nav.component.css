@@ -1,5 +1,5 @@
 .side-nav {
-    background: #b9b8ff;
+    background: rgb(185, 184, 255);
     transition: all .5s ease;
     position: fixed;
     z-index: 1;

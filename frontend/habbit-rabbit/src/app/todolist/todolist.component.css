@@ -50,6 +50,7 @@
   
   ul li {
     list-style: none;
+    padding-bottom:1rem;
   }
 
   body {

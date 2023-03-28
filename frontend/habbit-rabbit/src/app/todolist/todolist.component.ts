@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SideNavComponent } from '../side-nav/side-nav/side-nav.component';
 
 export interface Item {
   description: string;

@@ -40,8 +40,14 @@
   .name-container{
     margin-bottom: 1rem;
   }
+  .username-container{
+    margin-bottom: 1rem;
+  }
+  .email-container{
+    margin-bottom: 1rem;
+  }
 
-  .field{
+  .name-field{
     display: block; 
     margin-bottom: 0.5rem; 
     color: #374151; 
@@ -49,12 +55,75 @@
     line-height: 1.25rem; 
     font-weight: 700; 
     }
-
+    
+    .username-field{
+      display: block; 
+      margin-bottom: 0.5rem; 
+      color: #374151; 
+      font-size: 0.875rem;
+      line-height: 1.25rem; 
+      font-weight: 700; 
+      }
+      .email-field{
+        display: block; 
+        margin-bottom: 0.5rem; 
+        color: #374151; 
+        font-size: 0.875rem;
+        line-height: 1.25rem; 
+        font-weight: 700; 
+        }
+        .password-field{
+          display: block; 
+          margin-bottom: 0.5rem; 
+          color: #374151; 
+          font-size: 0.875rem;
+          line-height: 1.25rem; 
+          font-weight: 700; 
+          }
   .username-container{
     margin-bottom: 1rem;
   }
  
-  .input{
+  .name-input{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    color: #374151; 
+    line-height: 1.25; 
+    width: 100%; 
+    border-radius: 0.25rem; 
+    border-width: 1px; 
+    appearance: none; 
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); 
+  }
+  .username-input{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    color: #374151; 
+    line-height: 1.25; 
+    width: 100%; 
+    border-radius: 0.25rem; 
+    border-width: 1px; 
+    appearance: none; 
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); 
+  }
+  .email-input{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    color: #374151; 
+    line-height: 1.25; 
+    width: 100%; 
+    border-radius: 0.25rem; 
+    border-width: 1px; 
+    appearance: none; 
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); 
+  }
+  .password-input{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem; 
     padding-left: 0.75rem;
