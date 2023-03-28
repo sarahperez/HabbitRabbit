@@ -1,6 +1,16 @@
 # Detail work you've completed in Sprint 3
 ## Frontend:
 
+Registration Page:
+
+Login Page: Look of login page was changed to look more cohesive with rest of app, button linking to registration page was added
+
+Side-Nav: Added link to to-do page, close button is now functional
+
+Home: Added message that gets stored user info and greets user with their name
+
+To-Do: Created new component for to-do list, basic list interface that allows the user to type a new task and add it to their list
+
 ## Backend:
 
 At the begining of this sprint, we consolidated our database and added a table that could keep track of an unordered to-do list for each user. In addition to setting up a todo_items table, we wrot functions for our api that allow users to add items to their to do lists, update the status of an item (mark it complete), and delete an item from their to do list. We influded a functionality that calculates the percentage of overall tasks completed for each user. We hope that this number will provide users with an insight to their productivity metric. 
