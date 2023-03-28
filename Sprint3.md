@@ -16,7 +16,7 @@ Additionaly, we have identified how we would like to store and keep track of use
 # List backend unit tests
 
 # Show updated documentation for your backend API 
-all of this infromation can also be found in our backend.README
+all of this infromation can also be found in our README.md in our backend folder
 
 # Project Set Up: Go + SQLITE
 
