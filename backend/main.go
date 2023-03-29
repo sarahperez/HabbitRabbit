@@ -75,9 +75,9 @@ func main() {
 	router.HandleFunc("/home-page", api.GoHome)
 	router.HandleFunc("/calendar", api.DisplayCalendar)
 	router.HandleFunc("/login", api.LoginFunc).Methods("POST", "OPTIONS")
-	router.HandleFunc("/register", api.RegisterFunc).Methods("POST")
-	router.HandleFunc("/EditToDo", api.EditToDo)
-	router.HandleFunc("/ToDoStatus", api.ToDoStatus)
+	router.HandleFunc("/register", api.RegisterFunc).Methods("OPTIONS", "POST")
+	router.HandleFunc("/EditToDo", api.EditToDo).Methods("POST", "PUT", "DELETE", "OPTIONS")
+	router.HandleFunc("/ToDoStatus", api.ToDoStatus).Methods("POST", "OPTIONS")
 
 	//add default handler
 
