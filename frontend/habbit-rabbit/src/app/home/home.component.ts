@@ -14,6 +14,12 @@ interface SideNavToggle{
 })
 
 export class HomeComponent {
+  userDisplayName = '';
+  userData = '';
+  ngOnInit() {
+    this.userDisplayName = (sessionStorage.getItem('loggedUser')!);
+    this.userData = (sessionStorage.getItem('userData')!);
+  }
   isSideNavCollapsed = false;
   screenWidth=0;
   onToggleSideNav(data: SideNavToggle): void{

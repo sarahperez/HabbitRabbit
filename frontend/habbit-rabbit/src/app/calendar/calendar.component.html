@@ -1,8 +1,4 @@
 <app-side-nav (onToggleSideNav)="onToggleSideNav($event)"></app-side-nav>
-<app-body>
-  [collapsed]="isSideNavCollapsed"
-[screenWidth]="screenWidth"
-</app-body>
 <!-- The following calendar component was imported from https://github.com/fullcalendar/fullcalendar-examples/tree/main/angular15-->
 <div class='demo-app'>
 
@@ -60,4 +56,7 @@
   
   </div>
   
-  
+  <app-body>
+    [collapsed]="isSideNavCollapsed"
+    [screenWidth]="screenWidth"
+    </app-body>

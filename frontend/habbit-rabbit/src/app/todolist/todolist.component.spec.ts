@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { SideNavComponent } from '../side-nav/side-nav/side-nav.component';
 import { TodolistComponent } from './todolist.component';
 
 describe('TodolistComponent', () => {
@@ -19,5 +19,10 @@ describe('TodolistComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should add a list item', () => {
+      fixture.detectChanges();
+      expect(component.allItems.length).toBe(1)
   });
 });

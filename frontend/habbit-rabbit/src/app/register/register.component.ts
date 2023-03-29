@@ -33,4 +33,5 @@ export class RegisterComponent {
     this.registerService
         .register(this.name, this.email, this.username, this.password);
   }
+  
 }

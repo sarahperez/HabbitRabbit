@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class RegisterService {
-  url: any = 'http://localhost:3000/login';
+  url: any = 'http://localhost:3000/register';
   errorSubject: any = new BehaviorSubject<any>(null);
   errorMessage: any = this.errorSubject.asObservable();
 
@@ -23,6 +23,14 @@ export class RegisterService {
   ) { }
 
   register(Name: string, Email: string, Username: string, Password: string): any {
-    
+    lastValueFrom(this.http.post(this.url, { "name" : Name, "email" : Email, "username" : Username, "password": Password })).then(async (res: any) => {
+      if (res&&res.jwt) {
+        sessionStorage.setItem('jwt', res.jwt);
+        this.errorSubject.next(null);
+        this.router.navigateByUrl('login');
+      } else if (res.Message) {
+        this.errorSubject.next(res.Message);
+      }
+    });
   }
 }

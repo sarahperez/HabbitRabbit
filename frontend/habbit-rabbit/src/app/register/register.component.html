@@ -1,26 +1,39 @@
-<div class="container">
-    <h1>User Registration</h1>
-    <form>
-        <div class="form-group">
-            <label form="name">Name</label><br>
-            <input type="text" name = "name" class="form-control" placeholder="Enter Name">
+<div class="login-container">
+    <div class="misc-container">
+      <form class="container-bg">
+        <img class="logo" src="../../assets/rabbit.png" />
+        <div class="name-container">
+            <label class="name-field" for="name">
+              Name
+            </label>
+            <input class="name-input" id="name" type="text" placeholder="Name" (keyup)="onKey($event, 'name')">
+          </div>
+        <div class="email-container">
+            <label class="email-field" for="email">
+              Email
+            </label>
+            <input class="email-input" id="email" type="text" placeholder="Email" (keyup)="onKey($event, 'email')">
         </div>
-        <pre></pre>
-        <div class="form-group">
-            <label form="email">Email</label><br>
-            <input type="text" name = "email" class="form-control" placeholder="Enter Email">
+        <div class="username-container">
+          <label class="username-field" for="username">
+            Username
+          </label>
+          <input class="username-input" id="username" type="text" placeholder="Username" (keyup)="onKey($event, 'username')">
         </div>
-        <pre></pre>
-        <div class="form-group">
-            <label form="username">Username</label><br>
-            <input type="text" name = "username" class="form-control" placeholder="Enter Username">
+        <div class="password-container">
+          <label class="password-field" for="password">
+            Password
+          </label>
+          <input class="password-input" id="password" type="password" placeholder="******************" (keyup)="onKey($event, 'password')" required minlength="6">
         </div>
-        <pre></pre>
-        <div class="form-group">
-            <label form="password">Password</label><br>
-            <input type="text" name = "password" class="form-control" placeholder="Enter Password">
+        <div class="button-container">
+          <button class="option-button" type="button" (click)="onSubmit()">
+            Create Account
+          </button>
         </div>
-        <pre></pre>
-        <button class="btn btn-primary" type="submit" (click)="onSubmit()">Register</button>
-    </form>
-</div>
+      </form>
+      <p class="credits">
+        &copy;2020 FinanceApp. All rights reserved.
+      </p>
+    </div>
+  </div>

@@ -1,1 +1,15 @@
 <app-side-nav (onToggleSideNav)="onToggleSideNav($event)"></app-side-nav>
+
+<div class="todo-container">
+    <label for="addItemInput">What do you need to do?</label>
+    <input #newItem placeholder="add an item" (keyup.enter)="addItem(newItem.value); newItem.value = ''" class="lg-text-input" id="addItemInput" />
+    <button class="btn-primary" (click)="addItem(newItem.value)">Add new task</button>
+    <ul>
+      <li *ngFor="let item of items">{{item.description}}</li>
+    </ul>
+</div>
+
+<app-body>
+    [collapsed]="isSideNavCollapsed"
+  [screenWidth]="screenWidth"
+</app-body>
