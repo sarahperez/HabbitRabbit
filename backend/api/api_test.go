@@ -2,6 +2,11 @@
 //cd into file you want to test, and type go test
 //if multiple functions in test file, do go test -v instead of go test
 
+//References used for testing:
+//marshaling method for setting up http request bodies from https://golang.cafe/blog/golang-json-marshal-example.html
+//converting response body to string method from https://www.educative.io/answers/how-to-read-the-response-body-in-golang
+//overall structure for testing functions https://golang.cafe/blog/golang-httptest-example.html
+
 package api
 
 import (
@@ -20,8 +25,6 @@ import (
 	//"github.com/stretchr/testify/assert"
 	"net/http/httptest"
 )
-
-// https://golang.cafe/blog/golang-httptest-example.html
 
 // TestReadBody has been started
 //func TestReadBody(t *testing.T) {
@@ -179,7 +182,6 @@ func TestAddingToList(t *testing.T) {
 	//migrations.Migrate()
 
 	//create a request body
-	//this method of marshaling is from https://golang.cafe/blog/golang-json-marshal-example.html
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 	if err != nil {
 		log.Print("error encountered in marshal")
@@ -204,7 +206,6 @@ func TestAddingToList(t *testing.T) {
 	ToDoStatus(w, req)
 
 	//format the response body as a string
-	//converting response body to string method from https://www.educative.io/answers/how-to-read-the-response-body-in-golang
 	res := w.Result()
 	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
