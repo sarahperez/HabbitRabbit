@@ -95,7 +95,7 @@ box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 display: flex; 
 justify-content:space-evenly; 
 }
-.option-button{
+.sign-in-button{
 padding-top: 0.5rem;
 padding-bottom: 0.5rem; 
 padding-left: 1rem;
@@ -105,9 +105,22 @@ color: #ffffff;
 font-weight: 700; 
 border-radius: 0.25rem; 
 }
-.option-button:hover{
+.sign-in-button:hover{
   background-color: #9795ff; 
 }
+.register-button{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; 
+  padding-left: 1rem;
+  padding-right: 1rem; 
+  background-color: #b9b8ff; 
+  color: #ffffff; 
+  font-weight: 700; 
+  border-radius: 0.25rem; 
+  }
+  .register-button:hover{
+    background-color: #9795ff; 
+  }
 .credits{
 color: #000000; 
 font-size: 0.75rem;
