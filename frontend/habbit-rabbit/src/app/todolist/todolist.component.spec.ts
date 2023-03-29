@@ -20,9 +20,14 @@ describe('TodolistComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+});
+
+describe('Todo Liast Functionality', () => {
+  const component = new TodolistComponent();
+  let fixture: ComponentFixture<TodolistComponent>;
 
   it('should add a list item', () => {
-      fixture.detectChanges();
-      expect(component.allItems.length).toBe(1)
+    component.addItem('New item');
+    expect(component.allItems.length).toBeGreaterThan(1);
   });
 });
