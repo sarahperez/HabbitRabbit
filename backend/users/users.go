@@ -92,8 +92,10 @@ func Register(username string, name string, email string, pass string) map[strin
 		generatedPassword := helpers.HashAndSalt([]byte(pass))
 		user := &interfaces.User{Username: username, Name: name, Email: email, Password: generatedPassword}
 
-		existingUsername := database.DB.Where("username = ? ", username).First(&user).RowsAffected
-		existingEmail := database.DB.Where("email = ? ", email).First(&user).RowsAffected
+		var existingUsername int64
+		var existingEmail int64
+		database.DB.Where("username = ? ", username).Count(&existingUsername)
+		database.DB.Where("email = ? ", email).Count(&existingEmail)
 
 		if existingUsername > 0 && existingEmail == 0 {
 			return map[string]interface{}{"message": "entered username is already taken"}
