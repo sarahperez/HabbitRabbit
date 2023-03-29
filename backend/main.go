@@ -95,7 +95,9 @@ func main() {
 	//if something does not work, (exit status 1) ie. if someone tries to use the same port
 	log.Fatal(err)
 
-	//added with scheduler
+	// fscheduler for possible implementation of callender
+	// found at this url: https://articles.wesionary.team/building-basic-event-scheduler-in-go-134c19f77f84
+
 	// ctx, cancel := context.WithCancel(context.Background())
 
 	// interrupt := make(chan os.Signal, 1)
