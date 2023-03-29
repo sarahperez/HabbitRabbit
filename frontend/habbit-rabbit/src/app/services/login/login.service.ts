@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, lastValueFrom, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom} from 'rxjs';
 import { Router } from '@angular/router';
 
 const httpOptions = {
