@@ -51,7 +51,6 @@ func apiResponse(call map[string]interface{}, w http.ResponseWriter) {
 }
 
 func LoginFunc(w http.ResponseWriter, request *http.Request) {
-	//
 	switch request.Method {
 	case http.MethodOptions:
 		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
@@ -79,8 +78,8 @@ func LoginFunc(w http.ResponseWriter, request *http.Request) {
 }
 
 func RegisterFunc(w http.ResponseWriter, r *http.Request) {
-
-	if r.Method == http.MethodOptions {
+	switch r.Method {
+	case http.MethodOptions:
 		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
 		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
 		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
@@ -88,19 +87,27 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
 		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
 		return
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		log.Print("inside loginfunc")
+
+		body := readBody(r)
+
+		var formattedBody Register
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		log.Print("inside register func")
+		log.Print(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
+		register := users.Register(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
+
+		if register["message"] == "user added" {
+			log.Print("user added")
+			register = users.Login(formattedBody.Username, formattedBody.Password)
+		}
+		// Refactor register to use apiResponse function
+		apiResponse(register, w)
 	}
-
-	body := readBody(r)
-
-	var formattedBody Register
-	err := json.Unmarshal(body, &formattedBody)
-	helpers.HandleErr(err)
-
-	log.Print("inside register func")
-	log.Print(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
-	register := users.Register(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
-	// Refactor register to use apiResponse function
-	apiResponse(register, w)
 }
 
 func GetUserFunc(w http.ResponseWriter, r *http.Request) {
