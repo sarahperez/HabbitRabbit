@@ -89,7 +89,6 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	case http.MethodPost:
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		log.Print("inside loginfunc")
 
 		body := readBody(r)
 
@@ -140,6 +139,8 @@ func EditToDo(w http.ResponseWriter, request *http.Request) {
 		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
 		return
 	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	//"unload" the input data from the request- should be a user ID and a task description
 	body := readBody(request)
@@ -193,6 +194,8 @@ func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
 		return
 	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	switch request.Method {
 	case http.MethodPost:
