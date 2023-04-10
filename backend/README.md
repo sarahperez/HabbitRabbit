@@ -19,7 +19,7 @@ Open a terminal (in VS Code). Navigate into the backend folder. Then run: ```go 
 
 # Database Organization
  
-| Table in the database       | Information Stored                                                                                              |
+| Table in the database       | Columns                                                                                              |
 | -------------               |:-------------:                                                                                                  |
 | users                       | ID (primary key  - will serve as userID accross other tables), username, name, email, hashed password           |
 | todo_items                  | ID (generated automaticly- counts rows, not important in porgram), user ID, task description, completion status |
