@@ -13,6 +13,9 @@ import (
 // Refactor Migrate
 func Migrate() {
 	//User := &interfaces.User{}
-	Todo := &interfaces.TodoItem{}
-	database.DB.AutoMigrate(&Todo)
+	// Todo := &interfaces.TodoItem{}
+	// database.DB.AutoMigrate(&Todo)
+
+	calendar := &interfaces.CalendarItem{}
+	database.DB.AutoMigrate(&calendar)
 }

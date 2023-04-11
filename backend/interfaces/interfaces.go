@@ -35,6 +35,14 @@ type TodoItem struct {
 	Completed   bool
 }
 
+type CalendarItem struct {
+	gorm.Model
+	User     uint
+	StartStr string
+	EndStr   string
+	Title    string
+}
+
 // Create Validation interface
 type Validation struct {
 	Value string

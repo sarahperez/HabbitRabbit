@@ -31,6 +31,7 @@ import (
 	//packages added from tutorial
 	"main/api"
 	"main/database"
+	"main/migrations"
 
 	//this may change, I believe they just want us to reference main/customevents in our
 	//own files, however im gonna leave it like this until im sure
@@ -64,6 +65,7 @@ func loggingMiddleware(next http.Handler) http.Handler {
 func main() {
 
 	database.InitDatabase()
+	migrations.Migrate()
 
 	//initalizing an HTTP request multiplexer- this can check to see if any of the incoming url match
 	//those we load it with and then run the appropriate functions
