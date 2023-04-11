@@ -14,7 +14,7 @@ import (
 	"main/database"
 	"main/interfaces"
 	"main/migrations"
-	"main/users"
+	//"main/users"
 
 	"bytes"
 	"io"
@@ -106,7 +106,7 @@ func TestRegisterFunc(t *testing.T) {
 	req := httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w := httptest.NewRecorder()
-	EditToDo(w, req)
+	RegisterFunc(w, req)
 
 	res := w.Result()
 	defer res.Body.Close()
@@ -127,15 +127,15 @@ func TestRegisterFunc(t *testing.T) {
 		t.Errorf("error- failed response: %v", string(data))
 	}
 
-	reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
-	if err != nil {
-		log.Print("error encountered in marshal")
-	}
+	// reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
+	// if err != nil {
+	// 	log.Print("error encountered in marshal")
+	// }
 
-	req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
-	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	// req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	// req.Header.Set("Contest-type", "application/json")
+	// w = httptest.NewRecorder()
+	// EditToDo(w, req)
 
 }
 
