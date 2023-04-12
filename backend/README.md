@@ -119,7 +119,7 @@ Expected json information in request body:
 ```javascript
 { 
   "User": 24
-	 "EventID": 2431
+  "EventID": 2431
   "StartStr": "2023-10-12T10:30:00"
   "EndStr": ""
   "Title": "Do laundry"
