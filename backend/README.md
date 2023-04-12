@@ -110,6 +110,7 @@ Example of return JSON:
  "Percentage of tasks completed": 33
 }
 ```
+---
 
 ```EditCal(w http.ResponseWriter, request *http.Request) ```
 This function adds an item to a user's calendar.
