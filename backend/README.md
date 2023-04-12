@@ -161,6 +161,8 @@ Expected JSON information in request body:
 Example of return JSON:
 ```
 {
+    "items": [{"EventID": 2431, "StartStr": "2023-10-12T10:30:00", "EndStr": "", "Title": "Do laundry"},
+             {"EventID": 2432, "StartStr": "2023-20-12T10:30:00", "EndStr": "2023-15-12T10:30:00", "Title": "Math Homework"}]
 }
 ```
 
