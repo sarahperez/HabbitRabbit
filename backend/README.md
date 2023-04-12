@@ -111,6 +111,60 @@ Example of return JSON:
 }
 ```
 
+```EditCal(w http.ResponseWriter, request *http.Request) ```
+This function adds an item to a user's calendar.
+
+Expected json information in request body:
+
+```javascript
+{ 
+  "User": 24
+	 "EventID": 2431
+  "StartStr": "2023-10-12T10:30:00"
+  "EndStr": ""
+  "Title": "Do laundry"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | The passed in task will be added to the database as a calendar item.                                |
+| DELETE            | The passed in task will be deleted.                                                                 |
+
+Examples of return messages:
+```
+"item added"
+```
+or
+```
+"item deleted"
+```
+
+---
+```CalStatus(w http.ResponseWriter, request *http.Request) ```
+This function returns the calendar items of the associated user.
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+   "user": 1
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Send the client a JSON file with all of the tasks associated with the passed in user.               |
+
+Example of return JSON:
+```
+{
+}
+```
+
+
 ---
 
 ```GoHome(w http.ResponseWriter, request *http.Request)```
