@@ -110,6 +110,63 @@ Example of return JSON:
  "Percentage of tasks completed": 33
 }
 ```
+---
+
+```EditCal(w http.ResponseWriter, request *http.Request) ```
+This function adds an item to a user's calendar.
+
+Expected json information in request body:
+
+```javascript
+{ 
+  "user": 24,
+  "eventID": 2431,
+  "startStr": "2023-10-12T10:30:00",
+  "endStr": "",
+  "title": "Do laundry"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | The passed in task will be added to the database as a calendar item.                                |
+| DELETE            | The passed in task will be deleted.                                                                 |
+
+Examples of return messages:
+```
+"item added"
+```
+or
+```
+"item deleted"
+```
+
+---
+```CalStatus(w http.ResponseWriter, request *http.Request) ```
+This function returns the calendar items of the associated user.
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+   "user": 1
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Send the client a JSON file with all of the tasks associated with the passed in user.               |
+
+Example of return JSON:
+```
+{
+    "items": [{"EventID": 2431, "StartStr": "2023-10-12T10:30:00", "EndStr": "", "Title": "Do laundry"},
+             {"EventID": 2432, "StartStr": "2023-20-12T10:30:00", "EndStr": "2023-15-12T10:30:00", "Title": "Math Homework"}]
+}
+```
+
 
 ---
 
