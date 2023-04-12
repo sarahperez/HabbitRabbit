@@ -38,9 +38,14 @@ type TodoItem struct {
 type CalendarItem struct {
 	gorm.Model
 	User     uint
+	EventID  string
 	StartStr string
 	EndStr   string
 	Title    string
+}
+
+type DeleteCal struct {
+	EventID string
 }
 
 // Create Validation interface

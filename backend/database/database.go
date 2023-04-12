@@ -44,3 +44,10 @@ func GetTodoItems(completed bool, user uint) []string {
 
 	return ret
 }
+
+func GetCalItems(user uint) []string {
+	var ret []string
+	DB.Table("calendar_items").Where("user = ?", user).Select("description").Find(&ret)
+
+	return ret
+}
