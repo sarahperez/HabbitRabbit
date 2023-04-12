@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 
 	"main/helpers"
+	"main/interfaces"
 )
 
 // Create global variable
@@ -45,9 +46,9 @@ func GetTodoItems(completed bool, user uint) []string {
 	return ret
 }
 
-func GetCalItems(user uint) []string {
-	var ret []string
-	DB.Table("calendar_items").Where("user = ?", user).Select("description").Find(&ret)
+func GetCalItems(user uint) []interfaces.CalendarItem {
+	var ret []interfaces.CalendarItem
+	DB.Table("calendar_items").Where("user = ?", user).Find(&ret)
 
 	return ret
 }

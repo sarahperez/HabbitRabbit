@@ -1,6 +1,7 @@
 package api
 
 // code derived from https://github.com/Duomly/go-bank-backend
+//https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
 
 import (
 	"encoding/json"
@@ -13,8 +14,6 @@ import (
 	"main/helpers"
 	"main/interfaces"
 	"main/users"
-
-	"github.com/gorilla/mux"
 )
 
 type Login struct {
@@ -109,14 +108,14 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func GetUserFunc(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userId := vars["id"]
-	auth := r.Header.Get("Authorization")
+// func GetUserFunc(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
+// 	userId := vars["id"]
+// 	auth := r.Header.Get("Authorization")
 
-	user := users.GetUser(userId, auth)
-	apiResponse(user, w)
-}
+// 	user := users.GetUser(userId, auth)
+// 	apiResponse(user, w)
+// }
 
 //--------------------------------------------our added functions----------------------------------------------------------
 
@@ -235,30 +234,25 @@ func EditCal(w http.ResponseWriter, request *http.Request) {
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	//"unload" the input data from the request- should be a user ID and a task description
+	body := readBody(request)
+	var formattedBody interfaces.CalendarItem
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
 
 	switch request.Method {
 	case http.MethodPost:
-		//"unload" the input data from the request- should be a user ID and a task description
-		body := readBody(request)
-		var formattedBody interfaces.CalendarItem
-		err := json.Unmarshal(body, &formattedBody)
-		helpers.HandleErr(err)
-
 		database.DB.Create(&formattedBody)
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode("Item added")
 		return
 	case http.MethodDelete:
-		//"unload" the input data from the request- should be a user ID and a task description
-		body := readBody(request)
-		var formattedBody interfaces.DeleteCal
-		err := json.Unmarshal(body, &formattedBody)
-		helpers.HandleErr(err)
-
-		if err := database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete().Error; err != nil {
+		var item interfaces.CalendarItem
+		//database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete(&item)
+		if err := database.DB.Table("calendar_items").Where("event_id = ?", formattedBody.EventID).Delete(&item).Error; err != nil {
 			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
 		} else {
-			json.NewEncoder(w).Encode("Task completion status now updated to completed")
+			json.NewEncoder(w).Encode("task deleted")
 		}
 		return
 	}
@@ -276,27 +270,28 @@ func CalStatus(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	switch request.Method {
 	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		//"unload" the input data from the request- should be a user ID
 		body := readBody(request)
-		log.Print(string(body))
 		var formattedBody interfaces.UserID
 		err := json.Unmarshal(body, &formattedBody)
-		//log.Print(string(formattedBody))
 		helpers.HandleErr(err)
-		//json.NewDecoder(request.Body).Decode(&formattedBody)
 
-		log.Print("curr ID ", formattedBody.User)
+		items := database.GetCalItems(formattedBody.User)
+		var object interfaces.CalObj
+		var objList []interfaces.CalObj
 
-		completed := database.GetCompletedItems(formattedBody.User)
-		incomplete := database.GetIncompleteItems(formattedBody.User)
+		for i := 0; i < len(items); i++ {
+			object.EventID = items[i].EventID
+			object.StartStr = items[i].StartStr
+			object.EndStr = items[i].EndStr
+			object.Title = items[i].Title
+			objList = append(objList, object)
+		}
 
-		perComplete := 100.0 * float64(len(completed)) / (float64(len(completed)) + float64(len(incomplete)))
-
-		var response = map[string]interface{}{"Incomplete": incomplete, "Complete": completed, "Percentage": math.Round(perComplete)}
+		var response = map[string]interface{}{"items": objList}
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)

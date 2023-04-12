@@ -1,3 +1,7 @@
 {
-   "User": 1000
+   "user": 25,
+   "eventID": 2431,
+   "startStr": "2023-10-12T10:30:00",
+   "endStr":"2023-10-12T10:00:00",
+   "title": "Do Dishes"
 }

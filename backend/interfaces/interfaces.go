@@ -38,7 +38,14 @@ type TodoItem struct {
 type CalendarItem struct {
 	gorm.Model
 	User     uint
-	EventID  string
+	EventID  int
+	StartStr string
+	EndStr   string
+	Title    string
+}
+
+type CalObj struct {
+	EventID  int
 	StartStr string
 	EndStr   string
 	Title    string
