@@ -78,8 +78,6 @@ func main() {
 	router.Use(loggingMiddleware)
 	//router.Use(optionsMiddleware)
 
-	router.HandleFunc("/home-page", api.GoHome)
-	router.HandleFunc("/calendar", api.DisplayCalendar)
 	router.HandleFunc("/login", api.LoginFunc).Methods("POST", "OPTIONS")
 	router.HandleFunc("/register", api.RegisterFunc).Methods("OPTIONS", "POST")
 	router.HandleFunc("/EditToDo", api.EditToDo).Methods("POST", "PUT", "DELETE", "OPTIONS")
