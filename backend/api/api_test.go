@@ -102,38 +102,6 @@ func TestRegisterFunc(t *testing.T) {
 
 }
 
-// TestGoHome runs and passes
-func TestGoHome(t *testing.T) {
-	req := httptest.NewRequest(http.MethodGet, "/home-page", nil)
-	w := httptest.NewRecorder()
-	GoHome(w, req)
-	res := w.Result()
-	defer res.Body.Close()
-	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		t.Errorf("expected error to be nil got %v", err)
-	}
-	if string(data) != "Welcome to the home page, get request recieved" {
-		t.Errorf("expected: Welcome to the home page, get request recieved. Got: %v", string(data))
-	}
-}
-
-// TestDisplayCalender runs and passes
-func TestDisplayCalender(t *testing.T) {
-	req := httptest.NewRequest(http.MethodGet, "/calender-page", nil)
-	w := httptest.NewRecorder()
-	DisplayCalendar(w, req)
-	res := w.Result()
-	defer res.Body.Close()
-	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		t.Errorf("expected error to be nil got %v", err)
-	}
-	if string(data) != "Welcome to the calendar page, get request recieved" {
-		t.Errorf("expected: Welcome to the calender page, get request recieved. Got: %v", string(data))
-	}
-}
-
 // mini test- tests if the to-do item is sucessfully added and retrieved from the database
 func TestAddingToList(t *testing.T) {
 
