@@ -32,7 +32,7 @@ import (
 
 //}
 
-// TestApiResponse hasnt been started
+// TestApiResponse hasnt been startedy
 //func TestApiResponse(t *testing.T) {}
 
 // TestLoginFunc is not necessary as login is called in the testRegisterFunc
@@ -85,10 +85,10 @@ func TestRegisterFunc(t *testing.T) {
 
 	//}
 
-	// reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
-	// if err != nil {
-	// 	log.Print("error encountered in marshal")
-	// }
+	reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
 	req = httptest.NewRequest(http.MethodDelete, "/Register", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
