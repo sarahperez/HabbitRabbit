@@ -24,6 +24,8 @@ Open a terminal (in VS Code). Navigate into the backend folder. Then run: ```go 
 | users                       | ID (primary key  - will serve as userID accross other tables), username, name, email, hashed password           |
 | todo_items                  | ID (generated automaticly- counts rows, not important in program), user ID, task description, completion status |
 | calendar_items              | ID (generated automaticly- counts rows, not important in program), user ID, event ID, startStr, endStr, title          |
+| friends              | ID (generated automaticly- counts rows, not important in program), requester, reciever, status (R, A, D), lastAction          |
+*Freind database organized according to the single value column database example given here: https://dba.stackexchange.com/questions/135941/designing-a-friendships-database-structure-should-i-use-a-multivalued-column
 
 # API
 
@@ -169,15 +171,6 @@ Example of return JSON:
 
 
 ---
-
-```GoHome(w http.ResponseWriter, request *http.Request)```
-This function still needs to be implemented with our front end. As a preliminary, we have this function set up to receive a request and return that the request was received.
-
----
-
-```DisplayCalendar(w http.ResponseWriter, request *http.Request)```
-This function still needs to be implemented with our front end. As a preliminary, we have this function set up to receive a request and return that the request was received.
-
 # Testing
 
 We have multiple testing files throughout the back end. Most of these are unit tests can can be run by opening a terminal, navigating into the desired folder (for example: HabbitRabbit\backend\users) and then run the following command: ```go test -v```
