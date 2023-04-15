@@ -52,3 +52,24 @@ func GetCalItems(user uint) []interfaces.CalendarItem {
 
 	return ret
 }
+
+// -----------------------------Functions that work in the database - Friends ------------------------------
+func GetFriends(name string) []string {
+	var ret []string
+	DB.Table("friend_statuses").Where("reciever = ? and status = ?", name, "Accepted").Select("requester").Find(&ret)
+	var ret1 []string
+	DB.Table("friend_statuses").Where("requester = ? and status = ?", name, "Accepted").Select("reciever").Find(&ret1)
+	return append(ret, ret1...)
+}
+
+func GetRequests(name string) []string {
+	var ret []string
+	DB.Table("friend_statuses").Where("reciever = ? and status = ?", name, "Requested").Select("requester").Find(&ret)
+	return ret
+}
+
+func GetBlocked(name string) []string {
+	var ret []string
+	DB.Table("friend_statuses").Where("reciever = ? and status = ?", name, "Blocked").Select("requester").Find(&ret)
+	return ret
+}

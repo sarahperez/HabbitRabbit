@@ -23,6 +23,18 @@ type ResponseUser struct {
 	Email    string
 }
 
+// Create Validation interface
+type Validation struct {
+	Value string
+	Valid string
+}
+
+type ErrResponse struct {
+	Message string
+}
+
+//---------------our added functions--------------------
+
 type TodoReq struct {
 	User        uint
 	Description string
@@ -55,12 +67,15 @@ type DeleteCal struct {
 	EventID string
 }
 
-// Create Validation interface
-type Validation struct {
-	Value string
-	Valid string
+type FriendStatus struct {
+	gorm.Model
+	Requester string
+	Reciever  string
+	Status    string
 }
 
-type ErrResponse struct {
-	Message string
+type FriendRequest struct {
+	gorm.Model
+	Requester string
+	Reciever  string
 }

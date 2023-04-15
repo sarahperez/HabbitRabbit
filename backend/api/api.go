@@ -298,3 +298,192 @@ func CalStatus(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 }
+
+func RequestFriend(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Requester).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("Requester not found")
+			return
+		}
+
+		user = &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+			user := &interfaces.User{}
+			if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+				json.NewEncoder(w).Encode("Reciever and Requester not found")
+			}
+			json.NewEncoder(w).Encode("Reciever not found")
+			return
+		} else {
+			stat := &interfaces.FriendStatus{}
+			if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+				var object interfaces.FriendStatus
+				object.Requester = formattedBody.Requester
+				object.Reciever = formattedBody.Reciever
+				object.Status = "Requested"
+				database.DB.Create(&object)
+				json.NewEncoder(w).Encode("request sent")
+			} else if stat.Status == "Requested" {
+				json.NewEncoder(w).Encode("this connection was already requested, status unchanged")
+			} else if stat.Status == "Accepted" {
+				json.NewEncoder(w).Encode("already friends")
+			} else {
+				json.NewEncoder(w).Encode("the reciever has blocked this requester")
+			}
+		}
+		return
+	}
+}
+
+func AcceptFriend(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Requester).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("Requester not found")
+			return
+		}
+
+		user = &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+			user := &interfaces.User{}
+			if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+				json.NewEncoder(w).Encode("Reciever and Requester not found")
+			}
+			json.NewEncoder(w).Encode("Reciever not found")
+			return
+		} else {
+			stat := &interfaces.FriendStatus{}
+			if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+				json.NewEncoder(w).Encode("no request to accept")
+			} else if stat.Status == "Requested" {
+				if err := database.DB.Table("friend_statuses").Where("ID = ?", stat.ID).Update("status", "Accepted").Error; err != nil {
+					json.NewEncoder(w).Encode("request not found")
+				} else {
+					json.NewEncoder(w).Encode("status now updated")
+				}
+			} else if stat.Status == "Accepted" {
+				json.NewEncoder(w).Encode("already accepted")
+			} else {
+				json.NewEncoder(w).Encode("requester has been blocked")
+			}
+		}
+		return
+	}
+}
+
+func BlockFriend(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Requester).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("Requester not found")
+			return
+		}
+
+		user = &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+			user := &interfaces.User{}
+			if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+				json.NewEncoder(w).Encode("Reciever and Requester not found")
+			}
+			json.NewEncoder(w).Encode("Reciever not found")
+			return
+		} else {
+			stat := &interfaces.FriendStatus{}
+			if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+				json.NewEncoder(w).Encode("no request to block")
+			} else if stat.Status == "Requested" || stat.Status == "Accepted" {
+				if err := database.DB.Table("friend_statuses").Where("ID = ?", stat.ID).Update("status", "Blocked").Error; err != nil {
+					json.NewEncoder(w).Encode("request not found")
+				} else {
+					json.NewEncoder(w).Encode("status now updated")
+				}
+			} else {
+				json.NewEncoder(w).Encode("requester has already been blocked")
+			}
+		}
+		return
+	}
+}
+
+func FriendStat(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.UserID
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("ID = ?", formattedBody.User).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("requester has already been blocked")
+		} else {
+			name := user.Username
+			friends := database.GetFriends(name)
+			requests := database.GetRequests(name)
+			blocked := database.GetBlocked(name)
+
+			var response = map[string]interface{}{"Friends": friends, "Requests from": requests, "Blocked Users": blocked}
+
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+			return
+		}
+
+		return
+	}
+}
