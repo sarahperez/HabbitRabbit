@@ -169,8 +169,102 @@ Example of return JSON:
              {"EventID": 2432, "StartStr": "2023-20-12T10:30:00", "EndStr": "2023-15-12T10:30:00", "Title": "Math Homework"}]
 }
 ```
+---
+```RequestFriend(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
 
+Expected JSON information in request body:
 
+```javascript
+{ 
+  "requester": "username1",
+  "reciever": "username2"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Add friend request into the database, send error message if not possible.                           |
+
+Example of a possible output:
+```
+{
+"request sent"
+}
+```
+---
+```AcceptFriend(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+  "requester": "username1",
+  "reciever": "username2"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Update friend status in the database, send error message if not possible.                           |
+
+Example of a possible output:
+```
+{
+"status now updated"
+}
+```
+---
+```BlockFriend(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+  "requester": "username1",
+  "reciever": "username2"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Block a friend (from a friend request), or block a user that was once an accepted friend. In either case, the "reciever" does the blocking    |
+
+Example of a possible output:
+```
+{
+"status now updated"
+}
+```
+```FriendStat(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+  "user": 1
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Return all blocked users, friends and pending requests.                                             |
+
+Example of a possible output:
+```
+{
+ "Blocked Users":["username1", "username2"],
+ "Friends":["username3"],
+ "Requests from":[]
+}
+```
 ---
 # Testing
 
