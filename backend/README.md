@@ -187,11 +187,17 @@ Expected JSON information in request body:
 | OPTIONS           | Handle the pre-flight request.                                                                      |
 | POST              | Add friend request into the database, send error message if not possible.                           |
 
-Example of a possible output:
+Possible outputs:
 ```
-{
+"Requester not found"
+"Reciever not found"
+"Reciever and Requester not found"
 "request sent"
-}
+"this connection was already requested, status unchanged"
+"already friends"
+or
+"the reciever has blocked this requester"
+
 ```
 ---
 ```AcceptFriend(w http.ResponseWriter, request *http.Request) ```
@@ -213,9 +219,15 @@ Expected JSON information in request body:
 
 Example of a possible output:
 ```
-{
+"Requester not found"
+"Reciever not found"
+"Reciever and Requester not found"
+"no request to accept"
+"request not found"
 "status now updated"
-}
+"already accepted"
+or
+"requester has been blocked"
 ```
 ---
 ```BlockFriend(w http.ResponseWriter, request *http.Request) ```
@@ -237,9 +249,13 @@ Expected JSON information in request body:
 
 Example of a possible output:
 ```
-{
-"status now updated"
-}
+"Requester not found"
+"Reciever not found"
+"Reciever and Requester not found"
+"no request to accept"
+"request not found"
+or
+"requester has already been blocked"
 ```
 ```FriendStat(w http.ResponseWriter, request *http.Request) ```
 Adds a friend request into the database
