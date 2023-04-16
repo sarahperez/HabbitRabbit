@@ -22,18 +22,32 @@ export class ToDoService {
     private router: Router,
   ) { }
 
-  
-
-
-  login(Username: string, Password: string): any {
-    lastValueFrom(this.http.post(this.url, { "username": Username, "password": Password })).then(async (res: any) => {
-      if (res&&res.jwt) {
-        sessionStorage.setItem('loggedUser', res.data['Name']);
-        sessionStorage.setItem('jwt', res.jwt);
+  addTask(task: string): any{
+    lastValueFrom(this.http.post(this.url, { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
+      if (res) {
+     
         this.errorSubject.next(null);
-        this.router.navigateByUrl('home');
-      } else if (res.Message) {
-        this.errorSubject.next(res.Message);
+     
+      }
+    });
+  }
+
+  editTask(task: string): any{
+    lastValueFrom(this.http.post(this.url, { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
+      if (res) {
+     
+        this.errorSubject.next(null);
+     
+      }
+    });
+  }
+
+  deleteTask(task: string): any{
+    lastValueFrom(this.http.post(this.url, { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
+      if (res) {
+     
+        this.errorSubject.next(null);
+     
       }
     });
   }
