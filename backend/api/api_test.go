@@ -13,7 +13,6 @@ import (
 	"encoding/json"
 	"main/database"
 	"main/interfaces"
-	"main/migrations"
 
 	"bytes"
 	"io"
@@ -165,7 +164,7 @@ func TestAddingToList(t *testing.T) {
 // more extensive test of the to do list functionality- involving adding, editing, deleting and returning user status
 func TestEditToDo(t *testing.T) {
 	database.InitTestDatabase()
-	migrations.Migrate()
+	//migrations.Migrate()
 
 	//create a request body
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
@@ -308,10 +307,10 @@ func TestEditToDo(t *testing.T) {
 
 func TestEditCal(t *testing.T) {
 	database.InitTestDatabase()
-	migrations.Migrate()
+	//migrations.Migrate()
 
 	//create a request body
-	calBody, err := json.Marshal(interfaces.CalendarItem{User: 100, EventID: 1560 , StartStr:"2023-04-23T11:00:00" , EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
+	calBody, err := json.Marshal(interfaces.CalendarItem{User: 100, EventID: 1560, StartStr: "2023-04-23T11:00:00", EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
@@ -323,7 +322,7 @@ func TestEditCal(t *testing.T) {
 	EditCal(w, cal)
 
 	//create a request body
-	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 150 , StartStr:"2023-04-19T10:00:00" , EndStr: "2023-04-19T11:30:00", Title: "Film SWE Sprint 3"})
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 150, StartStr: "2023-04-19T10:00:00", EndStr: "2023-04-19T11:30:00", Title: "Film SWE Sprint 3"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
@@ -335,7 +334,7 @@ func TestEditCal(t *testing.T) {
 	EditCal(w, cal)
 
 	//create a request body
-	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 17 , StartStr:"2023-04-20T10:40:00" , EndStr: "2023-04-20T11:30:00", Title: "Physics 2 Quiz"})
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 17, StartStr: "2023-04-20T10:40:00", EndStr: "2023-04-20T11:30:00", Title: "Physics 2 Quiz"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
@@ -347,7 +346,7 @@ func TestEditCal(t *testing.T) {
 	EditCal(w, cal)
 
 	//create a request body
-	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 56 , StartStr:"2023-04-24T9:35:00" , EndStr: "2023-04-24T10:25:00", Title: "CAP3032 Meeting"})
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 56, StartStr: "2023-04-24T9:35:00", EndStr: "2023-04-24T10:25:00", Title: "CAP3032 Meeting"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
@@ -358,43 +357,29 @@ func TestEditCal(t *testing.T) {
 	w = httptest.NewRecorder()
 	EditCal(w, cal)
 
-
-	//----------------------------------------------------------------EDITED TILL HERE---------------------------------------------------------------------------------------------------------//
 	//create a request body
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 56, StartStr: "2023-04-24T9:35:00", EndStr: "2023-04-24T10:25:00", Title: "CAP3032 Meeting"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
 	//create a http request and send it to the function
-	req = httptest.NewRequest(http.MethodPut, "/EditToDo", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	EditCal(w, cal)
 
 	//create a request body
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
 	//create a http request and send it to the function
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
+	cal = httptest.NewRequest(http.MethodPost, "/CalStatus", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
-
-	//create a request body
-	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
-	if err != nil {
-		log.Print("error encountered in marshal")
-	}
-
-	//create a http request and send it to the function
-	req = httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
-	w = httptest.NewRecorder()
-	ToDoStatus(w, req)
+	ToDoStatus(w, cal)
 
 	//set up the expected response
 	res := w.Result()
@@ -420,34 +405,38 @@ func TestEditCal(t *testing.T) {
 	}
 
 	//-----------------------the following is just clearing the database, deleting all added rows--------------------------
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 1560, StartStr: "2023-04-23T11:00:00", EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
-	req.Header.Set("Content-type", "application/json")
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	EditCal(w, cal)
 
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy bananas"})
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 150, StartStr: "2023-04-19T10:00:00", EndStr: "2023-04-19T11:30:00", Title: "Film SWE Sprint 3"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
-	req.Header.Set("Content-type", "application/json")
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	EditCal(w, cal)
 
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy oranges"})
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 17, StartStr: "2023-04-20T10:40:00", EndStr: "2023-04-20T11:30:00", Title: "Physics 2 Quiz"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
-	req.Header.Set("Content-type", "application/json")
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
-}
+	EditCal(w, cal)
 }
