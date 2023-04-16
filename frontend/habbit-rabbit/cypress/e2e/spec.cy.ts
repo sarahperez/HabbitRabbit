@@ -18,11 +18,18 @@ describe('Calendar Page Test', () => {
 
     cy.get('.option-button').click();
 
+    //register service should bring the user back to the login page
+    cy.location('pathname').should('match', /\/login$/);
+
     /*
+    //Newly registered user should be able to login now
     cy.get('.username-input').type('SarahUsername');
-    cy.get('.password-input').type('ssarahpassword123!');
+    cy.get('.password-input').type('sarahpassword123!');
 
     cy.get('.sign-in-button').click().first();
+
+    //User is brought to the home page
+    cy.location('pathname').should('match', /\/home$/);
     */
   })
 })
