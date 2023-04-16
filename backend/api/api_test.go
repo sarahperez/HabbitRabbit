@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"main/database"
 	"main/interfaces"
+	"main/migrations"
 
 	"bytes"
 	"io"
@@ -164,7 +165,7 @@ func TestAddingToList(t *testing.T) {
 // more extensive test of the to do list functionality- involving adding, editing, deleting and returning user status
 func TestEditToDo(t *testing.T) {
 	database.InitTestDatabase()
-	//migrations.Migrate()
+	migrations.MigrateToDo()
 
 	//create a request body
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
@@ -307,7 +308,7 @@ func TestEditToDo(t *testing.T) {
 
 func TestEditCal(t *testing.T) {
 	database.InitTestDatabase()
-	//migrations.Migrate()
+	migrations.MigrateCal()
 
 	//create a request body
 	calBody, err := json.Marshal(interfaces.CalendarItem{User: 100, EventID: 1560, StartStr: "2023-04-23T11:00:00", EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
@@ -379,7 +380,7 @@ func TestEditCal(t *testing.T) {
 	cal = httptest.NewRequest(http.MethodPost, "/CalStatus", bytes.NewBuffer(calBody))
 	cal.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
-	ToDoStatus(w, cal)
+	CalStatus(w, cal)
 
 	//set up the expected response
 	res := w.Result()
@@ -387,17 +388,15 @@ func TestEditCal(t *testing.T) {
 	data, err := io.ReadAll(res.Body)
 	bodyString := string(data)
 
-	type resp struct {
-		Complete   []string
-		Incomplete []string
-		Percentage float64
-	}
-
-	arg1 := []string{"buy apples"}
-	arg2 := []string{"buy oranges", "buy bananas"}
-
-	expected, err := json.Marshal(resp{Complete: arg1, Incomplete: arg2, Percentage: 33})
-	expectedString := string(expected) + "\n"
+	//type resp struct {
+	//	EventID  int
+	//	StartStr string
+	//	EndStr   string
+	//	Title    string
+	//}
+	//expected, err := json.Marshal(resp{EventID: 1560, StartStr: "2023-04-23T11:00:00", EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
+	//expectedString := string(expected) + "\n"
+	expectedString := "{\"items\":[{\"EventID\":1560,\"StartStr\":\"2023-04-23T11:00:00\",\"EndStr\":\"2023-04-23T12:00:00\",\"Title\":\"SWE Meeting\"},{\"EventID\":150,\"StartStr\":\"2023-04-19T10:00:00\",\"EndStr\":\"2023-04-19T11:30:00\",\"Title\":\"Film SWE Sprint 3\"},{\"EventID\":17,\"StartStr\":\"2023-04-20T10:40:00\",\"EndStr\":\"2023-04-20T11:30:00\",\"Title\":\"Physics 2 Quiz\"}]}\n"
 
 	//check to see if the expected matches what was returned from the tested functions
 	if bodyString != expectedString {
