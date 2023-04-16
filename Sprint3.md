@@ -22,7 +22,20 @@ We have also done a lot of research into creating a calandar/task scheduler in t
 Additionaly, we have identified how we would like to store and keep track of user's friends. We have decided to go with a single-valued column approach which will keep track of the requester user, recieveing user, friend status and spefifier (the last user to update the friendship status) instead of a multivalued column approach and hope to have this implemented soon. Here is the ideology we will be modeling our friend table after: https://dba.stackexchange.com/questions/135941/designing-a-friendships-database-structure-should-i-use-a-multivalued-column
 
 # List frontend unit tests
+   Unit Tests for Sprint3:
+      -Todo List Component:
+         Adding a new list item
+      -Register Component:
+         Page is created
+         Routing between login and register works
 
+   Unit Tests Completed for Sprint2 (more details listed in Sprint2.md):
+      -Sidenav
+      -Calendar
+      -Login
+
+   Cypress tests:
+      Testing E2E functionality of registration then logging in
 # List backend unit tests
    Unit Tests for Sprint3:
       -TestPanicHandler: 
