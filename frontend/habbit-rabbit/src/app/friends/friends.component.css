@@ -1,0 +1,18 @@
+.heading {
+    text-align: center;
+}
+
+.friends-list-container {
+    justify-self:center;
+    width: 100%;
+    position:relative;
+    max-width: 600px;
+    width: 85%;
+    margin: 5rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.friends-request-container {
+    justify-self: center;
+}

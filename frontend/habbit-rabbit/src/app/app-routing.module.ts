@@ -8,6 +8,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { CommonModule } from '@angular/common';
 import { TodolistComponent } from './todolist/todolist.component';
 import { RegisterComponent } from './register/register.component';
+import { FriendsComponent } from './friends/friends.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -15,7 +16,8 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent},//deleted canActivate: [AuthGuardGuard] 
     { path: 'calendar', component: CalendarComponent },
     { path: 'todo', component: TodolistComponent},
-    { path: 'register', component: RegisterComponent}
+    { path: 'register', component: RegisterComponent},
+    { path: 'friends', component: FriendsComponent}
   ];
 
 @NgModule({

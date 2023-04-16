@@ -13,5 +13,10 @@ export const navbarData = [
         routeLink: '/todo',
         icon: 'fal fa-list fa-check', //look into getting correct icon
         label: 'To-Do'
+    },
+    {
+        routeLink: '/friends',
+        icon: 'fal fa-user-friends',
+        label: 'Friends'
     }
 ];

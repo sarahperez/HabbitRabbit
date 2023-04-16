@@ -14,6 +14,7 @@ import { FullCalendarComponent } from './full-calendar/full-calendar.component';
 import { LoginComponent } from './login/login.component';
 import { TodolistComponent } from './todolist/todolist.component';
 import { FormsModule } from '@angular/forms';
+import { FriendsComponent } from './friends/friends.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
         CalendarComponent,
         FullCalendarComponent,
         LoginComponent,
-        TodolistComponent
+        TodolistComponent,
+        FriendsComponent
     ],
     exports: [
         FullCalendarModule
