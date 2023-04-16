@@ -5,6 +5,7 @@ package users
 //fixed merge branch?
 
 import (
+	"log"
 	"time"
 
 	"main/database"
@@ -106,10 +107,9 @@ func Register(username string, name string, email string, pass string) map[strin
 		}
 
 		database.DB.Create(&user)
+		log.Print("added to db")
+		return map[string]interface{}{"message": "user added"}
 
-		var response = prepareResponse(user, true)
-
-		return response
 	} else if !validUser && validPass && validEmail && validName {
 		return map[string]interface{}{"message": "entered username does not meet our requirements"}
 	} else if validUser && !validPass && validEmail && validName {

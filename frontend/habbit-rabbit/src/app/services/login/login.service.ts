@@ -25,7 +25,7 @@ export class LoginService {
   login(Username: string, Password: string): any {
     lastValueFrom(this.http.post(this.url, { "username": Username, "password": Password })).then(async (res: any) => {
       if (res&&res.jwt) {
-        sessionStorage.setItem('loggedUser', Username);
+        sessionStorage.setItem('loggedUser', res.data['Name']);
         sessionStorage.setItem('jwt', res.jwt);
         this.errorSubject.next(null);
         this.router.navigateByUrl('home');

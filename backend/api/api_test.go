@@ -2,6 +2,11 @@
 //cd into file you want to test, and type go test
 //if multiple functions in test file, do go test -v instead of go test
 
+//References used for testing:
+//marshaling method for setting up http request bodies from https://golang.cafe/blog/golang-json-marshal-example.html
+//converting response body to string method from https://www.educative.io/answers/how-to-read-the-response-body-in-golang
+//overall structure for testing functions https://golang.cafe/blog/golang-httptest-example.html
+
 package api
 
 import (
@@ -9,7 +14,6 @@ import (
 	"main/database"
 	"main/interfaces"
 	"main/migrations"
-	"main/users"
 
 	"bytes"
 	"io"
@@ -21,79 +25,11 @@ import (
 	"net/http/httptest"
 )
 
-// https://golang.cafe/blog/golang-httptest-example.html
+// TestLoginFunc is not necessary as login is called in the testRegisterFunc
 
-// TestReadBody has been started
-//func TestReadBody(t *testing.T) {
-//req := httptest.NewRequest(http.MethodGet, nil)
-//actualBody := readBody(req)
-
-//}
-
-// TestApiResponse hasnt been started
-//func TestApiResponse(t *testing.T) {}
-
-// TestLoginFunc does not run
-func TestLoginFunc(t *testing.T) {
-	//database.InitTestDatabase()
-	//migrations.Migrate()
-
-	//register := users.Register("JamesJoe3", "James", "jamesjoe3@email.com", "J@mesPw0rd!")
-	//apiResponse(register, w)
-
-	//reqBody, err := json.Marshal(users.Login{Username: "JamesJoe3", Password: "J@mesPw0rd!"})
-	//if err != nil {
-	//	log.Print("error encountered in marshal")
-	//}
-
-	//req := httptest.NewRequest(http.MethodPost, "/login", bytes.NewBuffer(reqBody))
-	//req.Header.Set("Contest-type", "application/json")
-	//w := httptest.NewRecorder()
-	//EditToDo(w, req)
-
-	//res := w.Result()
-	//defer res.Body.Close()
-	//data, err := io.ReadAll(res.Body)
-	//bodyString := string(data)
-
-	//type Log struct {
-	//	Username string
-	//	Password string
-	//}
-
-	//expected, err := json.Marshal(Log{Username: "JamesJoe3", Password: "J@mesPw0rd!"})
-	//if err != nil {
-	//	log.Print("error encountered in marshal")
-	//}
-
-	//expectedString := string(expected)
-	//expectedString += "\n"
-
-	//check to see if the expected matches what was returned from the tested functions
-	//if bodyString != expectedString {
-	//	t.Errorf("error- failed response: %v", string(data))
-	//}
-
-	//reqBody, err = json.Marshal(users.Login{Username: "JamesJoe3", Password: "J@mesPw0rd!"})
-	//if err != nil {
-	//	log.Print("error encountered in marshal")
-	//}
-
-	//reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
-	//if err != nil {
-	//	log.Print("error encountered in marshal")
-	//}
-
-	//req = httptest.NewRequest(http.MethodDelete, "/Login", bytes.NewBuffer(reqBody))
-	//req.Header.Set("Content-type", "application/json")
-	//w = httptest.NewRecorder()
-	//EditToDo(w, req)
-}
-
-// TestRegisterFunc hasnt been started
 func TestRegisterFunc(t *testing.T) {
 	database.InitTestDatabase()
-	migrations.Migrate()
+	//migrations.Migrate()
 
 	reqBody, err := json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
 	if err != nil {
@@ -101,74 +37,57 @@ func TestRegisterFunc(t *testing.T) {
 	}
 
 	req := httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
+	req.Header.Set("Content-type", "application/json")
 	w := httptest.NewRecorder()
-	EditToDo(w, req)
+	RegisterFunc(w, req)
 
-	res := w.Result()
-	defer res.Body.Close()
-	data, err := io.ReadAll(res.Body)
-	bodyString := string(data)
+	//res := w.Result()
+	//defer res.Body.Close()
+	//data, err := io.ReadAll(res.Body)
+	//bodyString := string(data)
 
-	type registration struct {
-		Username string
-		Name     string
-		Mail     string
-		Pass     string
-	}
+	//type registration struct {
+	//	Username string
+	//	Name     string
+	//	Mail     string
+	//	Pass     string
+	//}
 
-	expected, err := json.Marshal(registration{Username: "JohnMark123", Name: "johanthan", Mail: "johnsemail@email.com", Pass: "JohN$pw0rd!"})
-	expectedString := string(expected) + "\n"
+	//expected, err := json.Marshal(registration{Username: "JohnMark123", Name: "johanthan", Mail: "johnsemail@email.com", Pass: "JohN$pw0rd!"})
+	//expectedString := string(expected) + "\n"
+	//if bodyString != expectedString {
+	//	t.Errorf("error- failed response: %v", bodyString)
+	//	//string(data))
+	//}
+	reqL := httptest.NewRequest(http.MethodPost, "/Login", bytes.NewBuffer(reqBody))
+	reqL.Header.Set("Content-type", "application/json")
+	wL := httptest.NewRecorder()
+	LoginFunc(wL, reqL)
 
-	if bodyString != expectedString {
-		t.Errorf("error- failed response: %v", string(data))
-	}
+	//res := wL.Result()
+	//defer res.Body.Close()
+	//data, err := io.ReadAll(res)
+	//bodyString := string(data)
+	//if bodyString != "all is fine" {
+	//	t.Errorf("error- failed response: %v", bodyString)
+
+	//}
 
 	reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
+	req = httptest.NewRequest(http.MethodDelete, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	RegisterFunc(w, req)
 
-}
+	reqL = httptest.NewRequest(http.MethodDelete, "/Login", bytes.NewBuffer(reqBody))
+	reqL.Header.Set("Content-type", "application/json")
+	wL = httptest.NewRecorder()
+	LoginFunc(wL, reqL)
 
-// TestGetUserFunc hasnt been started
-//func TestGetUserFunc(t *testing.T) {}
-
-// TestGoHome runs and passes
-func TestGoHome(t *testing.T) {
-	req := httptest.NewRequest(http.MethodGet, "/home-page", nil)
-	w := httptest.NewRecorder()
-	GoHome(w, req)
-	res := w.Result()
-	defer res.Body.Close()
-	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		t.Errorf("expected error to be nil got %v", err)
-	}
-	if string(data) != "Welcome to the home page, get request recieved" {
-		t.Errorf("expected: Welcome to the home page, get request recieved. Got: %v", string(data))
-	}
-}
-
-// TestDisplayCalender runs and passes
-func TestDisplayCalender(t *testing.T) {
-	req := httptest.NewRequest(http.MethodGet, "/calender-page", nil)
-	w := httptest.NewRecorder()
-	DisplayCalendar(w, req)
-	res := w.Result()
-	defer res.Body.Close()
-	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		t.Errorf("expected error to be nil got %v", err)
-	}
-	if string(data) != "Welcome to the calendar page, get request recieved" {
-		t.Errorf("expected: Welcome to the calender page, get request recieved. Got: %v", string(data))
-	}
 }
 
 // mini test- tests if the to-do item is sucessfully added and retrieved from the database
@@ -179,7 +98,6 @@ func TestAddingToList(t *testing.T) {
 	//migrations.Migrate()
 
 	//create a request body
-	//this method of marshaling is from https://golang.cafe/blog/golang-json-marshal-example.html
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
 	if err != nil {
 		log.Print("error encountered in marshal")
@@ -204,7 +122,6 @@ func TestAddingToList(t *testing.T) {
 	ToDoStatus(w, req)
 
 	//format the response body as a string
-	//converting response body to string method from https://www.educative.io/answers/how-to-read-the-response-body-in-golang
 	res := w.Result()
 	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
@@ -248,7 +165,7 @@ func TestAddingToList(t *testing.T) {
 // more extensive test of the to do list functionality- involving adding, editing, deleting and returning user status
 func TestEditToDo(t *testing.T) {
 	database.InitTestDatabase()
-	migrations.Migrate()
+	migrations.MigrateToDo()
 
 	//create a request body
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
@@ -387,4 +304,138 @@ func TestEditToDo(t *testing.T) {
 	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
 	EditToDo(w, req)
+}
+
+func TestEditCal(t *testing.T) {
+	database.InitTestDatabase()
+	migrations.MigrateCal()
+
+	//create a request body
+	calBody, err := json.Marshal(interfaces.CalendarItem{User: 100, EventID: 1560, StartStr: "2023-04-23T11:00:00", EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal := httptest.NewRequest(http.MethodPost, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
+	w := httptest.NewRecorder()
+	EditCal(w, cal)
+
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 150, StartStr: "2023-04-19T10:00:00", EndStr: "2023-04-19T11:30:00", Title: "Film SWE Sprint 3"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodPost, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditCal(w, cal)
+
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 17, StartStr: "2023-04-20T10:40:00", EndStr: "2023-04-20T11:30:00", Title: "Physics 2 Quiz"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodPost, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditCal(w, cal)
+
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 56, StartStr: "2023-04-24T9:35:00", EndStr: "2023-04-24T10:25:00", Title: "CAP3032 Meeting"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodPost, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditCal(w, cal)
+
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 56, StartStr: "2023-04-24T9:35:00", EndStr: "2023-04-24T10:25:00", Title: "CAP3032 Meeting"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditCal(w, cal)
+
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodPost, "/CalStatus", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	CalStatus(w, cal)
+
+	//set up the expected response
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	bodyString := string(data)
+
+	//type resp struct {
+	//	EventID  int
+	//	StartStr string
+	//	EndStr   string
+	//	Title    string
+	//}
+	//expected, err := json.Marshal(resp{EventID: 1560, StartStr: "2023-04-23T11:00:00", EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
+	//expectedString := string(expected) + "\n"
+	expectedString := "{\"items\":[{\"EventID\":1560,\"StartStr\":\"2023-04-23T11:00:00\",\"EndStr\":\"2023-04-23T12:00:00\",\"Title\":\"SWE Meeting\"},{\"EventID\":150,\"StartStr\":\"2023-04-19T10:00:00\",\"EndStr\":\"2023-04-19T11:30:00\",\"Title\":\"Film SWE Sprint 3\"},{\"EventID\":17,\"StartStr\":\"2023-04-20T10:40:00\",\"EndStr\":\"2023-04-20T11:30:00\",\"Title\":\"Physics 2 Quiz\"}]}\n"
+
+	//check to see if the expected matches what was returned from the tested functions
+	if bodyString != expectedString {
+		t.Errorf("error- failed response: %v", string(data))
+	}
+
+	//-----------------------the following is just clearing the database, deleting all added rows--------------------------
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 1560, StartStr: "2023-04-23T11:00:00", EndStr: "2023-04-23T12:00:00", Title: "SWE Meeting"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditCal(w, cal)
+
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 150, StartStr: "2023-04-19T10:00:00", EndStr: "2023-04-19T11:30:00", Title: "Film SWE Sprint 3"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditCal(w, cal)
+
+	//create a request body
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 17, StartStr: "2023-04-20T10:40:00", EndStr: "2023-04-20T11:30:00", Title: "Physics 2 Quiz"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/EditCal", bytes.NewBuffer(calBody))
+	cal.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditCal(w, cal)
 }

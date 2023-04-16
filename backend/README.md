@@ -19,10 +19,14 @@ Open a terminal (in VS Code). Navigate into the backend folder. Then run: ```go 
 
 # Database Organization
  
-| Table in the database       | Information Stored                                                                                              |
+| Table in the database       | Columns                                                                                              |
 | -------------               |:-------------:                                                                                                  |
 | users                       | ID (primary key  - will serve as userID accross other tables), username, name, email, hashed password           |
-| todo_items                  | ID (generated automaticly- counts rows, not important in porgram), user ID, task description, completion status |
+| todo_items                  | ID (generated automaticly- counts rows, not important in program), user ID, task description, completion status |
+| calendar_items              | ID (generated automaticly- counts rows, not important in program), user ID, event ID, startStr, endStr, title          |
+| friends              | ID (generated automaticly- counts rows, not important in program), requester, reciever, status (R, A, B)       |
+
+*Freind database organized according to the single value column database example given here: https://dba.stackexchange.com/questions/135941/designing-a-friendships-database-structure-should-i-use-a-multivalued-column
 
 # API
 
@@ -109,17 +113,175 @@ Example of return JSON:
  "Percentage of tasks completed": 33
 }
 ```
-
 ---
 
-```GoHome(w http.ResponseWriter, request *http.Request)```
-This function still needs to be implemented with our front end. As a preliminary, we have this function set up to receive a request and return that the request was received.
+```EditCal(w http.ResponseWriter, request *http.Request) ```
+This function adds an item to a user's calendar.
+
+Expected json information in request body:
+
+```javascript
+{ 
+  "user": 24,
+  "eventID": 2431,
+  "startStr": "2023-10-12T10:30:00",
+  "endStr": "",
+  "title": "Do laundry"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | The passed in task will be added to the database as a calendar item.                                |
+| DELETE            | The passed in task will be deleted.                                                                 |
+
+Examples of return messages:
+```
+"item added"
+```
+or
+```
+"item deleted"
+```
 
 ---
+```CalStatus(w http.ResponseWriter, request *http.Request) ```
+This function returns the calendar items of the associated user.
 
-```DisplayCalendar(w http.ResponseWriter, request *http.Request)```
-This function still needs to be implemented with our front end. As a preliminary, we have this function set up to receive a request and return that the request was received.
+Expected JSON information in request body:
 
+```javascript
+{ 
+   "user": 1
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Send the client a JSON file with all of the tasks associated with the passed in user.               |
+
+Example of return JSON:
+```
+{
+    "items": [{"EventID": 2431, "StartStr": "2023-10-12T10:30:00", "EndStr": "", "Title": "Do laundry"},
+             {"EventID": 2432, "StartStr": "2023-20-12T10:30:00", "EndStr": "2023-15-12T10:30:00", "Title": "Math Homework"}]
+}
+```
+---
+```RequestFriend(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+  "requester": "username1",
+  "reciever": "username2"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Add friend request into the database, send error message if not possible.                           |
+
+Possible outputs:
+```
+"Requester not found"
+"Reciever not found"
+"Reciever and Requester not found"
+"request sent"
+"this connection was already requested, status unchanged"
+"already friends"
+or
+"the reciever has blocked this requester"
+
+```
+---
+```AcceptFriend(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+  "requester": "username1",
+  "reciever": "username2"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Update friend status in the database, send error message if not possible.                           |
+
+Example of a possible output:
+```
+"Requester not found"
+"Reciever not found"
+"Reciever and Requester not found"
+"no request to accept"
+"request not found"
+"status now updated"
+"already accepted"
+or
+"requester has been blocked"
+```
+---
+```BlockFriend(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+  "requester": "username1",
+  "reciever": "username2"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Block a friend (from a friend request), or block a user that was once an accepted friend. In either case, the "reciever" does the blocking    |
+
+Example of a possible output:
+```
+"Requester not found"
+"Reciever not found"
+"Reciever and Requester not found"
+"no request to accept"
+"request not found"
+or
+"requester has already been blocked"
+```
+```FriendStat(w http.ResponseWriter, request *http.Request) ```
+Adds a friend request into the database
+
+Expected JSON information in request body:
+
+```javascript
+{ 
+  "user": 1
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Return all blocked users, friends and pending requests.                                             |
+
+Example of a possible output:
+```
+{
+ "Blocked Users":["username1", "username2"],
+ "Friends":["username3"],
+ "Requests from":[]
+}
+```
+---
 # Testing
 
 We have multiple testing files throughout the back end. Most of these are unit tests can can be run by opening a terminal, navigating into the desired folder (for example: HabbitRabbit\backend\users) and then run the following command: ```go test -v```

@@ -19,6 +19,17 @@
 //curl.exe -v -X PUT http://localhost:3000/EditToDo -H 'Content-Type: application/json' -d "@userInfo.json"
 //curl.exe -v -X POST http://localhost:3000/ToDoStatus -H 'Content-Type: application/json' -d "@userInfo.json"
 
+//curl commands to calendar
+//curl.exe -v -X POST http://localhost:3000/EditCal -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X DELETE http://localhost:3000/EditCal -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/CalStatus -H 'Content-Type: application/json' -d "@userInfo.json"
+
+//curl commands to friend table
+//curl.exe -v -X POST http://localhost:3000/RequestFriend -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/AcceptFriend -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/BlockFriend -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/FriendStatus -H 'Content-Type: application/json' -d "@userInfo.json"
+
 // ctrl + c to terminate the server after using command go run .
 
 package main
@@ -31,6 +42,7 @@ import (
 	//packages added from tutorial
 	"main/api"
 	"main/database"
+	"main/migrations"
 
 	//this may change, I believe they just want us to reference main/customevents in our
 	//own files, however im gonna leave it like this until im sure
@@ -64,6 +76,7 @@ func loggingMiddleware(next http.Handler) http.Handler {
 func main() {
 
 	database.InitDatabase()
+	migrations.MigrateFriends()
 
 	//initalizing an HTTP request multiplexer- this can check to see if any of the incoming url match
 	//those we load it with and then run the appropriate functions
@@ -72,12 +85,19 @@ func main() {
 	router.Use(loggingMiddleware)
 	//router.Use(optionsMiddleware)
 
-	router.HandleFunc("/home-page", api.GoHome)
-	router.HandleFunc("/calendar", api.DisplayCalendar)
 	router.HandleFunc("/login", api.LoginFunc).Methods("POST", "OPTIONS")
 	router.HandleFunc("/register", api.RegisterFunc).Methods("OPTIONS", "POST")
+
 	router.HandleFunc("/EditToDo", api.EditToDo).Methods("POST", "PUT", "DELETE", "OPTIONS")
 	router.HandleFunc("/ToDoStatus", api.ToDoStatus).Methods("POST", "OPTIONS")
+
+	router.HandleFunc("/EditCal", api.EditCal).Methods("POST", "DELETE", "OPTIONS")
+	router.HandleFunc("/CalStatus", api.CalStatus).Methods("POST", "OPTIONS")
+
+	router.HandleFunc("/RequestFriend", api.RequestFriend).Methods("POST", "OPTIONS")
+	router.HandleFunc("/AcceptFriend", api.AcceptFriend).Methods("POST", "OPTIONS")
+	router.HandleFunc("/BlockFriend", api.BlockFriend).Methods("POST", "OPTIONS")
+	router.HandleFunc("/FriendStatus", api.FriendStat).Methods("POST", "OPTIONS")
 
 	//add default handler
 
@@ -94,25 +114,4 @@ func main() {
 	err := http.ListenAndServe(server+":"+strconv.Itoa(port), router)
 	//if something does not work, (exit status 1) ie. if someone tries to use the same port
 	log.Fatal(err)
-
-	//added with scheduler
-	// ctx, cancel := context.WithCancel(context.Background())
-
-	// interrupt := make(chan os.Signal, 1)
-	// signal.Notify(interrupt, os.Interrupt)
-
-	// scheduler := NewScheduler(database, eventListeners)
-	// scheduler.CheckEventsInInterval(ctx, time.Minute)
-
-	// scheduler.Schedule("SendEmail", "mail: nilkantha.dipesh@gmail.com", time.Now().Add(1*time.Minute))
-	// scheduler.Schedule("PayBills", "paybills: $4,000 bill", time.Now().Add(2*time.Minute))
-
-	// go func() {
-	// 	for range interrupt {
-	// 		log.Println("\n❌ Interrupt received closing...")
-	// 		cancel()
-	// 	}
-	// }()
-
-	// <-ctx.Done()
 }

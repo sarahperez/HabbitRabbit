@@ -1,6 +1,7 @@
 package api
 
 // code derived from https://github.com/Duomly/go-bank-backend
+//https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
 
 import (
 	"encoding/json"
@@ -13,8 +14,6 @@ import (
 	"main/helpers"
 	"main/interfaces"
 	"main/users"
-
-	"github.com/gorilla/mux"
 )
 
 type Login struct {
@@ -51,7 +50,6 @@ func apiResponse(call map[string]interface{}, w http.ResponseWriter) {
 }
 
 func LoginFunc(w http.ResponseWriter, request *http.Request) {
-	//
 	switch request.Method {
 	case http.MethodOptions:
 		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
@@ -79,8 +77,8 @@ func LoginFunc(w http.ResponseWriter, request *http.Request) {
 }
 
 func RegisterFunc(w http.ResponseWriter, r *http.Request) {
-
-	if r.Method == http.MethodOptions {
+	switch r.Method {
+	case http.MethodOptions:
 		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
 		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
 		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
@@ -88,29 +86,36 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
 		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
 		return
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		body := readBody(r)
+
+		var formattedBody Register
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		log.Print("inside register func")
+		log.Print(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
+		register := users.Register(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
+
+		if register["message"] == "user added" {
+			log.Print("user added")
+			register = users.Login(formattedBody.Username, formattedBody.Password)
+		}
+		// Refactor register to use apiResponse function
+		apiResponse(register, w)
 	}
-
-	body := readBody(r)
-
-	var formattedBody Register
-	err := json.Unmarshal(body, &formattedBody)
-	helpers.HandleErr(err)
-
-	log.Print("inside register func")
-	log.Print(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
-	register := users.Register(formattedBody.Username, formattedBody.Name, formattedBody.Email, formattedBody.Password)
-	// Refactor register to use apiResponse function
-	apiResponse(register, w)
 }
 
-func GetUserFunc(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userId := vars["id"]
-	auth := r.Header.Get("Authorization")
+// func GetUserFunc(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
+// 	userId := vars["id"]
+// 	auth := r.Header.Get("Authorization")
 
-	user := users.GetUser(userId, auth)
-	apiResponse(user, w)
-}
+// 	user := users.GetUser(userId, auth)
+// 	apiResponse(user, w)
+// }
 
 //--------------------------------------------our added functions----------------------------------------------------------
 
@@ -133,6 +138,8 @@ func EditToDo(w http.ResponseWriter, request *http.Request) {
 		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
 		return
 	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	//"unload" the input data from the request- should be a user ID and a task description
 	body := readBody(request)
@@ -187,6 +194,8 @@ func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	switch request.Method {
 	case http.MethodPost:
 		//"unload" the input data from the request- should be a user ID
@@ -213,66 +222,268 @@ func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 	}
 }
 
-//-----------------------------------these might get deleted? -----------------------------------
+func EditCal(w http.ResponseWriter, request *http.Request) {
+	if request.Method == http.MethodOptions {
+		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
+		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
+		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
+		return
+	}
 
-// this function will be called with the following URL: http://localhost:3000/home-page
-// example code from https://golang.ch/which-golang-router-to-use-for-what-cases/ used as a reference
-func GoHome(w http.ResponseWriter, request *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	//"unload" the input data from the request- should be a user ID and a task description
+	body := readBody(request)
+	var formattedBody interfaces.CalendarItem
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
 
 	switch request.Method {
-	//if the request is a GET
-	case http.MethodGet:
-		//tell the client that we are sending a json (Header in pr)
-		w.Header().Set("Content-Type", "application/json")
-		//need to pass infromation in as a string of bytes
-		w.Write([]byte("Welcome to the home page, get request recieved"))
-
 	case http.MethodPost:
-		//if the request is a POST (incoming data)
+		database.DB.Create(&formattedBody)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode("Item added")
+		return
+	case http.MethodDelete:
+		var item interfaces.CalendarItem
+		//database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete(&item)
+		if err := database.DB.Table("calendar_items").Where("event_id = ?", formattedBody.EventID).Delete(&item).Error; err != nil {
+			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+		} else {
+			json.NewEncoder(w).Encode("task deleted")
+		}
+		return
+	}
+}
 
-		//reference for decoding (structure taken from example)- https://www.alexedwards.net/blog/how-to-properly-parse-a-json-request-body
-		//set up a struct object to decode the json file into
-		var info userinfo
-		//decode the json file
-		error := json.NewDecoder(request.Body).Decode(&info)
-		if error != nil {
-			//if statement to deal with decoder errors
-			log.Println("decoding unsucessful", error)
-			http.Error(w, error.Error(), http.StatusBadRequest)
+func CalStatus(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
+		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
+		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.UserID
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		items := database.GetCalItems(formattedBody.User)
+		var object interfaces.CalObj
+		var objList []interfaces.CalObj
+
+		for i := 0; i < len(items); i++ {
+			object.EventID = items[i].EventID
+			object.StartStr = items[i].StartStr
+			object.EndStr = items[i].EndStr
+			object.Title = items[i].Title
+			objList = append(objList, object)
+		}
+
+		var response = map[string]interface{}{"items": objList}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+}
+
+func RequestFriend(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Requester).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("Requester not found")
 			return
 		}
 
-		//print the decoded info
-		log.Println("decoded string:", info)
-		//tell the client that we are sending a json (Header in pr)
-		w.Header().Set("Content-Type", "application/json")
-		//pass infromation back
-		w.Write([]byte(info.Username))
-		w.Write([]byte(info.Password))
+		user = &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+			user := &interfaces.User{}
+			if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+				json.NewEncoder(w).Encode("Reciever and Requester not found")
+			}
+			json.NewEncoder(w).Encode("Reciever not found")
+			return
+		} else {
+			stat := &interfaces.FriendStatus{}
+			if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+				var object interfaces.FriendStatus
+				object.Requester = formattedBody.Requester
+				object.Reciever = formattedBody.Reciever
+				object.Status = "Requested"
+				database.DB.Create(&object)
+				json.NewEncoder(w).Encode("request sent")
+			} else if stat.Status == "Requested" {
+				json.NewEncoder(w).Encode("this connection was already requested, status unchanged")
+			} else if stat.Status == "Accepted" {
+				json.NewEncoder(w).Encode("already friends")
+			} else {
+				json.NewEncoder(w).Encode("the reciever has blocked this requester")
+			}
+		}
+		return
 	}
 }
 
-// this function will get called by the following URL: http://localhost:3000/calendar
-// example code from https://golang.ch/which-golang-router-to-use-for-what-cases/ used as a reference
-func DisplayCalendar(w http.ResponseWriter, request *http.Request) {
+func AcceptFriend(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
 
 	switch request.Method {
-	//if the request is a GET
-	case http.MethodGet:
-		//tell the client that we are sending a json (Header in pr)
-		w.Header().Set("Content-Type", "application/json")
-		//need to pass infromation in as a string of bytes
-		w.Write([]byte("Welcome to the calendar page, get request recieved"))
-
 	case http.MethodPost:
-		//if the request is a POST (incoming data)
-		//tell the client that we are sending a json (Header in pr)
-		w.Header().Set("Content-Type", "application/json")
-		//need to pass infromation in as a string of bytes
-		w.Write([]byte("Welcome to the calendar page, post request recieved"))
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Requester).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("Requester not found")
+			return
+		}
+
+		user = &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+			user := &interfaces.User{}
+			if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+				json.NewEncoder(w).Encode("Reciever and Requester not found")
+			}
+			json.NewEncoder(w).Encode("Reciever not found")
+			return
+		} else {
+			stat := &interfaces.FriendStatus{}
+			if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+				json.NewEncoder(w).Encode("no request to accept")
+			} else if stat.Status == "Requested" {
+				if err := database.DB.Table("friend_statuses").Where("ID = ?", stat.ID).Update("status", "Accepted").Error; err != nil {
+					json.NewEncoder(w).Encode("request not found")
+				} else {
+					json.NewEncoder(w).Encode("status now updated")
+				}
+			} else if stat.Status == "Accepted" {
+				json.NewEncoder(w).Encode("already accepted")
+			} else {
+				json.NewEncoder(w).Encode("requester has been blocked")
+			}
+		}
+		return
 	}
 }
 
-func defaultFunc() {
+func BlockFriend(w http.ResponseWriter, request *http.Request) {
 
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Requester).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("Requester not found")
+			return
+		}
+
+		user = &interfaces.User{}
+		if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+			user := &interfaces.User{}
+			if err := database.DB.Where("username = ? ", formattedBody.Reciever).First(&user).Error; err != nil {
+				json.NewEncoder(w).Encode("Reciever and Requester not found")
+			}
+			json.NewEncoder(w).Encode("Reciever not found")
+			return
+		} else {
+			stat := &interfaces.FriendStatus{}
+			if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+				json.NewEncoder(w).Encode("no request to block")
+			} else if stat.Status == "Requested" || stat.Status == "Accepted" {
+				if err := database.DB.Table("friend_statuses").Where("ID = ?", stat.ID).Update("status", "Blocked").Error; err != nil {
+					json.NewEncoder(w).Encode("request not found")
+				} else {
+					json.NewEncoder(w).Encode("status now updated")
+				}
+			} else {
+				json.NewEncoder(w).Encode("requester has already been blocked")
+			}
+		}
+		return
+	}
+}
+
+func FriendStat(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.UserID
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		user := &interfaces.User{}
+		if err := database.DB.Where("ID = ?", formattedBody.User).First(&user).Error; err != nil {
+			json.NewEncoder(w).Encode("requester has already been blocked")
+		} else {
+			name := user.Username
+			friends := database.GetFriends(name)
+			requests := database.GetRequests(name)
+			blocked := database.GetBlocked(name)
+
+			var response = map[string]interface{}{"Friends": friends, "Requests from": requests, "Blocked Users": blocked}
+
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(response)
+			return
+		}
+
+		return
+	}
 }
