@@ -34,7 +34,7 @@ export class CalendarService {
   }
 /*
   deleteEvent(EventID: string, Start: string, End: string, Title: string): any {
-    lastValueFrom(this.http.delete(this.url, { "user" : sessionStorage.getItem('userID'), "eventID" : EventID, "startStr" : Start, "endStr": End, "title" : Title })).then(async (res: any) => {
+    lastValueFrom(this.http.delete('http://localhost:3000/EditCal', { "user" : sessionStorage.getItem('userID'), "eventID" : EventID, "startStr" : Start, "endStr": End, "title" : Title })).then(async (res: any) => {
       if (res&&res.jwt) {
         sessionStorage.setItem('jwt', res.jwt);
         this.errorSubject.next(null);

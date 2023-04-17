@@ -34,9 +34,9 @@ export class ToDoService {
   editTask(task: string): any{
     lastValueFrom(this.http.put('http://localhost:3000/EditToDo', { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
       if (res) {
-     
         this.errorSubject.next(null);
-     
+      } else if (res.Message) {
+        this.errorSubject.next(res.Message);
       }
     });
   }
