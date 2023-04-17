@@ -13,7 +13,6 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ToDoService {
-  url: any = 'http://localhost:3000/todo';
   errorSubject: any = new BehaviorSubject<any>(null);
   errorMessage: any = this.errorSubject.asObservable();
 
@@ -23,7 +22,7 @@ export class ToDoService {
   ) { }
 
   addTask(task: string): any{
-    lastValueFrom(this.http.post(this.url, {"user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
+    lastValueFrom(this.http.post('http://localhost:3000/EditToDo', {"user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
       if (res) {
      
         this.errorSubject.next(null);
@@ -33,7 +32,7 @@ export class ToDoService {
   }
 
   editTask(task: string): any{
-    lastValueFrom(this.http.put(this.url, { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
+    lastValueFrom(this.http.put('http://localhost:3000/EditToDo', { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
       if (res) {
      
         this.errorSubject.next(null);
@@ -43,7 +42,7 @@ export class ToDoService {
   }
 
   /*deleteTask(task: string): any{
-    lastValueFrom(this.http.delete(this.url, { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
+    lastValueFrom(this.http.delete('http://localhost:3000/EditToDo', { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
       if (res) {
      
         this.errorSubject.next(null);

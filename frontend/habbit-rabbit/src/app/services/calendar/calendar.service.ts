@@ -15,7 +15,6 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class CalendarService {
-  url: any = 'http://localhost:3000/calendar';
   errorSubject: any = new BehaviorSubject<any>(null);
   errorMessage: any = this.errorSubject.asObservable();
 
@@ -25,11 +24,12 @@ export class CalendarService {
   ) { }
 
   addEvent(EventID: string, Start: string, End: string, Title: string): any {
-    lastValueFrom(this.http.post(this.url, { "user" : sessionStorage.getItem('userID'), "eventID" : EventID, "startStr" : Start, "endStr": End, "title" : Title })).then(async (res: any) => {
+    lastValueFrom(this.http.post('http://localhost:3000/EditCal', { "user" : sessionStorage.getItem('userID'), "eventID" : EventID, "startStr" : Start, "endStr": End, "title" : Title })).then(async (res: any) => {
       if (res) {
-        sessionStorage.setItem('jwt', res.jwt);
         this.errorSubject.next(null);
-      } 
+      } else if (res.Message) {
+        this.errorSubject.next(res.Message);
+      }
     });
   }
 /*
@@ -46,7 +46,7 @@ export class CalendarService {
 */
 
   loadEvents(): any {
-    lastValueFrom(this.http.post(this.url, { "user": sessionStorage.getItem('userID')})).then(async (res: any) => {
+    lastValueFrom(this.http.post('http://localhost:3000/CalStatus', { "user": sessionStorage.getItem('userID')})).then(async (res: any) => {
       if (res) {
         sessionStorage.setItem('events', res.data['items']);
       }
