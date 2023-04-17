@@ -1,7 +1,9 @@
 import { EventInput } from '@fullcalendar/core';
-
+//import { getEventNum } from 'src/app/calendar/calendar.component';
+import { CalendarService } from '../services/calendar/calendar.service';
 let eventGuid = 0;
 const TODAY_STR = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
+
 
 export const INITIAL_EVENTS: EventInput[] = [
   {
@@ -22,6 +24,7 @@ export const INITIAL_EVENTS: EventInput[] = [
     end: TODAY_STR + 'T15:00:00'
   }
 ];
+
 
 export function createEventId() {
   return String(eventGuid++);

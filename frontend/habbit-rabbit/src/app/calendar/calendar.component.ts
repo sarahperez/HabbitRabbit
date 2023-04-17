@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
+import { CalendarService } from './../services/calendar/calendar.service';
 
 interface SideNavToggle{
   screenWidth: number;
@@ -57,8 +58,9 @@ export class CalendarComponent {
   };
   currentEvents: EventApi[] = [];
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(
+    private changeDetector: ChangeDetectorRef, private calendarService: CalendarService
+  ) {  }
 
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
@@ -84,16 +86,26 @@ export class CalendarComponent {
         allDay: selectInfo.allDay
       });
     }
+
+    // Adds event to the database
+    this.calendarService
+      .addEvent(createEventId(), selectInfo.startStr, selectInfo.endStr, String(title));
   }
 
   handleEventClick(clickInfo: EventClickArg) {
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       clickInfo.event.remove();
     }
+    //TODO: Delete event from database
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
     this.changeDetector.detectChanges();
   }
+/*
+  export function getEventNum(): any {
+    return this.currentEvents.size;
+  }
+*/
 }
