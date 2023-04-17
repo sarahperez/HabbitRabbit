@@ -103,3 +103,18 @@
     outline-color:#000;
     outline-width: 3px;
   }
+
+  .active{
+    font-size:large;
+    top: 50%;
+    display: inline;
+    color:#000;
+  }
+
+  .inactive{
+    font-size:large;
+    text-align: left;
+    text-decoration:line-through;
+    top: 50%;
+    display: inline
+  }

@@ -53,6 +53,13 @@ export class TodolistComponent {
     return this.allItems.filter((item) => this.filter === 'done' ? item.done : !item.done);
   }
 
+  completeItem(itemObj: Item){
+    itemObj.done=true;
+    this.todoService
+      .editTask(itemObj.description);
+    
+  }
+
   addItem(description: string) {
     this.allItems.unshift({
       description,
