@@ -11,8 +11,17 @@
     margin: 5rem auto;
     padding: 1rem;
     text-align: center;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2.5rem 5rem 0 rgba(0, 0, 0, 0.1);
 }
 
 .friends-request-container {
     justify-self: center;
+    display: inline-block;
+    float: left;
+}
+
+@media screen and (min-width: 600px) {
+    .todo-container {
+      width: 70%;
+    }
 }
