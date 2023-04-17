@@ -95,3 +95,11 @@
   .btn-primary:hover {
     background-color: rgb(181, 245, 255);
   }
+
+  .checkbox{
+    height: 20px;
+    width:20px;
+    float:right;
+    outline-color:#000;
+    outline-width: 3px;
+  }

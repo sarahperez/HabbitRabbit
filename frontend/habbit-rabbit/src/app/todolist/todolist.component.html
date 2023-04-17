@@ -5,7 +5,11 @@
     <input #newItem placeholder="add an item" (keyup.enter)="addItem(newItem.value); newItem.value = ''" class="lg-text-input" id="addItemInput" />
     <button class="btn-primary" (click)="addItem(newItem.value)">Add new task</button>
     <ul>
-      <li *ngFor="let item of items">{{item.description}}</li>
+      <li *ngFor="let item of items">{{item.description}}
+        <button class = "checkbox">
+          
+        </button>
+      </li>
     </ul>
 </div>
 

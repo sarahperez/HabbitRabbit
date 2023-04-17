@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { SideNavComponent } from '../side-nav/side-nav/side-nav.component';
+import { Router } from '@angular/router';
+import { ToDoService } from '../services/todo/todo.service';
 
 export interface Item {
   description: string;
@@ -20,9 +22,22 @@ export interface SideNavToggle{
 export class TodolistComponent {
   isSideNavCollapsed = false;
   screenWidth=0;
+  error: any = null;
   onToggleSideNav(data: SideNavToggle): void{
     this.screenWidth = data.screenWidth;
     this.isSideNavCollapsed = data.collapsed;
+  }
+
+  constructor(
+    private todoService: ToDoService, private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    this.todoService
+      .errorSubject
+      .subscribe((errorMessage: any) => {
+        this.error = errorMessage;
+      });
   }
 
   filter: 'all' | 'active' | 'done' = 'all';
@@ -43,5 +58,8 @@ export class TodolistComponent {
       description,
       done: false
     });
+    this.todoService
+      .addTask(description);
   }
+
 }
