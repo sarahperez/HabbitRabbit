@@ -332,7 +332,7 @@ func RequestFriend(w http.ResponseWriter, request *http.Request) {
 			return
 		} else {
 			stat := &interfaces.FriendStatus{}
-			if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+			if err := database.DB.Where("requester = ? AND receiver = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
 				var object interfaces.FriendStatus
 				object.Requester = formattedBody.Requester
 				object.Reciever = formattedBody.Reciever

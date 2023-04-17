@@ -439,3 +439,43 @@ func TestEditCal(t *testing.T) {
 	w = httptest.NewRecorder()
 	EditCal(w, cal)
 }
+func TestRequestFriend(t *testing.T) {
+	database.InitTestDatabase()
+	migrations.MigrateFriends()
+
+	//---------------registering users to test requesting friends---------------//
+	reqBody, err := json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+	req := httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w := httptest.NewRecorder()
+	RegisterFunc(w, req)
+
+	reqBody, err = json.Marshal(interfaces.User{Username: "Bnel2802!", Name: "Brooke", Email: "brookenelson1@icloud.com", Password: "din0$aur123"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+	req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	RegisterFunc(w, req)
+
+	reqBody, err = json.Marshal(interfaces.User{Username: "C9Feld27!", Name: "Caroline", Email: "carolinefeld@email.com", Password: "gpbllll1874@"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+	req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	RegisterFunc(w, req)
+
+}
+
+func TestAcceptFriend(t *testing.T) {}
+
+func TestFriendStat(t *testing.T) {
+	database.InitTestDatabase()
+	migrations.MigrateFriends()
+}
