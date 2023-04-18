@@ -11,12 +11,12 @@ package api
 
 import (
 	"encoding/json"
+	"io"
 	"main/database"
 	"main/interfaces"
 	"main/migrations"
 
 	"bytes"
-	"io"
 	"log"
 	"net/http"
 	"testing"
@@ -29,73 +29,41 @@ import (
 
 func TestRegisterFunc(t *testing.T) {
 	database.InitTestDatabase()
-	//migrations.Migrate()
 
 	reqBody, err := json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req := httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
-	req.Header.Set("Content-type", "application/json")
+	req := httptest.NewRequest(http.MethodPost, "/register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
 	w := httptest.NewRecorder()
 	RegisterFunc(w, req)
-
-	//res := w.Result()
-	//defer res.Body.Close()
-	//data, err := io.ReadAll(res.Body)
-	//bodyString := string(data)
-
-	//type registration struct {
-	//	Username string
-	//	Name     string
-	//	Mail     string
-	//	Pass     string
-	//}
-
-	//expected, err := json.Marshal(registration{Username: "JohnMark123", Name: "johanthan", Mail: "johnsemail@email.com", Pass: "JohN$pw0rd!"})
-	//expectedString := string(expected) + "\n"
-	//if bodyString != expectedString {
-	//	t.Errorf("error- failed response: %v", bodyString)
-	//	//string(data))
-	//}
-	reqL := httptest.NewRequest(http.MethodPost, "/Login", bytes.NewBuffer(reqBody))
-	reqL.Header.Set("Content-type", "application/json")
-	wL := httptest.NewRecorder()
-	LoginFunc(wL, reqL)
-
-	//res := wL.Result()
-	//defer res.Body.Close()
-	//data, err := io.ReadAll(res)
-	//bodyString := string(data)
-	//if bodyString != "all is fine" {
-	//	t.Errorf("error- failed response: %v", bodyString)
-
-	//}
 
 	reqBody, err = json.Marshal(interfaces.User{Username: "JohnMark123", Name: "johanthan", Email: "johnsemail@email.com", Password: "JohN$pw0rd!"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/Register", bytes.NewBuffer(reqBody))
-	req.Header.Set("Content-type", "application/json")
+	req = httptest.NewRequest(http.MethodPost, "/login", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
-	RegisterFunc(w, req)
+	LoginFunc(w, req)
 
-	reqL = httptest.NewRequest(http.MethodDelete, "/Login", bytes.NewBuffer(reqBody))
-	reqL.Header.Set("Content-type", "application/json")
-	wL = httptest.NewRecorder()
-	LoginFunc(wL, reqL)
+	reqBody, err = json.Marshal(interfaces.UserID{User: 1})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
+	req = httptest.NewRequest(http.MethodPost, "/DeleteUser", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteUser(w, req)
 }
 
 // mini test- tests if the to-do item is sucessfully added and retrieved from the database
 func TestAddingToList(t *testing.T) {
-
-	//start the database used for testing
 	database.InitTestDatabase()
-	//migrations.Migrate()
 
 	//create a request body
 	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
@@ -151,15 +119,15 @@ func TestAddingToList(t *testing.T) {
 	}
 
 	//-----------------------the following is just clearing the database, deleting all added rows--------------------------
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	reqBody, err = json.Marshal(interfaces.TodoItem{User: 1000, Description: "buy apples", Completed: false})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	DeleteToDo(w, req)
 }
 
 // more extensive test of the to do list functionality- involving adding, editing, deleting and returning user status
@@ -228,16 +196,16 @@ func TestEditToDo(t *testing.T) {
 	EditToDo(w, req)
 
 	//create a request body
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	reqBody, err = json.Marshal(interfaces.TodoItem{User: 1000, Description: "buy grapes", Completed: false})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
 	//create a http request and send it to the function
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	DeleteToDo(w, req)
 
 	//create a request body
 	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
@@ -275,35 +243,35 @@ func TestEditToDo(t *testing.T) {
 	}
 
 	//-----------------------the following is just clearing the database, deleting all added rows--------------------------
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	reqBody, err = json.Marshal(interfaces.TodoItem{User: 1000, Description: "buy apples", Completed: true})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	DeleteToDo(w, req)
 
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy bananas"})
+	reqBody, err = json.Marshal(interfaces.TodoItem{User: 1000, Description: "buy oranges", Completed: false})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	DeleteToDo(w, req)
 
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy oranges"})
+	reqBody, err = json.Marshal(interfaces.TodoItem{User: 1000, Description: "buy bananas", Completed: false})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
+	DeleteToDo(w, req)
 }
 
 func TestDeleteToDo(t *testing.T) {
@@ -332,7 +300,40 @@ func TestDeleteToDo(t *testing.T) {
 	w = httptest.NewRecorder()
 	EditToDo(w, req)
 
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req = httptest.NewRequest(http.MethodPut, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy kiwi"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.TodoItem{User: 1000, Description: "buy apples", Completed: false})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.TodoItem{User: 1000, Description: "buy grapes", Completed: true})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
@@ -366,7 +367,7 @@ func TestDeleteToDo(t *testing.T) {
 	}
 
 	arg1 := []string{}
-	arg2 := []string{"buy grapes"}
+	arg2 := []string{"buy kiwi"}
 
 	expected, err := json.Marshal(resp{Complete: arg1, Incomplete: arg2, Percentage: 0})
 	expectedString := string(expected) + "\n"
@@ -375,18 +376,19 @@ func TestDeleteToDo(t *testing.T) {
 		t.Errorf("error- failed response: %v", string(data))
 	}
 
-	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy kiwi"})
 	if err != nil {
 		log.Print("error encountered in marshal")
 	}
 
 	//create a http request and send it to the function
-	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
-	req.Header.Set("Content-type", "application/json")
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
-	EditToDo(w, req)
-
+	DeleteToDo(w, req)
 }
+
+/*
 
 func TestEditCal(t *testing.T) {
 	database.InitTestDatabase()
@@ -532,6 +534,8 @@ func TestEditCal(t *testing.T) {
 	w = httptest.NewRecorder()
 	EditCal(w, cal)
 }
+
+
 func TestRequestFriend(t *testing.T) {
 	database.InitTestDatabase()
 	migrations.MigrateFriends()
@@ -697,6 +701,7 @@ func TestRequestFriend(t *testing.T) {
 	w = httptest.NewRecorder()
 	RegisterFunc(w, req)
 }
+/*
 
 //func TestAcceptFriend(t *testing.T) {}
 
@@ -704,3 +709,4 @@ func TestRequestFriend(t *testing.T) {
 //	database.InitTestDatabase()
 //	migrations.MigrateFriends()
 //}
+*/

@@ -94,6 +94,8 @@ func main() {
 	router.HandleFunc("/BlockFriend", api.BlockFriend).Methods("POST", "OPTIONS")
 	router.HandleFunc("/FriendStatus", api.FriendStat).Methods("POST", "OPTIONS")
 
+	router.HandleFunc("/DeleteUser", api.DeleteUser).Methods("POST", "OPTIONS")
+
 	//add default handler
 
 	//set port (backend), server will run on local host (your pc address)
