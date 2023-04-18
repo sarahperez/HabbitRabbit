@@ -261,7 +261,6 @@ func DeleteToDo(w http.ResponseWriter, request *http.Request) {
 	}
 }
 
-
 func EditCal(w http.ResponseWriter, request *http.Request) {
 	if request.Method == http.MethodOptions {
 		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
