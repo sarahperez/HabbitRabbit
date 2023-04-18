@@ -42,7 +42,7 @@ export class ToDoService {
   }
 
   deleteTask(task: string): any{
-    lastValueFrom(this.http.post('http://localhost:3000/DeleteToDo', { "user": sessionStorage.getItem('userID'), "description": task })).then(async (res: any) =>{
+    lastValueFrom(this.http.post('http://localhost:3000/DeleteToDo', { "user": +sessionStorage.getItem('userID')!, "description": task })).then(async (res: any) =>{
       if (res) {
      
         this.errorSubject.next(null);
