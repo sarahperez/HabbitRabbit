@@ -69,4 +69,9 @@ export class TodolistComponent {
       .addTask(description);
   }
 
+  deleteItem(itemObj: Item){
+    this.allItems.splice(this.allItems.indexOf(itemObj), 1);
+    this.todoService
+      .deleteTask(itemObj.description);
+  }
 }
