@@ -169,16 +169,6 @@ func EditToDo(w http.ResponseWriter, request *http.Request) {
 			json.NewEncoder(w).Encode("Task completion status now updated to completed")
 		}
 		return
-	case http.MethodDelete:
-		var task interfaces.TodoItem
-		var item interfaces.TodoItem
-		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
-		if err := database.DB.Delete(&item, task.ID).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
-		} else {
-			json.NewEncoder(w).Encode("Task completion status now updated to completed")
-		}
-		return
 	}
 }
 
@@ -261,7 +251,6 @@ func DeleteToDo(w http.ResponseWriter, request *http.Request) {
 	}
 }
 
-
 func EditCal(w http.ResponseWriter, request *http.Request) {
 	if request.Method == http.MethodOptions {
 		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
@@ -285,15 +274,6 @@ func EditCal(w http.ResponseWriter, request *http.Request) {
 		database.DB.Create(&formattedBody)
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode("Item added")
-		return
-	case http.MethodDelete:
-		var item interfaces.CalendarItem
-		//database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete(&item)
-		if err := database.DB.Table("calendar_items").Where("event_id = ?", formattedBody.EventID).Delete(&item).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
-		} else {
-			json.NewEncoder(w).Encode("task deleted")
-		}
 		return
 	}
 }
