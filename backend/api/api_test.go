@@ -370,6 +370,17 @@ func TestEditCal(t *testing.T) {
 	w = httptest.NewRecorder()
 	EditCal(w, cal)
 
+	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100, EventID: 56, StartStr: "2023-04-24T9:35:00", EndStr: "2023-04-24T10:25:00", Title: "CAP3032 Meeting"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	cal = httptest.NewRequest(http.MethodDelete, "/CalDelete", bytes.NewBuffer(calBody))
+	cal.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteCal(w, cal)
+
 	//create a request body
 	calBody, err = json.Marshal(interfaces.CalendarItem{User: 100})
 	if err != nil {
@@ -605,9 +616,9 @@ func TestRequestFriend(t *testing.T) {
 	RegisterFunc(w, req)
 }
 
-func TestAcceptFriend(t *testing.T) {}
+//func TestAcceptFriend(t *testing.T) {}
 
-func TestFriendStat(t *testing.T) {
-	database.InitTestDatabase()
-	migrations.MigrateFriends()
-}
+//func TestFriendStat(t *testing.T) {
+//	database.InitTestDatabase()
+//	migrations.MigrateFriends()
+//}
