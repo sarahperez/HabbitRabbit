@@ -85,19 +85,23 @@ func main() {
 	router.Use(loggingMiddleware)
 	//router.Use(optionsMiddleware)
 
+	
 	router.HandleFunc("/login", api.LoginFunc).Methods("POST", "OPTIONS")
 	router.HandleFunc("/register", api.RegisterFunc).Methods("OPTIONS", "POST")
 
 	router.HandleFunc("/EditToDo", api.EditToDo).Methods("POST", "PUT", "DELETE", "OPTIONS")
 	router.HandleFunc("/ToDoStatus", api.ToDoStatus).Methods("POST", "OPTIONS")
+	router.HandleFunc("/DeleteToDo", api.DeleteToDo).Methods("POST", "OPTIONS")
 
 	router.HandleFunc("/EditCal", api.EditCal).Methods("POST", "DELETE", "OPTIONS")
 	router.HandleFunc("/CalStatus", api.CalStatus).Methods("POST", "OPTIONS")
+	router.HandleFunc("/CalDelete", api.DeleteCal).Methods("POST", "OPTIONS")
 
 	router.HandleFunc("/RequestFriend", api.RequestFriend).Methods("POST", "OPTIONS")
 	router.HandleFunc("/AcceptFriend", api.AcceptFriend).Methods("POST", "OPTIONS")
 	router.HandleFunc("/BlockFriend", api.BlockFriend).Methods("POST", "OPTIONS")
 	router.HandleFunc("/FriendStatus", api.FriendStat).Methods("POST", "OPTIONS")
+
 
 	//add default handler
 
