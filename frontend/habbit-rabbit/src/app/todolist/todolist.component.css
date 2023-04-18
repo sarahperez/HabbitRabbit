@@ -83,9 +83,9 @@
     height: 30px;
     width:30px;
     float:right;
-    outline-color:#000;
-    outline-width: 3px;
     margin-right:20px;
+    background: none;
+    border:none;
   }
 
   .deletebutton{
@@ -109,4 +109,8 @@
     text-decoration:line-through;
     top: 50%;
     display: inline
+  }
+
+  i{
+    font-size: 30px;;
   }
