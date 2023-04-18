@@ -15,7 +15,11 @@
         </p>
 
         <button class="deletebutton">
-          <i class="fal fa-2x fa-trash-alt"></i>
+          <i class="fal fa-trash-alt"></i>
+        </button>
+        <button class="checkbox" (click) = "completeItem(item)">  
+          <i *ngIf = "!item.done" class = "fal fa-square">  </i>
+          <i *ngIf = "item.done" class = "fal fa-check-square">  </i>
         </button>
         <button class="checkbox" (click) = "completeItem(item)">  </button>
       </li>
