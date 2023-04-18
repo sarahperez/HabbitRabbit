@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FriendService } from '../services/friend/friend.service';
 
 interface SideNavToggle{
   screenWidth: number;
@@ -19,4 +20,22 @@ export class FriendsComponent {
     this.screenWidth = data.screenWidth;
     this.isSideNavCollapsed = data.collapsed;
   }
+
+  friendusername: any;
+
+  constructor (
+    private friendService: FriendService
+  ) { }
+
+  onKey(event: any, type: string) {
+    if (type === 'username') {
+      this.friendusername = event.target.value;
+    } 
+  }
+
+  onSubmit() {
+    this.friendService
+        .requestFriend(this.friendusername);
+  }
+
 }
