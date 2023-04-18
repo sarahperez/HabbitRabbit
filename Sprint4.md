@@ -11,7 +11,7 @@ Further, we created a friend table that could keep track of all user relations, 
 
 In order to create these tables and functions to communicate with the front end, we had to create new migration functions and new database functions to help us manage our database. Further, we added all of the tables we created for our backend database into our testing-only database so we would be able to run our unit tests. 
 
-A good amount of time during this sprint was dedicated to connecting our front end with our backend and resolving issues involved in alligning these two parts of our project.
+A good amount of time during this sprint was dedicated to connecting our front end with our backend and resolving issues involved in alligning these two parts of our project. Further, a lot of time went into creating meaningful unit tests for the new tables and functionality we added to our backend.
 
 ---
 # List frontend unit and Cypress tests
