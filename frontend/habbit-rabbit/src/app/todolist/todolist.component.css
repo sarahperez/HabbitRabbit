@@ -64,23 +64,6 @@
     justify-content: space-between;
   }
   
-  .btn {
-    color: #000;
-    background-color: #fff;
-    border: 2px solid #cecece;
-    padding: 0.35rem 1rem 0.25rem 1rem;
-    font-size: 1rem;
-  }
-  
-  .btn:active {
-    background-color: #d1e0fe;
-  }
-  
-  .btn:focus {
-    outline: none;
-    border: black solid 2px;
-  }
-  
   .btn-primary {
     color: #000000;
     background-color: rgb(209, 250, 255);
@@ -97,11 +80,20 @@
   }
 
   .checkbox{
-    height: 20px;
-    width:20px;
+    height: 30px;
+    width:30px;
     float:right;
     outline-color:#000;
     outline-width: 3px;
+    margin-right:20px;
+  }
+
+  .deletebutton{
+    float:right;
+    height:30px;
+    width:30px;
+    background-color: white;
+    border:none;
   }
 
   .active{
