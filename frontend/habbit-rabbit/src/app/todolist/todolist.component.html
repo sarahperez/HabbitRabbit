@@ -5,9 +5,18 @@
     <input #newItem placeholder="add an item" (keyup.enter)="addItem(newItem.value); newItem.value = ''" class="lg-text-input" id="addItemInput" />
     <button class="btn-primary" (click)="addItem(newItem.value)">Add new task</button>
     <ul>
-      <li *ngFor="let item of items">{{item.description}}
-        <button class = "checkbox">
-          
+      <li *ngFor="let item of items">
+        <p *ngIf = "!item.done" class = active>
+          {{item.description}}
+        </p>
+
+        <p *ngIf = "item.done" class = inactive>
+          {{item.description}}
+        </p>
+
+        <button class="checkbox" (click) = "completeItem(item)">  </button>
+        <button class="deletebutton">
+          <i class="fal fa-times close-icon"></i>
         </button>
       </li>
     </ul>

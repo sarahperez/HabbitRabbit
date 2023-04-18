@@ -22,7 +22,7 @@ describe('TodolistComponent', () => {
   });
 });
 
-describe('Todo Liast Functionality', () => {
+describe('Todo List Functionality', () => {
   const component = new TodolistComponent();
   let fixture: ComponentFixture<TodolistComponent>;
 
