@@ -222,6 +222,45 @@ func ToDoStatus(w http.ResponseWriter, request *http.Request) {
 	}
 }
 
+func DeleteToDo(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
+		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
+		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
+		return
+	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	//"unload" the input data from the request- should be a user ID and a task description
+	body := readBody(request)
+	var formattedBody interfaces.TodoReq
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
+
+	//start making an "entry" object that will be used to add/update an entry in the database
+	var entry interfaces.TodoItem
+	entry.User = formattedBody.User
+	entry.Description = formattedBody.Description
+
+	switch request.Method {
+	case http.MethodPost:
+		var task interfaces.TodoItem
+		var item interfaces.TodoItem
+		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
+		if err := database.DB.Delete(&item, task.ID).Error; err != nil {
+			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+		} else {
+			json.NewEncoder(w).Encode("Task completion status now updated to completed")
+		}
+		return
+	}
+}
+
 func EditCal(w http.ResponseWriter, request *http.Request) {
 	if request.Method == http.MethodOptions {
 		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
@@ -295,6 +334,37 @@ func CalStatus(w http.ResponseWriter, request *http.Request) {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)
+		return
+	}
+}
+
+func DeleteCal(w http.ResponseWriter, request *http.Request) {
+	if request.Method == http.MethodOptions {
+		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
+		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
+		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
+		return
+	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	//"unload" the input data from the request- should be a user ID and a task description
+	body := readBody(request)
+	var formattedBody interfaces.CalendarItem
+	err := json.Unmarshal(body, &formattedBody)
+	helpers.HandleErr(err)
+
+	switch request.Method {
+	case http.MethodPost:
+		var item interfaces.CalendarItem
+		//database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete(&item)
+		if err := database.DB.Table("calendar_items").Where("event_id = ?", formattedBody.EventID).Delete(&item).Error; err != nil {
+			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+		} else {
+			json.NewEncoder(w).Encode("task deleted")
+		}
 		return
 	}
 }
