@@ -27,6 +27,11 @@ export class FriendsComponent {
     private friendService: FriendService
   ) { }
 
+  onInit() {
+    this.friendService
+      .getFriendStatus();
+  }
+
   onKey(event: any, type: string) {
     if (type === 'username') {
       this.friendusername = event.target.value;
