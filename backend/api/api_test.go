@@ -306,6 +306,88 @@ func TestEditToDo(t *testing.T) {
 	EditToDo(w, req)
 }
 
+func TestDeleteToDo(t *testing.T) {
+	database.InitTestDatabase()
+	migrations.MigrateToDo()
+
+	reqBody, err := json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req := httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w := httptest.NewRecorder()
+	EditToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req = httptest.NewRequest(http.MethodPost, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy apples"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req = httptest.NewRequest(http.MethodPost, "/DeleteToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteToDo(w, req)
+
+	reqBody, err = json.Marshal(interfaces.UserID{User: 1000})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req = httptest.NewRequest(http.MethodPost, "/ToDoStatus", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	ToDoStatus(w, req)
+
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	bodyString := string(data)
+
+	type resp struct {
+		Complete   []string
+		Incomplete []string
+		Percentage float64
+	}
+
+	arg1 := []string{}
+	arg2 := []string{"buy grapes"}
+
+	expected, err := json.Marshal(resp{Complete: arg1, Incomplete: arg2, Percentage: 0})
+	expectedString := string(expected) + "\n"
+
+	if bodyString != expectedString {
+		t.Errorf("error- failed response: %v", string(data))
+	}
+
+	reqBody, err = json.Marshal(interfaces.TodoReq{User: 1000, Description: "buy grapes"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	//create a http request and send it to the function
+	req = httptest.NewRequest(http.MethodDelete, "/EditToDo", bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-type", "application/json")
+	w = httptest.NewRecorder()
+	EditToDo(w, req)
+
+}
+
 func TestEditCal(t *testing.T) {
 	database.InitTestDatabase()
 	migrations.MigrateCal()
