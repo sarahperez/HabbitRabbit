@@ -43,7 +43,7 @@ export class TodolistComponent {
   filter: 'all' | 'active' | 'done' = 'all';
 
   allItems = [
-    { description: 'placeholder task', done: false }
+    { description: 'Record SWE video', done: false }
   ];
 
   get items() {
