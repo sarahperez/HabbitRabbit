@@ -1,7 +1,6 @@
 package api
 
-// code derived from https://github.com/Duomly/go-bank-backend
-//https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
+// this file contains code from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
 
 import (
 	"encoding/json"
@@ -16,6 +15,7 @@ import (
 	"main/users"
 )
 
+// code from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6 below
 type Login struct {
 	Username string
 	Password string
@@ -107,15 +107,6 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 		apiResponse(register, w)
 	}
 }
-
-// func GetUserFunc(w http.ResponseWriter, r *http.Request) {
-// 	vars := mux.Vars(r)
-// 	userId := vars["id"]
-// 	auth := r.Header.Get("Authorization")
-
-// 	user := users.GetUser(userId, auth)
-// 	apiResponse(user, w)
-// }
 
 //--------------------------------------------our added functions----------------------------------------------------------
 
