@@ -116,6 +116,37 @@ type userinfo struct {
 	Password string `json:"Password"`
 }
 
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodOptions:
+		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
+		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
+		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
+		return
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		body := readBody(r)
+		var formattedBody interfaces.UserID
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		switch r.Method {
+		case http.MethodPost:
+			var item interfaces.CalendarItem
+			if err := database.DB.Table("users").Where("ID", formattedBody.User).Delete(&item).Error; err != nil {
+				json.NewEncoder(w).Encode("user could not be found, not deleted")
+			} else {
+				json.NewEncoder(w).Encode("user deleted")
+			}
+			return
+		}
+	}
+}
+
 // Copyright (c) 2020 Mohamad Fadhil
 // code derived from https://github.com/sdil/learning/blob/master/go/todolist-mysql-go/todolist.go
 func EditToDo(w http.ResponseWriter, request *http.Request) {
