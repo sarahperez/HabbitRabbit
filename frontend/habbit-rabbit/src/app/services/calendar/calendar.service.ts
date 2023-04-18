@@ -32,9 +32,9 @@ export class CalendarService {
       }
     });
   }
-/*
+
   deleteEvent(EventID: string, Start: string, End: string, Title: string): any {
-    lastValueFrom(this.http.delete('http://localhost:3000/EditCal', { "user" : +(sessionStorage.getItem('userID'))!, "eventID" : +EventID, "startStr" : Start, "endStr": End, "title" : Title })).then(async (res: any) => {
+    lastValueFrom(this.http.post('http://localhost:3000/CalDelete', { "user" : +(sessionStorage.getItem('userID'))!, "eventID" : +EventID, "startStr" : Start, "endStr": End, "title" : Title })).then(async (res: any) => {
       if (res) {
         this.errorSubject.next(null);
       } else if (res.Message) {
@@ -42,7 +42,7 @@ export class CalendarService {
       }
     });
   }
-*/
+
   loadEvents(): any {
     lastValueFrom(this.http.post('http://localhost:3000/CalStatus', { "user": +sessionStorage.getItem('userID')!})).then(async (res: any) => {
       if (res) {

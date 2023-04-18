@@ -86,7 +86,6 @@ export class CalendarComponent {
         allDay: selectInfo.allDay
       });
     }
-
     // Adds event to the database
     this.calendarService
       .addEvent(createEventId(), selectInfo.startStr, selectInfo.endStr, String(title));
@@ -94,9 +93,11 @@ export class CalendarComponent {
 
   handleEventClick(clickInfo: EventClickArg) {
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+      // Delete event from database
+      this.calendarService
+        .deleteEvent(clickInfo.event.id, clickInfo.event.startStr, clickInfo.event.endStr, clickInfo.event.title);
       clickInfo.event.remove();
     }
-    //TODO: Delete event from database
   }
 
   handleEvents(events: EventApi[]) {
