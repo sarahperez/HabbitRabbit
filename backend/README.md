@@ -237,7 +237,7 @@ Example of return JSON:
 ```
 ---
 ```RequestFriend(w http.ResponseWriter, request *http.Request) ```
-Adds a friend request into the database
+Adds a friend request into the database.
 
 Expected JSON information in request body:
 
@@ -267,7 +267,7 @@ or
 ```
 ---
 ```AcceptFriend(w http.ResponseWriter, request *http.Request) ```
-Adds a friend request into the database
+Accepts a friend request.
 
 Expected JSON information in request body:
 
@@ -297,7 +297,7 @@ or
 ```
 ---
 ```BlockFriend(w http.ResponseWriter, request *http.Request) ```
-Adds a friend request into the database
+Blocks a friend request.
 
 Expected JSON information in request body:
 
@@ -324,7 +324,7 @@ or
 "requester has already been blocked"
 ```
 ```FriendStat(w http.ResponseWriter, request *http.Request) ```
-Adds a friend request into the database
+Returns the friends, requests and blocked users associated with the given user.
 
 Expected JSON information in request body:
 
