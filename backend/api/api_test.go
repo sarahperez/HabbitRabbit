@@ -958,6 +958,16 @@ func TestBlockFriend(t *testing.T) {
 		log.Print("error encountered in marshal")
 	}
 
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Al4exaAcc", Reciever: "Sophie123"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/AcceptFriend", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	AcceptFriend(w, req)
+
 	req = httptest.NewRequest(http.MethodPost, "/BlockFriend", bytes.NewBuffer(reqBody))
 	req.Header.Set("Contest-type", "application/json")
 	w = httptest.NewRecorder()
