@@ -96,7 +96,13 @@
     border:none;
   }
 
+  .listitem{
+    margin-top:10px;
+    margin-bottom:10px;
+  }
+
   .active{
+    border-radius:5px;
     font-size:large;
     top: 50%;
     display: inline;
