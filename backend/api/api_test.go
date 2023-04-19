@@ -688,7 +688,7 @@ func TestRequestFriend(t *testing.T) {
 	}
 
 	req = httptest.NewRequest(http.MethodPost, "/FriendStatus", bytes.NewBuffer(reqBody))
-	req.Header.Set("Contest-type", "application/json")
+	req.Header.Set("Content-type", "application/json")
 	w = httptest.NewRecorder()
 	FriendStat(w, req)
 
@@ -704,9 +704,26 @@ func TestRequestFriend(t *testing.T) {
 		t.Errorf("error- failed response: %v", string(data))
 	}
 
-	//Deleting requests
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Bnel2802!", Reciever: "C9Feld27!"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
 
-	//Deleting registration
+	req = httptest.NewRequest(http.MethodPost, "/DeleteRequest", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteRequest(w, req)
+
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "JohnMark123", Reciever: "C9Feld27!"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/DeleteRequest", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteRequest(w, req)
+
 	reqBody, err = json.Marshal(interfaces.UserID{User: 1})
 	if err != nil {
 		log.Print("error encountered in marshal")
@@ -739,9 +756,152 @@ func TestRequestFriend(t *testing.T) {
 
 }
 
-//func TestAcceptFriend(t *testing.T) {}
+func TestAcceptFriend(t *testing.T) {
+	database.InitTestDatabase()
+	migrations.MigrateFriends()
 
-//func TestFriendStat(t *testing.T) {
+	//---------------registering users to test requesting friends---------------//
+	reqBody, err := json.Marshal(interfaces.User{Username: "AveryB26", Name: "Avery", Email: "averysemail@email.com", Password: "@Very$pw0rd!"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+	req := httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w := httptest.NewRecorder()
+	RegisterFunc(w, req)
+
+	reqBody, err = json.Marshal(interfaces.User{Username: "Pip3rLy0ns", Name: "Piper", Email: "piper@icloud.com", Password: "Din0$aur123"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+	req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	RegisterFunc(w, req)
+
+	reqBody, err = json.Marshal(interfaces.User{Username: "Meg4nMarie!", Name: "Megan", Email: "meganmoon@email.com", Password: "Squ!shma11ow"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+	req = httptest.NewRequest(http.MethodPost, "/Register", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	RegisterFunc(w, req)
+
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Pip3rLy0ns", Reciever: "AveryB26"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/RequestFriend", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	RequestFriend(w, req)
+
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Meg4nMarie!", Reciever: "AveryB26"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/RequestFriend", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	RequestFriend(w, req)
+
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Pip3rLy0ns", Reciever: "AveryB26"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/AcceptFriend", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	AcceptFriend(w, req)
+
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Meg4nMarie!", Reciever: "AveryB26"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/AcceptFriend", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	AcceptFriend(w, req)
+
+	reqBody, err = json.Marshal(interfaces.UserID{User: 1})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/FriendStatus", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	FriendStat(w, req)
+
+	//set up the expected response
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	bodyString := string(data)
+
+	expectedString := "{\"Blocked Users\":[],\"Friends\":[\"Pip3rLy0ns\",\"Meg4nMarie!\"],\"Requests from\":[]}\n"
+
+	if bodyString != expectedString {
+		t.Errorf("error- failed response: %v", string(data))
+	}
+
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Pip3rLy0ns", Reciever: "AveryB26"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/DeleteRequest", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteRequest(w, req)
+
+	reqBody, err = json.Marshal(interfaces.FriendRequest{Requester: "Meg4nMarie!", Reciever: "AveryB26"})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/DeleteRequest", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteRequest(w, req)
+
+	reqBody, err = json.Marshal(interfaces.UserID{User: 1})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/DeleteUser", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteUser(w, req)
+
+	reqBody, err = json.Marshal(interfaces.UserID{User: 2})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/DeleteUser", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteUser(w, req)
+
+	reqBody, err = json.Marshal(interfaces.UserID{User: 3})
+	if err != nil {
+		log.Print("error encountered in marshal")
+	}
+
+	req = httptest.NewRequest(http.MethodPost, "/DeleteUser", bytes.NewBuffer(reqBody))
+	req.Header.Set("Contest-type", "application/json")
+	w = httptest.NewRecorder()
+	DeleteUser(w, req)
+}
+
+//func TestBlockFriend(t *testing.T) {
 //	database.InitTestDatabase()
 //	migrations.MigrateFriends()
 //}
