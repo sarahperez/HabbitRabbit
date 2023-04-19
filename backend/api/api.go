@@ -560,3 +560,32 @@ func FriendStat(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 }
+
+func DeleteRequest(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		stat := &interfaces.FriendStatus{}
+		obj := &interfaces.FriendStatus{}
+		if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+			database.DB.Table("friend_statuses").Where("ID", stat.ID).Delete(&obj)
+			json.NewEncoder(w).Encode("no request to delete")
+		} else {
+			json.NewEncoder(w).Encode("requester has already been blocked")
+		}
+	}
+	return
+}
