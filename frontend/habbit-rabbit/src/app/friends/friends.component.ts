@@ -22,6 +22,9 @@ export class FriendsComponent {
   }
 
   friendusername: any;
+  pendingRequests: any;
+  blocked: any;
+  friends: any;
 
   constructor (
     private friendService: FriendService
@@ -30,6 +33,9 @@ export class FriendsComponent {
   onInit() {
     this.friendService
       .getFriendStatus();
+    this.pendingRequests = (sessionStorage.getItem('pendingRequests'));
+    this.blocked = (sessionStorage.getItem('blocked'));
+    this.friends = (sessionStorage.getItem('friends'));
   }
 
   onKey(event: any, type: string) {
