@@ -3,7 +3,7 @@
 <h1 class="heading">Friend Hub</h1>
 
 <div class="friends-list-container">
-    <div class="friend-request-container">
+    <div class="friend-requests-container">
         <li *ngFor="let request of requestsArr" class = "listitem">
 
         <h3 class="friend-name"> {{request}} </h3>
@@ -17,6 +17,11 @@
         </button>
 
         </li>
+
+        <h3 *ngIf="!requestsArr?.length" class="no-requests">
+            You have no new friend requests.
+        </h3>
+        
     </div>
     
     <div class="friend-request-container">

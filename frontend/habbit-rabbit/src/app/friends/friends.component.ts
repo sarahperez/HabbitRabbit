@@ -38,7 +38,7 @@ export class FriendsComponent {
     this.friends = (sessionStorage.getItem('friends'));
   }
 
-  requestsArr = sessionStorage.getItem('pendingRequests')
+  requestsArr = sessionStorage.getItem('pendingRequests');
 
   onKey(event: any, type: string) {
     if (type === 'username') {
@@ -50,12 +50,20 @@ export class FriendsComponent {
     this.friendService
       .acceptFriend(sender);
 
+    this.friendService
+      .getFriendStatus();
+
+    this.requestsArr = sessionStorage.getItem('pendingRequests');
   }
 
   blockRequest(sender: string){
     this.friendService
       .acceptFriend(sender);
 
+    this.friendService
+      .getFriendStatus(); 
+
+    this.requestsArr = sessionStorage.getItem('pendingRequests');
   }
 
   onSubmit() {
