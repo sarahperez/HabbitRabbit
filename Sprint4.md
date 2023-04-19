@@ -1,8 +1,14 @@
 # Detail work you've completed in Sprint 4
 
 ## Frontend:
-We added a new component for adding and removing friends. This is the friends page. We spent some time deciding on the basic layout of the page then we created a service for it to communicate with the backend. Currrently, a user is able to request to add a friend by username. We also worked on getting the user's friend status from the database so that we could display to the user their pending friend requests. Finally, we spend some time styling the page with css.
 
+### Friends Tab 
+A new component supporting friendships with other users was added this sprint, along with its service to allow for back-end communication. The friends page is split into two main parts, incoming friend requests and search to add friends. For the incoming friend requests, all of the users requests are retrieved and displayed with two buttons for accept or decline under each one. The user can click either button and the appropriate function to reflect this decision is called from the service. If a user has no requests, a message is displayed saying that. As for the search to add, a user can type in a username and send that person a friend request, also supported with an approriate function. The page was styled to be cohesive with the styling of the to-do list. 
+
+### To-Do List
+The to-do list page was introduced last sprint but has been further developed this sprint. Icons for a checkbox and garbage can were added, which the user can click to either mark a task as done and see it crossed out or delete a task and see it completely removed from the list. A service to communicate these changes with the back-end was created as well, allowing us to retrieve a users current tasks, update a task as marked done in the database, and remove a task from the database.
+
+### Calendar
 A big thing for us this sprint was to implement the frontend capabilities of the backend functions our backend team made. This included adding and deleting events and tasks from the calendar and todo list components. We spent some time creating the services for the calendar and todo list to be able to carry out these functionalities. 
 
 Finally we created more unit tests to test the new components we had added. We also made a couple more cypress tests to test end to end functionality.
