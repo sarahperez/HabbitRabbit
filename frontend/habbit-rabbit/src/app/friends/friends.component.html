@@ -4,9 +4,13 @@
 
 <div class="friends-list-container">
     <div class="friend-request-container">
-        <h3 class="friend-name">Insert Name</h3>
+        <li *ngFor="let request of requestsArr" class = "listitem">
+
+        <h3 class="friend-name"> {{request}} </h3>
         <button class="accept-btn">Accept</button>
         <button class="deny-btn">Decline</button>
+
+        </li>
     </div>
     <div class="friend-request-container">
         <label class="field">Request Friends by Username</label>

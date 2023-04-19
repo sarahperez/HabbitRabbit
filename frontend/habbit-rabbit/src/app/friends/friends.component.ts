@@ -30,7 +30,10 @@ export class FriendsComponent {
   onInit() {
     this.friendService
       .getFriendStatus();
+    
   }
+
+  requestsArr = sessionStorage.getItem('pendingRequests')
 
   onKey(event: any, type: string) {
     if (type === 'username') {
