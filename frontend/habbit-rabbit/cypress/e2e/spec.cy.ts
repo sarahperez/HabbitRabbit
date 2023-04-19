@@ -51,6 +51,9 @@ describe('Calendar Page', () => {
 
   it('Adds an event to the calendar', () => {
     cy.visit('http://localhost:4200/calendar');
+    cy.get('full-calendar').click();
+    cy.window().focused().type('Cypress Test');
+    cy.window().click();
   })
 
   it('Deletes an event from the calendar', () => {
@@ -62,15 +65,26 @@ describe('Todo Page', () => {
   it('Brings the user to todo page', () => {
     cy.visit('http://localhost:4200/home');
     cy.get('.side-nav-nav-link').click({multiple: true});
-    cy.visit('http://localhost:4200/calendar');
-    cy.location('pathname').should('match', /\/calendar$/);
+    cy.visit('http://localhost:4200/todo');
+    cy.location('pathname').should('match', /\/todo$/);
   })
 
   it('Adds  task to the todo list', () => {
-    cy.visit('http://localhost:4200/calendar');
+    cy.visit('http://localhost:4200/todo');
+    cy.get('input').type('Cypress Task');
+    cy.get('button').click();
   })
 
   it('Deletes a task from the todo list', () => {
 
   })
+})
+
+describe('Friend Page', () => {
+   it('Requests a friend', () => {
+    cy.visit('http://localhost:4200/friends');
+    cy.get('input').type('friendUsername');
+    cy.get('request-btn').click();
+  })
+
 })
