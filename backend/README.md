@@ -24,7 +24,7 @@ Open a terminal (in VS Code). Navigate into the backend folder. Then run: ```go 
 | users                       | ID (primary key  - will serve as userID accross other tables), username, name, email, hashed password           |
 | todo_items                  | ID (generated automaticly- counts rows, not important in program), user ID, task description, completion status |
 | calendar_items              | ID (generated automaticly- counts rows, not important in program), user ID, event ID, startStr, endStr, title          |
-| friends              | ID (generated automaticly- counts rows, not important in program), requester, reciever, status (R, A, B)       |
+| friend_statuses             | ID (generated automaticly- counts rows, not important in program), requester, reciever, status (R, A, B)       |
 
 *Freind database organized according to the single value column database example given here: https://dba.stackexchange.com/questions/135941/designing-a-friendships-database-structure-should-i-use-a-multivalued-column
 
@@ -44,6 +44,24 @@ This is an example of what would be returned to the client if the login was suce
  "jwt":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcnkiOjE2NzgxNjE3MDgsInVzZXJfaWQiOjJ9.HB8gITSa94poZyVktZFXUkJbIQBTyD69ENdS__Xipkk",
  "message":"all is fine"
 }
+```
+---
+```DeleteUser(w http.ResponseWriter, request *http.Request)```
+This function deletes a user from the database. Used in testing only.
+
+Expected json information in request body, request should be sent as a POST:
+
+```javascript
+{ 
+   "user": 1, 
+}
+```
+
+This is an example of what would be returned to the client if the login was sucessful: 
+```
+"user could not be found, not deleted"
+or 
+"user deleted"
 ```
 ---
 
@@ -77,7 +95,6 @@ Expected json information in request body:
 | OPTIONS           | Handle the pre-flight request.                                                                      |
 | POST              | The passed in task will be added to the To-Do list with a completion status of false (incomplete).  |
 | PUT               | The passed in task for the coresponding user will be marked as completed.                           |
-| DELETE            | The passed in task for the coresponding user will be deleted (used in cases where task is canceled).                |
 
 Examples of return messages:
 ```
@@ -87,7 +104,32 @@ or
 ```
 "item added"
 ```
+---
+```DeleteToDo(w http.ResponseWriter, request *http.Request) ```
+This function will delete a to do task from the database.
 
+Expected json information in request body:
+
+```javascript
+{ 
+   "user": 1, 
+   "description": "buy apples"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST            | The passed in task for the coresponding user will be deleted (used in cases where task is canceled).                |
+
+Examples of return messages:
+```
+"Task could not be found, so it could not be deleted"
+```
+or
+```
+"Task deleted"
+```
 ---
 ```ToDoStatus(w http.ResponseWriter, request *http.Request) ```
 This function returns the to do list of the associated user as well as the percentage of completed to incomplete tasks. This could be used when the user first opens their to do list, and can be used to get the updated to do list associated with a user after the add or complete a task. A request to this function should send the appropriate user ID.
@@ -134,15 +176,39 @@ Expected json information in request body:
 | -------------     |:-------------:                                                                                      |
 | OPTIONS           | Handle the pre-flight request.                                                                      |
 | POST              | The passed in task will be added to the database as a calendar item.                                |
-| DELETE            | The passed in task will be deleted.                                                                 |
 
 Examples of return messages:
 ```
 "item added"
 ```
+---
+```DeleteCal(w http.ResponseWriter, request *http.Request) ```
+This function will delete a calendar item from the database.
+
+Expected json information in request body:
+
+```javascript
+{ 
+  "user": 24,
+  "eventID": 2431,
+  "startStr": "2023-10-12T10:30:00",
+  "endStr": "",
+  "title": "Do laundry"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | The passed in task will be deleted from the database.  |
+
+Examples of return messages:
+```
+"task could not be found, so it could not be deleted"
+```
 or
 ```
-"item deleted"
+"task deleted"
 ```
 
 ---
@@ -280,6 +346,30 @@ Example of a possible output:
  "Friends":["username3"],
  "Requests from":[]
 }
+```
+---
+```DeleteRequest(w http.ResponseWriter, request *http.Request) ```
+Removes a friend request/status from the database. This function is only used in testing.
+
+Expected JSON information in request body, should be sent as a POST:
+
+```javascript
+{ 
+  "requester": "username1",
+  "reciever": "username2"
+}
+```
+
+| HTTP request type | Backend functionality                                                                               |
+| -------------     |:-------------:                                                                                      |
+| OPTIONS           | Handle the pre-flight request.                                                                      |
+| POST              | Remove the pending request from the database.                                             |
+
+Example of a possible output:
+```
+"request deleted"
+or
+"could not delete request"
 ```
 ---
 # Testing

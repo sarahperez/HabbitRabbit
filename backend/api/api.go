@@ -1,7 +1,6 @@
 package api
 
-// code derived from https://github.com/Duomly/go-bank-backend
-//https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
+// this file contains code from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
 
 import (
 	"encoding/json"
@@ -16,6 +15,7 @@ import (
 	"main/users"
 )
 
+// code from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6 below
 type Login struct {
 	Username string
 	Password string
@@ -108,21 +108,43 @@ func RegisterFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func GetUserFunc(w http.ResponseWriter, r *http.Request) {
-// 	vars := mux.Vars(r)
-// 	userId := vars["id"]
-// 	auth := r.Header.Get("Authorization")
-
-// 	user := users.GetUser(userId, auth)
-// 	apiResponse(user, w)
-// }
-
 //--------------------------------------------our added functions----------------------------------------------------------
 
 // practice struct to catch user data
 type userinfo struct {
 	Username string `json:"Username"`
 	Password string `json:"Password"`
+}
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodOptions:
+		//CORS Preflight request sent as a OPTIONS method before the actual request is sent- to check if "CORS protocol is being understood"
+		//this is a kind of way to attempt to protect the server from bad requests coming from bad addresses
+		//good resources and readings- https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		//w.Header().Set("Access-Control-Allow-Methods", "POST") //this is saying that the request following the preflight request should be a POST method
+		return
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		body := readBody(r)
+		var formattedBody interfaces.UserID
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		switch r.Method {
+		case http.MethodPost:
+			var item interfaces.CalendarItem
+			if err := database.DB.Table("users").Where("ID", formattedBody.User).Delete(&item).Error; err != nil {
+				json.NewEncoder(w).Encode("user could not be found, not deleted")
+			} else {
+				json.NewEncoder(w).Encode("user deleted")
+			}
+			return
+		}
+	}
 }
 
 // Copyright (c) 2020 Mohamad Fadhil
@@ -164,16 +186,6 @@ func EditToDo(w http.ResponseWriter, request *http.Request) {
 		var task interfaces.TodoItem
 		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
 		if err := database.DB.Table("todo_items").Where("ID = ?", task.ID).Update("Completed", true).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
-		} else {
-			json.NewEncoder(w).Encode("Task completion status now updated to completed")
-		}
-		return
-	case http.MethodDelete:
-		var task interfaces.TodoItem
-		var item interfaces.TodoItem
-		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
-		if err := database.DB.Delete(&item, task.ID).Error; err != nil {
 			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
 		} else {
 			json.NewEncoder(w).Encode("Task completion status now updated to completed")
@@ -253,9 +265,9 @@ func DeleteToDo(w http.ResponseWriter, request *http.Request) {
 		var item interfaces.TodoItem
 		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
 		if err := database.DB.Delete(&item, task.ID).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+			json.NewEncoder(w).Encode("Task could not be found, so it could not be deleted")
 		} else {
-			json.NewEncoder(w).Encode("Task completion status now updated to completed")
+			json.NewEncoder(w).Encode("Task deleted")
 		}
 		return
 	}
@@ -284,15 +296,6 @@ func EditCal(w http.ResponseWriter, request *http.Request) {
 		database.DB.Create(&formattedBody)
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode("Item added")
-		return
-	case http.MethodDelete:
-		var item interfaces.CalendarItem
-		//database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete(&item)
-		if err := database.DB.Table("calendar_items").Where("event_id = ?", formattedBody.EventID).Delete(&item).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
-		} else {
-			json.NewEncoder(w).Encode("task deleted")
-		}
 		return
 	}
 }
@@ -361,7 +364,7 @@ func DeleteCal(w http.ResponseWriter, request *http.Request) {
 		var item interfaces.CalendarItem
 		//database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete(&item)
 		if err := database.DB.Table("calendar_items").Where("event_id = ?", formattedBody.EventID).Delete(&item).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+			json.NewEncoder(w).Encode("task could not be found, so it could not be deleted")
 		} else {
 			json.NewEncoder(w).Encode("task deleted")
 		}
@@ -556,4 +559,33 @@ func FriendStat(w http.ResponseWriter, request *http.Request) {
 
 		return
 	}
+}
+
+func DeleteRequest(w http.ResponseWriter, request *http.Request) {
+
+	if request.Method == http.MethodOptions {
+		w.Header().Set("Access-Control-Allow-Origin", "*")  //this is denoting the origin from which the preflight request may come, right now the star is indicating it can come from anywhere, but this can be changed for better security in the future
+		w.Header().Set("Access-Control-Allow-Headers", "*") //is will allow the sent request following the preflight to have any type of header (indicated by the star)
+		return
+	}
+
+	switch request.Method {
+	case http.MethodPost:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		//"unload" the input data from the request- should be a user ID
+		body := readBody(request)
+		var formattedBody interfaces.FriendRequest
+		err := json.Unmarshal(body, &formattedBody)
+		helpers.HandleErr(err)
+
+		stat := &interfaces.FriendStatus{}
+		obj := &interfaces.FriendStatus{}
+		if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
+			database.DB.Table("friend_statuses").Where("ID", stat.ID).Delete(&obj)
+			json.NewEncoder(w).Encode("request deleted")
+		} else {
+			json.NewEncoder(w).Encode("could not delete request")
+		}
+	}
+	return
 }

@@ -1,9 +1,9 @@
 .todo-container {
+    
     justify-self:center;
     width: 100%;
     position:relative;
     max-width: 600px;
-    width: 85%;
     margin: 5rem auto;
     padding: 1rem;
     text-align: center;
@@ -67,7 +67,7 @@
   .btn-primary {
     color: #000000;
     background-color: rgb(209, 250, 255);
-    width: 30%;
+    width: 50%;
     padding: 0.75rem;
     font-size: 1.3rem;
     border: black solid 2px;
@@ -96,7 +96,13 @@
     border:none;
   }
 
+  .listitem{
+    margin-top:10px;
+    margin-bottom:10px;
+  }
+
   .active{
+    border-radius:5px;
     font-size:large;
     top: 50%;
     display: inline;

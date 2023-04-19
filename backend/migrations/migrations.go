@@ -1,7 +1,7 @@
 // package migrations
 package migrations
 
-// code from https://github.com/Duomly/go-bank-backend
+//code derived from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
 
 import (
 	"main/database"
