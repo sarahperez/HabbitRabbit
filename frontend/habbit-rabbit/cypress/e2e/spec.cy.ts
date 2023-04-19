@@ -72,11 +72,12 @@ describe('Todo Page', () => {
   it('Adds  task to the todo list', () => {
     cy.visit('http://localhost:4200/todo');
     cy.get('input').type('Cypress Task');
-    cy.get('button').click();
+    cy.get('button').contains('Add task to my to-do list').click();
+
   })
 
   it('Deletes a task from the todo list', () => {
-
+    cy.get('button').c
   })
 })
 
@@ -84,7 +85,7 @@ describe('Friend Page', () => {
    it('Requests a friend', () => {
     cy.visit('http://localhost:4200/friends');
     cy.get('input').type('friendUsername');
-    cy.get('request-btn').click();
+    cy.get('button').contains('Request Friend').click();
   })
 
 })

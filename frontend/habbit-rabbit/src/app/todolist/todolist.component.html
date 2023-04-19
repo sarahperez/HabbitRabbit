@@ -3,7 +3,7 @@
 <div class="todo-container">
     <label for="addItemInput">What do you need to do?</label>
     <input #newItem placeholder="Enter task here" (keyup.enter)="addItem(newItem.value); newItem.value = ''" class="lg-text-input" id="addItemInput" />
-    <button class="btn-primary" (click)="addItem(newItem.value); newItem.value=''">Add task to my to-do list</button>
+    <button class="btn-primary" id="addBtn" (click)="addItem(newItem.value); newItem.value=''">Add task to my to-do list</button>
     <ul>
       <li *ngFor="let item of items" class = "listitem">
         <p *ngIf = "!item.done" class = active>

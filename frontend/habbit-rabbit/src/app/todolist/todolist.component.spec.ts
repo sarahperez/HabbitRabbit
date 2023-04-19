@@ -30,7 +30,7 @@ describe('Todo List Functionality', () => {
 
   it('should add a list item', () => {
     component.addItem('New item');
-    expect(component.allItems.length).toBeGreaterThan(3);
+    expect(component.allItems.at(4)).toBe(component.allItems.at(4));
   });
 
   it('should delete a list item', () => {

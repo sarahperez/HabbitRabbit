@@ -21,3 +21,16 @@ describe('FriendsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+describe('Friends Page Functionality', () => {
+  let component: FriendsComponent;
+  let fixture: ComponentFixture<FriendsComponent>;
+
+  it('Accept a friend', () => {
+    
+  });
+
+  it('Deny a', () => {
+    
+  });
+});
