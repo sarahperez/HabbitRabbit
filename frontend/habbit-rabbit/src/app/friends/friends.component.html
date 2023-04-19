@@ -21,11 +21,11 @@
         <h3 *ngIf="!requestsArr?.length" class="no-requests">
             You have no new friend requests.
         </h3>
-        
+
     </div>
     
     <div class="friend-request-container">
-        <label class="field">Request Friends by Username</label>
+        <label class="field">Request A Friend by Username</label>
         <input class="UserIn" placeholder="Enter Username" (keyup)="onKey($event, 'username')">
         <button class="request-btn" (click)="onSubmit()">Request Friend</button>
     </div>

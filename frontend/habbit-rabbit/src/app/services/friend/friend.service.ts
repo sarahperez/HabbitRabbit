@@ -22,8 +22,8 @@ export class FriendService {
     private router: Router,
   ) { }
 
-  requestFriend(Sender : string): any {
-    lastValueFrom(this.http.post('http://localhost:3000/RequestFriend', { "requester" : Sender, "reciever" : sessionStorage.getItem('loggedUsername')})).then(async (res: any) => {
+  requestFriend(Receiver : string): any {
+    lastValueFrom(this.http.post('http://localhost:3000/RequestFriend', { "requester" : sessionStorage.getItem('loggedUsername'), "reciever" : Receiver})).then(async (res: any) => {
       if (res) {
         this.errorSubject.next(null);
       } else if (res.Message) {
