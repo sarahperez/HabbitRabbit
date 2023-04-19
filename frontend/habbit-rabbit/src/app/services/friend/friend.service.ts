@@ -55,9 +55,9 @@ export class FriendService {
   getFriendStatus(): any {
     lastValueFrom(this.http.post('http://localhost:3000/FriendStatus', { "user": +sessionStorage.getItem('userID')!})).then(async (res: any) => {
       if (res) {
-        sessionStorage.setItem('pendingRequests', res.data['Requests from']);
-        sessionStorage.setItem('blocked', res.data['Blocked Users']);
-        sessionStorage.setItem('friends', res.data['Friends']);
+        localStorage.setItem('pendingRequests', JSON.stringify(res["Requests from"]));
+        localStorage.setItem('blocked', JSON.stringify(res['Blocked Users']));
+        localStorage.setItem('friends', JSON.stringify(res['Friends']));
         this.errorSubject.next(null);
       } else if (res.Message) {
         this.errorSubject.next(res.Message);

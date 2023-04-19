@@ -30,15 +30,13 @@ export class FriendsComponent {
     private friendService: FriendService
   ) { }
 
-  onInit() {
+  ngOnInit(): void {
     this.friendService
       .getFriendStatus();
-    this.pendingRequests = (sessionStorage.getItem('pendingRequests'));
-    this.blocked = (sessionStorage.getItem('blocked'));
-    this.friends = (sessionStorage.getItem('friends'));
+    this.pendingRequests = JSON.parse(localStorage.getItem('pendingRequests')!);
+    this.blocked = JSON.parse(localStorage.getItem('blocked')!);
+    this.friends = JSON.parse(localStorage.getItem('friends')!);
   }
-
-  requestsArr = sessionStorage.getItem('pendingRequests');
 
   onKey(event: any, type: string) {
     if (type === 'username') {
@@ -53,17 +51,21 @@ export class FriendsComponent {
     this.friendService
       .getFriendStatus();
 
-    this.requestsArr = sessionStorage.getItem('pendingRequests');
+    this.pendingRequests = localStorage.getItem('pendingRequests');
+    this.blocked = JSON.parse(localStorage.getItem('blocked')!);
+    this.friends = JSON.parse(localStorage.getItem('friends')!);
   }
 
   blockRequest(sender: string){
     this.friendService
-      .acceptFriend(sender);
+      .blockFriend(sender);
 
     this.friendService
       .getFriendStatus(); 
 
-    this.requestsArr = sessionStorage.getItem('pendingRequests');
+    this.pendingRequests = localStorage.getItem('pendingRequests');
+    this.blocked = JSON.parse(localStorage.getItem('blocked')!);
+    this.friends = JSON.parse(localStorage.getItem('friends')!);
   }
 
   onSubmit() {
