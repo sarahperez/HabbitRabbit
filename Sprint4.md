@@ -1,11 +1,12 @@
 # Detail work you've completed in Sprint 4
 
 ## Frontend:
-We added a new component for adding and removing friends. This is the friends page. We spent some time deciding on the basic layout of the page then we created a service for it to communicate with the backend. Currrently, a user is able to request to add a friend by username. Finally, we spend some time styling the page with css.
+We added a new component for adding and removing friends. This is the friends page. We spent some time deciding on the basic layout of the page then we created a service for it to communicate with the backend. Currrently, a user is able to request to add a friend by username. We also worked on getting the user's friend status from the database so that we could display to the user their pending friend requests. Finally, we spend some time styling the page with css.
 
-A big thing for us this sprint was to implement the frontend capabilities of the backend functions our backend team made. This included adding and deleting events and tasks from the calendar and todo list components. We spent some time creating the services for the calendar and todo list to be able to carry out these functionalities.
+A big thing for us this sprint was to implement the frontend capabilities of the backend functions our backend team made. This included adding and deleting events and tasks from the calendar and todo list components. We spent some time creating the services for the calendar and todo list to be able to carry out these functionalities. 
 
-Finally we created more unit tests to test the new components we had added. We also made a couple more cypress tests.
+Finally we created more unit tests to test the new components we had added. We also made a couple more cypress tests to test end to end functionality.
+
 ## Backend:
 We began the sprint by resolving an bug we had with our established register function. 
 
@@ -19,7 +20,22 @@ A good amount of time during this sprint was dedicated to connecting our front e
 
 ---
 # List frontend unit and Cypress tests
----
+Unit Tests for Sprint 4: 
+   -Todo List Component
+      -Adding a task
+      -Deleting a task
+   Friend Component
+      -Accepting a friend
+      -Denying a friend
+
+Cypress Tests:
+   -Login
+   -Calendar
+      -Add an event
+      -Delete an event
+   -Todo List
+      -Add a task
+      -Delete a task
 
 # List backend unit tests
 

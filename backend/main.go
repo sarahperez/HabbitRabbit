@@ -21,7 +21,7 @@
 
 //curl commands to calendar
 //curl.exe -v -X POST http://localhost:3000/EditCal -H 'Content-Type: application/json' -d "@userInfo.json"
-//curl.exe -v -X DELETE http://localhost:3000/EditCal -H 'Content-Type: application/json' -d "@userInfo.json"
+//curl.exe -v -X POST http://localhost:3000/CalDelete -H 'Content-Type: application/json' -d "@userInfo.json"
 //curl.exe -v -X POST http://localhost:3000/CalStatus -H 'Content-Type: application/json' -d "@userInfo.json"
 
 //curl commands to friend table
@@ -68,6 +68,7 @@ func loggingMiddleware(next http.Handler) http.Handler {
 // the main function start the server
 func main() {
 
+	//initalize database
 	database.InitDatabase()
 	migrations.MigrateFriends()
 
@@ -78,6 +79,7 @@ func main() {
 	router.Use(loggingMiddleware)
 	//router.Use(optionsMiddleware)
 
+	//link urls with the appropriate functions
 	router.HandleFunc("/login", api.LoginFunc).Methods("POST", "OPTIONS")
 	router.HandleFunc("/register", api.RegisterFunc).Methods("OPTIONS", "POST")
 

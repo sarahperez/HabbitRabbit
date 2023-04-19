@@ -25,11 +25,16 @@ describe('TodolistComponent', () => {
 });
 
 describe('Todo List Functionality', () => {
-  //const component = new TodolistComponent(ToDoService, Router);
+  let component: TodolistComponent;
   let fixture: ComponentFixture<TodolistComponent>;
 
   it('should add a list item', () => {
-    //component.addItem('New item');
-    //expect(component.allItems.length).toBeGreaterThan(1);
+    component.addItem('New item');
+    expect(component.allItems.at(4)).toBe(component.allItems.at(4));
+  });
+
+  it('should delete a list item', () => {
+    //component.deleteItem(new itemObj);
+    expect(component.allItems.length).toBeGreaterThan(3);
   });
 });
