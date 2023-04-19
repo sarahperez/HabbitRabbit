@@ -20,12 +20,14 @@ A good amount of time during this sprint was dedicated to connecting our front e
 # List backend unit tests
 
 Unit Tests for Sprint4:
-      -TestRegisterFunc(encapsulating LoginFunc):
+      -TestRegisterFunc(encapsulating LoginFunc and DeleteUser):
          This test function was started in Sprint 3, however it is now fully operation with a few changes since the last sprint. Using a database used strictly for testing, a fake user input is loaded into the database. the resulting database configuration is then passed into the login function to see if the user is able to login. This result is then compared to a hardcoded user struct, and if the two login results produce the same string, then the test passed. After this is checked, the data is then deleted from the database to avoid issues with further testing. This allows us to test both the register function and the login function within the same test. For this reason, we did not find it necessart to continue on with the TestLoginFunc. The TestRegisterFunc currently runs and passes.
       -TestEditCal (encapsulating CalStatus and DeleteCal): 
         This test function not only tests the abilities of EditCal, but also tests the DeleteCal and CalStatus functions. For this reason, tests were not written for those functions. This function uses the same testing database as described in the previous test, and adds calendar items to the database. Adding duplicate events to the database is tested, along with deleting an event from the calender and database. After these attempted changes, the function calls CalStatus to see if the proper changes have been made. This result is then compared to a hardcoded string output of the calendar items, and if the two values produced are the same, then the test passes. After this is checked, the data is then deleted from the database to avoid issues with further testing. The TestEditCal function currently runs and passes.
-      -TestDeleteToDo: 
+      -TestDeleteToDo (encapsulating EditToDo and ToDoStatus): 
          This test function uses the EditToDo function to add tasks to todo_items table in our testing database. After several tasks are added, the tests calls the delete function on an already added item, to check to see if it gets deleted. After the deletetion, the ToDoStatus function is called to check if the item was succesfully deleted. The string produced by that function call is compared to a hardcoded TodoItem struct, and if the two values produced are the same, then the test passes. After this is checked, the data is then deleted from the database to avoid issues with further testing. The TestDeleteToDo function currently runs and passes.
+      -TestDeleteCal (encapsulating EditCal and CalStatus):
+         Similar to the TestDeleteToDo function, this test adds several calendar items to the testing database through the EditCal, which are then deleted using the DeleteCal functions.The string produced by that function call is compared to a hardcoded string of the expected struct output. If the two values produced are the same, then the test passes. After this is checked, the data that wasnt already deleted through the test is then deleted from the database to avoid issues with further testing. This Function currently runs and passes
      
     
         
@@ -34,11 +36,13 @@ Unit Tests for Sprint4:
       -TestPanicHandler 
       -TestAddingToList
       -TestEditToDo: 
-      -TestGoHome
-      -TestDisplayCalender
       -TestUsernameValidation
       -TestPasswordValidation
       -TestEmailValidation
       -TestHashAndSalt
+
+   The following functions and tests were deleted as they were too basic for the work completed this sprint, and therefore uncessesary:
+      -TestGoHome
+      -TestDisplayCalender
 ---
 # Show updated documentation for your backend API
