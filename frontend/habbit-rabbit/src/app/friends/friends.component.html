@@ -3,31 +3,36 @@
 <h1 class="heading">Friend Hub</h1>
 
 <div class="friends-list-container">
-    <div class="friend-requests-container">
-        <li *ngFor="let request of requestsArr" class = "listitem">
+    <div class="friends-requests-container">
+        <h2 *ngIf="pendingRequests?.length" class="has-requests">
+            You have pending friend requests
+        </h2>
+        <li *ngFor="let request of pendingRequests" class = "listitem">
 
         <h3 class="friend-name"> {{request}} </h3>
 
-        <button class="accept-btn" (click)="acceptRequest('{{request}}')">
+        <button class="accept-btn" (click)="acceptRequest(request)">
             Accept
         </button>
 
-        <button class="deny-btn" (click)="blockRequest('{{request}}')">
+        <button class="deny-btn" (click)="blockRequest(request)">
             Decline
         </button>
 
         </li>
 
-        <h3 *ngIf="!requestsArr?.length" class="no-requests">
+        <h3 *ngIf="!pendingRequests?.length" class="no-requests">
             You have no new friend requests.
         </h3>
 
     </div>
     
-    <div class="friend-request-container">
-        <label class="field">Request A Friend by Username</label>
+    <div class="friends-request-container">
+        <h2 class="field">Request a friend by username</h2>
         <input class="UserIn" placeholder="Enter Username" (keyup)="onKey($event, 'username')">
-        <button class="request-btn" (click)="onSubmit()">Request Friend</button>
+        <div>
+            <button class="request-btn" (click)="onSubmit()">Request Friend</button>
+        </div>
     </div>
 </div>
 
