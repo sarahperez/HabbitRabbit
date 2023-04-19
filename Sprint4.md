@@ -9,8 +9,9 @@ A new component supporting friendships with other users was added this sprint, a
 The to-do list page was introduced last sprint but has been further developed this sprint. Icons for a checkbox and garbage can were added, which the user can click to either mark a task as done and see it crossed out or delete a task and see it completely removed from the list. A service to communicate these changes with the back-end was created as well, allowing us to retrieve a users current tasks, update a task as marked done in the database, and remove a task from the database.
 
 ### Calendar
-A big thing for us this sprint was to implement the frontend capabilities of the backend functions our backend team made. This included adding and deleting events and tasks from the calendar and todo list components. We spent some time creating the services for the calendar and todo list to be able to carry out these functionalities. 
+The calendar saw no change visually as its part of an outside library, but the service to allow for back-end communication was added this sprint. We are able to retrieve a list of the current users events, add an event for a user to the database, and delete an event for a user from the database.
 
+### Unit Testing
 Finally we created more unit tests to test the new components we had added. We also made a couple more cypress tests to test end to end functionality.
 
 ## Backend:
