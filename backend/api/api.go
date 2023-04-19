@@ -265,9 +265,9 @@ func DeleteToDo(w http.ResponseWriter, request *http.Request) {
 		var item interfaces.TodoItem
 		database.DB.Table("todo_items").Where("User = ? AND description = ?", formattedBody.User, formattedBody.Description).First(&task)
 		if err := database.DB.Delete(&item, task.ID).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+			json.NewEncoder(w).Encode("Task could not be found, so it could not be deleted")
 		} else {
-			json.NewEncoder(w).Encode("Task completion status now updated to completed")
+			json.NewEncoder(w).Encode("Task deleted")
 		}
 		return
 	}
@@ -364,7 +364,7 @@ func DeleteCal(w http.ResponseWriter, request *http.Request) {
 		var item interfaces.CalendarItem
 		//database.DB.Table("calendar_items").Where("EventID = ?", formattedBody.EventID).Delete(&item)
 		if err := database.DB.Table("calendar_items").Where("event_id = ?", formattedBody.EventID).Delete(&item).Error; err != nil {
-			json.NewEncoder(w).Encode("task could not be found, so it could not be completed/deleted")
+			json.NewEncoder(w).Encode("task could not be found, so it could not be deleted")
 		} else {
 			json.NewEncoder(w).Encode("task deleted")
 		}
@@ -582,9 +582,9 @@ func DeleteRequest(w http.ResponseWriter, request *http.Request) {
 		obj := &interfaces.FriendStatus{}
 		if err := database.DB.Where("requester = ? AND reciever = ?", formattedBody.Requester, formattedBody.Reciever).First(&stat).Error; err != nil {
 			database.DB.Table("friend_statuses").Where("ID", stat.ID).Delete(&obj)
-			json.NewEncoder(w).Encode("no request to delete")
+			json.NewEncoder(w).Encode("request deleted")
 		} else {
-			json.NewEncoder(w).Encode("requester has already been blocked")
+			json.NewEncoder(w).Encode("could not delete request")
 		}
 	}
 	return
