@@ -46,6 +46,18 @@ export class FriendsComponent {
     } 
   }
 
+  acceptRequest(sender: string){
+    this.friendService
+      .acceptFriend(sender);
+
+  }
+
+  blockRequest(sender: string){
+    this.friendService
+      .acceptFriend(sender);
+
+  }
+
   onSubmit() {
     this.friendService
         .requestFriend(this.friendusername);

@@ -22,8 +22,8 @@ export class FriendService {
     private router: Router,
   ) { }
 
-  requestFriend(Reciever : string): any {
-    lastValueFrom(this.http.post('http://localhost:3000/RequestFriend', { "requester" : sessionStorage.getItem('username'), "reciever" : Reciever })).then(async (res: any) => {
+  requestFriend(Sender : string): any {
+    lastValueFrom(this.http.post('http://localhost:3000/RequestFriend', { "requester" : Sender, "reciever" : sessionStorage.getItem('loggedUsername')})).then(async (res: any) => {
       if (res) {
         this.errorSubject.next(null);
       } else if (res.Message) {
@@ -32,8 +32,18 @@ export class FriendService {
     });
   }
 
-  acceptFriend(Reciever : string): any {
-    lastValueFrom(this.http.post('http://localhost:3000/AcceptFriend', { "requester" : sessionStorage.getItem('username'), "reciever" : Reciever })).then(async (res: any) => {
+  acceptFriend(Sender : string): any {
+    lastValueFrom(this.http.post('http://localhost:3000/AcceptFriend', { "requester" : Sender, "reciever" : sessionStorage.getItem('loggedUsername')})).then(async (res: any) => {
+      if (res) {
+        this.errorSubject.next(null);
+      } else if (res.Message) {
+        this.errorSubject.next(res.Message);
+      }
+    });
+  }
+
+  blockFriend(Sender : string): any {
+    lastValueFrom(this.http.post('http://localhost:3000/AcceptFriend', { "requester" : Sender, "reciever" : sessionStorage.getItem('loggedUsername')})).then(async (res: any) => {
       if (res) {
         this.errorSubject.next(null);
       } else if (res.Message) {
