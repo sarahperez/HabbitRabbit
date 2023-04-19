@@ -1,7 +1,11 @@
 # Detail work you've completed in Sprint 4
 
 ## Frontend:
-Added friends page. Connected todo list and calendar to database. Made stylistic changes to the todo list.
+We added a new component for adding and removing friends. This is the friends page. We spent some time deciding on the basic layout of the page then we created a service for it to communicate with the backend. Currrently, a user is able to request to add a friend by username. Finally, we spend some time styling the page with css.
+
+A big thing for us this sprint was to implement the frontend capabilities of the backend functions our backend team made. This included adding and deleting events and tasks from the calendar and todo list components. We spent some time creating the services for the calendar and todo list to be able to carry out these functionalities.
+
+Finally we created more unit tests to test the new components we had added. We also made a couple more cypress tests.
 ## Backend:
 We began the sprint by resolving an bug we had with our established register function. 
 
