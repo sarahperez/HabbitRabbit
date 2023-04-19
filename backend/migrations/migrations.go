@@ -10,18 +10,19 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// Refactor Migrate
+// create todo_items table
 func MigrateToDo() {
 	Todo := &interfaces.TodoItem{}
 	database.DB.AutoMigrate(&Todo)
 }
 
-// Refactor Migrate
+// create calendar_items table
 func MigrateCal() {
 	calendar := &interfaces.CalendarItem{}
 	database.DB.AutoMigrate(&calendar)
 }
 
+// create friend_statuses table
 func MigrateFriends() {
 	friend := &interfaces.FriendStatus{}
 	database.DB.AutoMigrate(&friend)
