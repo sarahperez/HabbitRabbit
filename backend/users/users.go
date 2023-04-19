@@ -1,8 +1,7 @@
 // package users
 package users
 
-// code from https://github.com/Duomly/go-bank-backend
-//fixed merge branch?
+// code dervied from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
 
 import (
 	"log"

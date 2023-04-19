@@ -48,8 +48,6 @@ import (
 	//own files, however im gonna leave it like this until im sure
 	//"github.com/dipeshdulal/event-scheduling/customevents"
 
-	//packeges from online
-	//"github.com/dipeshdulal/event-scheduling/customevents"
 	"github.com/gorilla/mux"
 )
 
@@ -66,11 +64,6 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-// var eventListeners = Listeners{
-// 	"SendEmail": customevents.SendEmail,
-// 	"PayBills":  customevents.PayBills,
-// }
-
 // Main+functions were modified from: https://medium.com/@anshap1719/getting-started-with-angular-and-go-setting-up-a-boilerplate-project-8c273b81aa6
 // the main function start the server
 func main() {
@@ -85,15 +78,14 @@ func main() {
 	router.Use(loggingMiddleware)
 	//router.Use(optionsMiddleware)
 
-	
 	router.HandleFunc("/login", api.LoginFunc).Methods("POST", "OPTIONS")
 	router.HandleFunc("/register", api.RegisterFunc).Methods("OPTIONS", "POST")
 
-	router.HandleFunc("/EditToDo", api.EditToDo).Methods("POST", "PUT", "DELETE", "OPTIONS")
+	router.HandleFunc("/EditToDo", api.EditToDo).Methods("POST", "PUT", "OPTIONS")
 	router.HandleFunc("/ToDoStatus", api.ToDoStatus).Methods("POST", "OPTIONS")
 	router.HandleFunc("/DeleteToDo", api.DeleteToDo).Methods("POST", "OPTIONS")
 
-	router.HandleFunc("/EditCal", api.EditCal).Methods("POST", "DELETE", "OPTIONS")
+	router.HandleFunc("/EditCal", api.EditCal).Methods("POST", "OPTIONS")
 	router.HandleFunc("/CalStatus", api.CalStatus).Methods("POST", "OPTIONS")
 	router.HandleFunc("/CalDelete", api.DeleteCal).Methods("POST", "OPTIONS")
 
@@ -102,6 +94,7 @@ func main() {
 	router.HandleFunc("/BlockFriend", api.BlockFriend).Methods("POST", "OPTIONS")
 	router.HandleFunc("/FriendStatus", api.FriendStat).Methods("POST", "OPTIONS")
 
+	router.HandleFunc("/DeleteUser", api.DeleteUser).Methods("POST", "OPTIONS")
 
 	//add default handler
 

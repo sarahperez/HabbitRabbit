@@ -27,6 +27,7 @@ export class LoginService {
       if (res&&res.jwt) {
         sessionStorage.setItem('loggedUser', res.data['Name']);
         sessionStorage.setItem('userID', res.data['ID']);
+        sessionStorage.setItem('username', res.data['Username']);
         sessionStorage.setItem('jwt', res.jwt);
         this.errorSubject.next(null);
         this.router.navigateByUrl('home');

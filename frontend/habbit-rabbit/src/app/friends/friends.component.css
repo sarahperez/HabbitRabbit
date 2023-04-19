@@ -4,6 +4,7 @@
 
 .friends-list-container {
     justify-self:center;
+    display: flex;
     width: 100%;
     position:relative;
     max-width: 600px;
@@ -17,7 +18,7 @@
 .friends-request-container {
     justify-self: center;
     display: inline-block;
-    float: left;
+    flex: 50%;
 }
 
 @media screen and (min-width: 600px) {

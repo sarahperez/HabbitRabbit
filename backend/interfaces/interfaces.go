@@ -1,8 +1,10 @@
 package interfaces
 
-// code from https://github.com/Duomly/go-bank-backend
+// this file contains code from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6
 
 import "github.com/jinzhu/gorm"
+
+//code from https://github.com/Duomly/go-bank-backend/tree/Golang-course-Lesson-6 below
 
 type User struct {
 	gorm.Model
@@ -33,7 +35,7 @@ type ErrResponse struct {
 	Message string
 }
 
-//---------------our added functions--------------------
+//---------------our added inerfaces--------------------
 
 type TodoReq struct {
 	User        uint
